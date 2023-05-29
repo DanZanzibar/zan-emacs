@@ -12,7 +12,7 @@
 
 
 ;; Add a directory for init modules
-(add-to-list 'load-path "~/.emacs.d/init-modules")
+(add-to-list 'load-path "~/.emacs.d/emacs-init-modules")
 
 
 ;; Initialize package sources
@@ -111,6 +111,7 @@
 (use-package magit)
 (setq magit-repository-directories
       '(("~/" . 1)
+	("~/.emacs.d/" . 1)
 	("~/codehome/python/projects/" . 1)))
 
 ;; Themes

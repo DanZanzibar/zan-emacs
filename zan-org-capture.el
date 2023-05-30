@@ -25,8 +25,14 @@
 	 entry
 	 (file+headline gtd "Anytime")
 	 "* TODO %?")
-	("gd"
-	 "Daytime"
+	("gd" "Daytime")
+	("gda"
+	 "Add Attachment"
+	 entry
+	 (file+headline gtd "Daytime")
+	 "* TODO %a %?")
+	("gdn"
+	 "None"
 	 entry
 	 (file+headline gtd "Daytime")
 	 "* TODO %?")

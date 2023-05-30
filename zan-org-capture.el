@@ -1,13 +1,17 @@
 ;; Org-mode-capture-templates
 
 (setq org-directory "~/orghome")
-(setq rmt "/ssh:zan@zan-desktop.freeddns.org:")
+(setq org-agenda-entry-text-maxlines 10)
+
+(defvar zan-desktop "/ssh:zan@zan-desktop.freeddns.org:")
 
 (if (string= system-name "zan-desktop-linux")
-    (setq org-agenda-files '("~/orghome/")
-	  gtd "~/orghome/gtd.org")
-    (setq org-agenda-files `(,(concat rmt "orghome/"))
-	  gtd (concat rmt "orghome/gtd.org")))
+    (progn 
+      (setq org-agenda-files '("~/orghome/"))
+      (defvar zan-gtd "~/orghome/gtd.org"))
+    (progn
+      (setq org-agenda-files `(,(concat zan-desktop "orghome/")))
+      (defvar zan-gtd (concat zan-desktop "orghome/gtd.org"))))
 
 (define-key global-map (kbd "C-c c") 'org-capture)
 (define-key global-map (kbd "C-c a") 'org-agenda)
@@ -18,53 +22,53 @@
 	("gu"
 	 "Urgent"
 	 entry
-	 (file+headline gtd "Urgent")
+	 (file+headline zan-gtd "Urgent")
 	 "* TODO %?")
 	("ga"
 	 "Anytime"
 	 entry
-	 (file+headline gtd "Anytime")
+	 (file+headline zan-gtd "Anytime")
 	 "* TODO %?")
 	("gd" "Daytime")
 	("gda"
 	 "Add Attachment"
 	 entry
-	 (file+headline gtd "Daytime")
+	 (file+headline zan-gtd "Daytime")
 	 "* TODO %a %?")
 	("gdn"
 	 "None"
 	 entry
-	 (file+headline gtd "Daytime")
+	 (file+headline zan-gtd "Daytime")
 	 "* TODO %?")
 	("gp"
 	 "Personal"
 	 entry
-	 (file+headline gtd "Personal")
+	 (file+headline zan-gtd "Personal")
 	 "* TODO %?")
 	("gh"
 	 "Home"
 	 entry
-	 (file+headline gtd "Home")
+	 (file+headline zan-gtd "Home")
 	 "* TODO %?")
 	("ge"
 	 "Errands"
 	 entry
-	 (file+headline gtd "Errands")
+	 (file+headline zan-gtd "Errands")
 	 "* TODO %?")
 	("gc"
 	 "Casi"
 	 entry
-	 (file+headline gtd "Casi")
+	 (file+headline zan-gtd "Casi")
 	 "* TODO %?")
 	("gD"
 	 "Dave"
 	 entry
-	 (file+headline gtd "Dave")
+	 (file+headline zan-gtd "Dave")
 	 "* TODO %?")
 	("gP"
 	 "Prot"
 	 entry
-	 (file+headline gtd "Prot")
+	 (file+headline zan-gtd "Prot")
 	 "* TODO %?")))
 
 (provide 'zan-org-capture)

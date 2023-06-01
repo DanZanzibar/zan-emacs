@@ -55,7 +55,7 @@
 	 "Errands"
 	 entry
 	 (file+headline zan-gtd "Errands")
-	 "* TODO %?")
+	 "* Todo %?")
 	("gc"
 	 "Casi"
 	 entry

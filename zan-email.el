@@ -12,6 +12,7 @@
 (setq mu4e-view-show-images t)
 (setq mu4e-get-mail-command "offlineimap")
 (setq mu4e-update-interval 300)
+(setq mu4e-headers-sort-direction 'ascending)
 
 (setq send-mail-function 'smtpmail-send-it)
 
@@ -35,11 +36,11 @@
 		  (smtpmail-stream-type . nil)
 		  (smtpmail-smtp-service . 1025)
 		  (smtpmail-queue-mail . nil)
-		  (mu4e-maildir-shortcuts . '((:maildir "/work/INBOX" :key ?i)
-					      (:maildir "/work/Sent Items" :key ?s)
-					      (:maildir "/work/Drafts" :key ?d)
-					      (:maildir "/work/Trash" :key ?t)
-					      (:maildir "/work/Archive" :key ?a)))
+		  (mu4e-maildir-shortcuts . ((:maildir "/work/INBOX" :key ?i)
+					     (:maildir "/work/Sent Items" :key ?s)
+					     (:maildir "/work/Drafts" :key ?d)
+					     (:maildir "/work/Trash" :key ?t)
+					     (:maildir "/work/Archive" :key ?a)))
 		  ))
 	,(make-mu4e-context
 	  :name "home"
@@ -59,11 +60,11 @@
 		  (smtpmail-stream-type . ssl)
 		  (smtpmail-smtp-service . 465)
 		  (smtpmail-queue-mail . nil)
-		  (mu4e-maildir-shortcuts . '((:maildir "/personal/INBOX" :key ?i)
-					      (:maildir "/personal/[Gmail].Sent Mail" :key ?s)
-					      (:maildir "/personal/[Gmail].Drafts" :key ?d)
-					      (:maildir "/personal/[Gmail].Trash" :key ?t)
-					      (:maildir "/personal/Archives" :key ?a)))
+		  (mu4e-maildir-shortcuts . ((:maildir "/personal/INBOX" :key ?i)
+					     (:maildir "/personal/[Gmail].Sent Mail" :key ?s)
+					     (:maildir "/personal/[Gmail].Drafts" :key ?d)
+					     (:maildir "/personal/[Gmail].Trash" :key ?t)
+					     (:maildir "/personal/Archives" :key ?a)))
 		  ))))
 
 

@@ -3,6 +3,7 @@
 (setq org-agenda-files '("~/orghome/gtd.org"))
 (setq org-directory "~/orghome")
 (setq org-agenda-entry-text-maxlines 10)
+(setq org-refile-use-outline-path t)
 
 (defvar zan-desktop "/ssh:zan@zan-desktop.freeddns.org:")
 

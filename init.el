@@ -129,4 +129,5 @@
 
 (require 'zan-email)
 
+(require 'zan-org-functions)
 (require 'zan-org-capture)

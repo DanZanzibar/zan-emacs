@@ -46,6 +46,11 @@
 	 entry
 	 (file+headline zan-gtd "Personal")
 	 "* TODO %?")
+	("gw"
+	 "Waiting"
+	 entry
+	 (file+headline zan-gtd "Waiting")
+	 "* TODO %u %?")
 	("gh"
 	 "Home"
 	 entry

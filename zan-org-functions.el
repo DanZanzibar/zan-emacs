@@ -6,11 +6,10 @@
 (defun zan-org-refile-store-list-item ()
   (let ((beg (line-beginning-position))
         (end (line-end-position)))	
-    (setq zan-org-last-stored-list-item (buffer-substring-no-properties beg end))
+    (setq zan-org-refile-last-stored-list-item (buffer-substring-no-properties beg end))
     (delete-region beg (line-beginning-position 2))))
 
 (defun zan-org-refile-choose-heading ()
-  (interactive)
   (completing-read "Choose a heading: "
 		   (org-map-entries
 		    #'(org-get-heading :no-tags :no-todo :no-cookie :no-comment))))
@@ -29,7 +28,8 @@
   (interactive)
   (let ((target (zan-org-refile-choose-heading)))
     (zan-org-refile-store-list-item)
-    (zan-org-refile-find-heading)
+    (zan-org-refile-find-heading target)
+    (insert "\n")
     (insert zan-org-refile-last-stored-list-item)))
 
 ;; End of zan-org-refile-list-item

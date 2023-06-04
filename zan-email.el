@@ -67,5 +67,7 @@
 					     (:maildir "/personal/Archives" :key ?a)))
 		  ))))
 
+(define-key global-map (kbd "C-c m") 'mu4e)
+
 
 (provide 'zan-email)

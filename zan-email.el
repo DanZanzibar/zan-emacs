@@ -13,6 +13,8 @@
 (setq mu4e-get-mail-command "offlineimap")
 (setq mu4e-update-interval 300)
 (setq mu4e-headers-sort-direction 'ascending)
+(setq mu4e-headers-show-threads nil)
+(setq mu4e-headers-include-related nil)
 
 (setq send-mail-function 'smtpmail-send-it)
 

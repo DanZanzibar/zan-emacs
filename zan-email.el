@@ -42,12 +42,11 @@
 					     (:maildir "/work/Sent Items" :key ?s)
 					     (:maildir "/work/drafts" :key ?d)
 					     (:maildir "/work/Trash" :key ?t)
-					     (:maildir "/work/Archive" :key ?a)))
-		  ))
+					     (:maildir "/work/Archive" :key ?a)))))
 	,(make-mu4e-context
-	  :name "home"
-	  :enter-func (lambda () (mu4e-message "Entering HOME"))
-	  :leave-func (lambda () (mu4e-message "Leaving HOME"))
+	  :name "personal"
+	  :enter-func (lambda () (mu4e-message "Entering personal"))
+	  :leave-func (lambda () (mu4e-message "Leaving personal"))
 	  :match-func (lambda (msg)
 			(when msg
 			  (mu4e-message-contact-field-matches
@@ -66,8 +65,54 @@
 					     (:maildir "/personal/[Gmail].Sent Mail" :key ?s)
 					     (:maildir "/personal/drafts" :key ?d)
 					     (:maildir "/personal/[Gmail].Trash" :key ?t)
-					     (:maildir "/personal/Archives" :key ?a)))
-		  ))))
+					     (:maildir "/personal/Archives" :key ?a)))))
+	,(make-mu4e-context
+	  :name "ctc"
+	  :enter-func (lambda () (mu4e-message "Entering ctc"))
+	  :leave-func (lambda () (mu4e-message "Leaving ctc"))
+	  :match-func (lambda (msg)
+			(when msg
+			  (mu4e-message-contact-field-matches
+			   msg :to "ctcsinglesleague@gmail.com")))
+	  :vars `((user-mail-address . "ctcsinglesleague@gmail.com")
+		  (mu4e-sent-folder . "/ctc/[Gmail].Sent Mail")
+		  (mu4e-drafts-folder . "/ctc/drafts")
+		  (mu4e-trash-folder . "/ctc/[Gmail].Trash")
+		  (mu4e-refile-folder . "/ctc/Archives")
+		  (smtpmail-default-smtp-server . "smtp.gmail.com")
+		  (smtpmail-smtp-server . "smtp.gmail.com")
+		  (smtpmail-stream-type . ssl)
+		  (smtpmail-smtp-service . 465)
+		  (smtpmail-queue-mail . nil)
+		  (mu4e-maildir-shortcuts . ((:maildir "/ctc/INBOX" :key ?i)
+					     (:maildir "/ctc/[Gmail].Sent Mail" :key ?s)
+					     (:maildir "/ctc/drafts" :key ?d)
+					     (:maildir "/ctc/[Gmail].Trash" :key ?t)
+					     (:maildir "/ctc/Archives" :key ?a)))))
+	,(make-mu4e-context
+	  :name "lndc"
+	  :enter-func (lambda () (mu4e-message "Entering lndc"))
+	  :leave-func (lambda () (mu4e-message "Leaving lndc"))
+	  :match-func (lambda (msg)
+			(when msg
+			  (mu4e-message-contact-field-matches
+			   msg :to "lndctennis@gmail.com")))
+	  :vars `((user-mail-address . "lndctennis@gmail.com")
+		  (mu4e-sent-folder . "/lndc/[Gmail].Sent Mail")
+		  (mu4e-drafts-folder . "/lndc/drafts")
+		  (mu4e-trash-folder . "/lndc/[Gmail].Trash")
+		  (mu4e-refile-folder . "/lndc/Archives")
+		  (smtpmail-default-smtp-server . "smtp.gmail.com")
+		  (smtpmail-smtp-server . "smtp.gmail.com")
+		  (smtpmail-stream-type . ssl)
+		  (smtpmail-smtp-service . 465)
+		  (smtpmail-queue-mail . nil)
+		  (mu4e-maildir-shortcuts . ((:maildir "/lndc/INBOX" :key ?i)
+					     (:maildir "/lndc/[Gmail].Sent Mail" :key ?s)
+					     (:maildir "/lndc/drafts" :key ?d)
+					     (:maildir "/lndc/[Gmail].Trash" :key ?t)
+					     (:maildir "/lndc/Archives" :key ?a)))))
+		  ))
 
 (define-key global-map (kbd "C-c m") 'mu4e)
 

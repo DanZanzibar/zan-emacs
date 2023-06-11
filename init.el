@@ -1,4 +1,4 @@
-(defmacro zan-package (package &rest args)
+(defmacro zanm-package (package &rest args)
   `(progn
      (unless (package-installed-p ',package)
        (package-install ',package))
@@ -52,74 +52,6 @@
 (setq kill-buffer-delete-auto-save-files t)
 (setq make-backup-files nil)
 
-
-;; Initialize use-package
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(require 'use-package)
-(setq use-package-always-ensure t)
-
-
-;; Packages
-
-(use-package diminish)
-
-(use-package which-key
-  :init (which-key-mode)
-  :diminish which-key-mode)
-
-(which-key-setup-minibuffer) ; to help with echo area covering which-key
-
-(use-package treemacs
-  :defer t
-  :config
-  (setq treemacs-no-png-images t
-	  treemacs-width 24)
-  :bind ("C-c t" . treemacs))
-
-(use-package eglot
-  :defer t
-  :hook (python-mode . eglot-ensure))
-
-(require 'text-property-search) ; Potential short term workaround for eglot
-
-(use-package corfu
-  :custom
-  (corfu-auto t)
-  :init
-  (global-corfu-mode))
-
-(use-package pcmpl-args)
-
-(use-package git-gutter
-  :hook (prog-mode . git-gutter-mode)
-  :diminish git-gutter-mode
-  :config
-  (setq git-gutter:update-interval 0.02))
-
-(use-package git-gutter-fringe
-  :config
-  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
-
-(setenv "WORKON_HOME" "~/.venvs/")
-(use-package pyvenv)
-(define-key global-map (kbd "C-c v") 'pyvenv-workon)
-
-(use-package magit)
-(setq magit-repository-directories
-      '(("~/" . 1)
-	("~/.emacs.d/" . 1)
-	("~/orghome/" . 1)
-	("~/codehome/python/projects/" . 1)))
-
-;; Themes
-(use-package ef-themes)
-(load-theme 'ef-cherie :no-confirm)
-
-
 ;; To extend the authinfo hiding of passwords to other stuff
 (setq authinfo-hidden (rx (or "password"
 			      "client-id"
@@ -127,8 +59,56 @@
 			      "refresh-token")))
 
 
+;; Packages
+
+(zanm-package diminish)
+
+(zanm-package which-key)
+(which-key-mode)
+(diminish 'which-key-mode)
+(which-key-setup-minibuffer) ; to help with echo area covering which-key
+
+(zanm-package eglot)
+(add-hook 'python-mode-hook 'eglot-ensure)
+
+(require 'text-property-search) ; Potential short term workaround for eglot
+
+(zanm-package corfu)
+(setq corfu-auto t)
+(global-corfu-mode)
+
+;; (use-package pcmpl-args) ; this probably isn't doing anything...?
+
+(zanm-package git-gutter)
+(diminish 'git-gutter)
+(add-hook 'prog-mode-hook 'git-gutter-mode)
+(setq git-gutter:update-interval 0.02)
+
+(zanm-package git-gutter-fringe)
+(define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+(define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+(define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom)
+
+(setenv "WORKON_HOME" "~/.venvs/")
+(zanm-package pyvenv)
+(define-key global-map (kbd "C-c v") 'pyvenv-workon)
+
+(zanm-package magit)
+(setq magit-repository-directories
+      '(("~/" . 1)
+	("~/.emacs.d/" . 1)
+	("~/orghome/" . 1)
+	("~/codehome/python/projects/" . 1)))
+
+;; Themes
+(zanm-package ef-themes)
+(load-theme 'ef-cherie :no-confirm)
+
+
+;; Load init modules
 
 (require 'zan-email)
 
-(require 'zan-org-functions)
 (require 'zan-org-capture)
+
+(require 'zan-org-functions)

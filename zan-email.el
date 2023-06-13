@@ -1,7 +1,7 @@
 (require 'sendmail)
 
 ;; This is the MU4E email client
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
+(add-to-list 'load-path "/snap/maildir-utils/current/share/emacs/site-lisp/mu4e/")
 
 (require 'mu4e)
 
@@ -15,6 +15,26 @@
 (setq mu4e-headers-sort-direction 'ascending)
 (setq mu4e-headers-show-threads nil)
 (setq mu4e-headers-include-related nil)
+
+;; For getting org-msg to work
+(setq mail-user-agent 'mu4e-user-agent)
+(zanm-package org-msg)
+(setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
+       org-msg-startup "hidestars indent inlineimages"
+       org-msg-default-alternatives '((new		. (text html))
+				      (reply-to-html	. (text html))
+				      (reply-to-text	. (text)))
+       org-msg-convert-citation t
+       org-msg-signature "
+
+Regards,
+
+#+begin_signature
+--
+*Jeremy*
+/One Emacs to rule them all/
+#+end_signature")
+(org-msg-mode)
 
 (setq send-mail-function 'smtpmail-send-it)
 

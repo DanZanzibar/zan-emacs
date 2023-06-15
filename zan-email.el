@@ -30,9 +30,17 @@
 Regards,
 
 #+begin_signature
---
-*Jeremy*
-/One Emacs to rule them all/
+*Zan Owsley*
+/Western Account Manager/
+
+file:~/.signatures/images/EM.png
+
+Ph: (587) 334-3425
+Web Site: [[https://www.electro-meters.com][_Electro-Meters_]]
+Web Store: [[https://electro-meters-online.com][_Electro-Meters-Online_]]
+
+[[https://www.electro-meters.com/manufacturers/lightel/][file:~/.signatures/images/Lightel.png]]
+
 #+end_signature")
 (org-msg-mode)
 

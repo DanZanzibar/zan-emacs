@@ -29,17 +29,19 @@
 
 Regards,
 
+
 #+begin_signature
 *Zan Owsley*
 /Western Account Manager/
 
-file:~/.signatures/images/EM.png
+file:/home/zan/.emacs.d/emacs-init-modules/signature-images/EM.png
 
 Ph: (587) 334-3425
 Web Site: [[https://www.electro-meters.com][_Electro-Meters_]]
 Web Store: [[https://electro-meters-online.com][_Electro-Meters-Online_]]
 
-[[https://www.electro-meters.com/manufacturers/lightel/][file:~/.signatures/images/Lightel.png]]
+file:/home/zan/.emacs.d/emacs-init-modules/signature-images/Lightel.png
+[[https://www.electro-meters.com/manufacturers/lightel/][Check out Lightel]]
 
 #+end_signature")
 (org-msg-mode)

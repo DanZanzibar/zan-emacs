@@ -98,7 +98,7 @@
       '(("~/" . 1)
 	("~/.emacs.d/" . 1)
 	("~/orghome/" . 1)
-	("~/codehome/python/projects/" . 1)))
+	("~/codehome/" . 3)))
 
 ;; Themes
 (zanm-package ef-themes)

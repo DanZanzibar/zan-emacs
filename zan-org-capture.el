@@ -29,6 +29,7 @@
 	 entry
 	 (file+headline zan-gtd "Anytime")
 	 "* TODO %?")
+	
 	("gd" "Daytime")
 	("gda"
 	 "Add Attachment"
@@ -40,16 +41,25 @@
 	 entry
 	 (file+headline zan-gtd "Daytime")
 	 "* TODO %?")
+	
 	("gp"
 	 "Personal"
 	 entry
 	 (file+headline zan-gtd "Personal")
 	 "* TODO %?")
-	("gw"
-	 "Waiting"
+	
+	("gw" "Waiting")
+	("gwa"
+	 "Add Attachment"
+	 entry
+	 (file+headline zan-gtd "Waiting")
+	 "* TODO %u %a %?")
+	("gwn"
+	 "None"
 	 entry
 	 (file+headline zan-gtd "Waiting")
 	 "* TODO %u %?")
+	
 	("gh"
 	 "Home"
 	 entry

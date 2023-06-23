@@ -112,3 +112,5 @@
 (require 'zan-org-capture)
 
 (require 'zan-org-functions)
+
+(require 'zan-editing-functions)

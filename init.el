@@ -114,3 +114,5 @@
 (require 'zan-org-functions)
 
 (require 'zan-editing-functions)
+
+(require 'zan-python)

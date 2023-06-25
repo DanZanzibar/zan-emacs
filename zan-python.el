@@ -9,8 +9,17 @@
 (defun zanf-run-python ()
   (interactive)
   (run-python (zanf-run-python--get-interpreter) nil t))
+
+(define-key global-map (kbd "C-c M-p") 'zanf-run-python)
   
 ;; End of function group
+
+
+;; Pyvenv
+
+(setenv "WORKON_HOME" "~/.venvs/")
+(zanm-package pyvenv)
+(define-key global-map (kbd "C-c v") 'pyvenv-workon)
 
 
 (provide 'zan-python)

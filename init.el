@@ -89,16 +89,14 @@
 (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
 (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom)
 
-(setenv "WORKON_HOME" "~/.venvs/")
-(zanm-package pyvenv)
-(define-key global-map (kbd "C-c v") 'pyvenv-workon)
-
 (zanm-package magit)
 (setq magit-repository-directories
       '(("~/" . 1)
 	("~/.emacs.d/" . 1)
 	("~/orghome/" . 1)
 	("~/codehome/" . 3)))
+
+(define-key global-map (kbd "C-c M-m") 'magit-list-repositories)
 
 ;; Themes
 (zanm-package ef-themes)

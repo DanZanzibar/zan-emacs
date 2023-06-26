@@ -12,7 +12,7 @@
 
 
 ;; Add a directory for init modules
-(add-to-list 'load-path "~/.emacs.d/emacs-init-modules")
+(add-to-list 'load-path "~/.emacs.d/zan-emacs")
 
 
 ;; Initialize package sources

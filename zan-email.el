@@ -10,7 +10,7 @@
 (setq shr-use-fonts nil)
 (setq mu4e-completing-read-function 'completing-read)
 (setq mu4e-view-show-images t)
-(setq mu4e-get-mail-command "offlineimap")
+(setq mu4e-get-mail-command "true")
 (setq mu4e-update-interval 300)
 (setq mu4e-headers-sort-direction 'ascending)
 (setq mu4e-headers-show-threads nil)

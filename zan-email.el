@@ -11,7 +11,8 @@
 (setq mu4e-completing-read-function 'completing-read)
 (setq mu4e-view-show-images t)
 (setq mu4e-get-mail-command "true")
-(setq mu4e-update-interval 300)
+(setq mu4e-update-interval 10)
+(setq mu4e-hide-index-messages t)
 (setq mu4e-headers-sort-direction 'ascending)
 (setq mu4e-headers-show-threads nil)
 (setq mu4e-headers-include-related nil)
@@ -20,30 +21,12 @@
 (setq mail-user-agent 'mu4e-user-agent)
 (zanm-package org-msg)
 (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
-       org-msg-startup "hidestars indent inlineimages"
-       org-msg-default-alternatives '((new		. (text html))
-				      (reply-to-html	. (text html))
-				      (reply-to-text	. (text)))
-       org-msg-convert-citation t
-       org-msg-signature "
-
-Regards,
-
-
-#+begin_signature
-*Zan Owsley*
-/Western Account Manager/
-
-file:/home/zan/.emacs.d/emacs-init-modules/signature-images/EM.png
-
-Ph: (587) 334-3425
-Web Site: [[https://www.electro-meters.com][_Electro-Meters_]]
-Web Store: [[https://electro-meters-online.com][_Electro-Meters-Online_]]
-
-file:/home/zan/.emacs.d/emacs-init-modules/signature-images/Lightel.png
-[[https://www.electro-meters.com/manufacturers/lightel/][Check out Lightel]]
-
-#+end_signature")
+      org-msg-startup "hidestars indent inlineimages"
+      org-msg-default-alternatives '((new		. (text html))
+				     (reply-to-html	. (text html))
+				     (reply-to-text	. (text)))
+      org-msg-convert-citation t)
+(add-hook 'org-msg-mode-hook 'visual-line-mode)
 (org-msg-mode)
 
 (setq send-mail-function 'smtpmail-send-it)
@@ -72,7 +55,27 @@ file:/home/zan/.emacs.d/emacs-init-modules/signature-images/Lightel.png
 					     (:maildir "/work/Sent Items" :key ?s)
 					     (:maildir "/work/drafts" :key ?d)
 					     (:maildir "/work/Trash" :key ?t)
-					     (:maildir "/work/Archive" :key ?a)))))
+					     (:maildir "/work/Archive" :key ?a)))
+		  (org-msg-signature . "
+
+Regards,
+
+
+#+begin_signature
+*Zan Owsley*
+/Western Account Manager/
+
+file:/home/zan/.emacs.d/emacs-init-modules/signature-images/EM.png
+
+Ph: (587) 334-3425
+Web Site: [[https://www.electro-meters.com][_Electro-Meters_]]
+Web Store: [[https://electro-meters-online.com][_Electro-Meters-Online_]]
+
+file:/home/zan/.emacs.d/emacs-init-modules/signature-images/Lightel.png
+[[https://www.electro-meters.com/manufacturers/lightel/][Check out Lightel]]
+
+#+end_signature")
+		  ))
 	,(make-mu4e-context
 	  :name "personal"
 	  :enter-func (lambda () (mu4e-message "Entering personal"))
@@ -95,7 +98,8 @@ file:/home/zan/.emacs.d/emacs-init-modules/signature-images/Lightel.png
 					     (:maildir "/personal/[Gmail].Sent Mail" :key ?s)
 					     (:maildir "/personal/drafts" :key ?d)
 					     (:maildir "/personal/[Gmail].Trash" :key ?t)
-					     (:maildir "/personal/Archives" :key ?a)))))
+					     (:maildir "/personal/Archives" :key ?a)))
+		  ))
 	,(make-mu4e-context
 	  :name "ctc"
 	  :enter-func (lambda () (mu4e-message "Entering ctc"))
@@ -118,7 +122,8 @@ file:/home/zan/.emacs.d/emacs-init-modules/signature-images/Lightel.png
 					     (:maildir "/ctc/[Gmail].Sent Mail" :key ?s)
 					     (:maildir "/ctc/drafts" :key ?d)
 					     (:maildir "/ctc/[Gmail].Trash" :key ?t)
-					     (:maildir "/ctc/Archives" :key ?a)))))
+					     (:maildir "/ctc/Archives" :key ?a)))
+		  ))
 	,(make-mu4e-context
 	  :name "lndc"
 	  :enter-func (lambda () (mu4e-message "Entering lndc"))
@@ -141,7 +146,8 @@ file:/home/zan/.emacs.d/emacs-init-modules/signature-images/Lightel.png
 					     (:maildir "/lndc/[Gmail].Sent Mail" :key ?s)
 					     (:maildir "/lndc/drafts" :key ?d)
 					     (:maildir "/lndc/[Gmail].Trash" :key ?t)
-					     (:maildir "/lndc/Archives" :key ?a)))))
+					     (:maildir "/lndc/Archives" :key ?a)))
+		  ))
 		  ))
 
 (define-key global-map (kbd "C-c m") 'mu4e)

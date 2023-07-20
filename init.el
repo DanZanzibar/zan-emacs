@@ -38,6 +38,7 @@
 (tooltip-mode -1)
 
 (global-display-line-numbers-mode t)
+(setq column-number-mode t)
 (dolist (mode '(org-mode-hook
 		eshell-mode-hook
 		shell-mode-hook))

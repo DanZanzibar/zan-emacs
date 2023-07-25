@@ -4,14 +4,8 @@
 (setq org-agenda-entry-text-maxlines 10)
 (setq org-refile-use-outline-path t)
 
-(defvar zan-desktop "/ssh:zan@zan-desktop.freeddns.org:")
-
-(if (string= system-name "zan-desktop-linux")
-    (progn 
-      (setq org-agenda-files '("~/orghome/gtd.org"))
-      (defvar zan-gtd "~/orghome/gtd.org"))
-  (setq org-agenda-files `(,(concat zan-desktop "orghome/gtd.org")))
-  (defvar zan-gtd (concat zan-desktop "orghome/gtd.org")))
+(setq org-agenda-files '("~/sync-general/gtd/gtd.org"))
+(setq zan-gtd "~/sync-general/gtd/gtd.org")
 
 (define-key global-map (kbd "C-c c") 'org-capture)
 (define-key global-map (kbd "C-c a") 'org-agenda)

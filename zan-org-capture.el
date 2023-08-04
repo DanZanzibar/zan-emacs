@@ -78,6 +78,19 @@
 	 "Prot"
 	 entry
 	 (file+headline zan-gtd "Prot")
-	 "* TODO %?")))
+	 "* TODO %?")
+
+	("gt"
+	 "Tickler"
+	 entry
+	 (file+headline zan-gtd "Tickler")
+	 "* TODO %? %^g\nSCHEDULED: %^t")
+
+	("gs"
+	 "Someday"
+	 entry
+	 (file+headline zan-gtd "Someday")
+	 "* TODO %?")
+	))
 
 (provide 'zan-org-capture)

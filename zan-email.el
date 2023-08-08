@@ -17,18 +17,6 @@
 (setq mu4e-headers-show-threads nil)
 (setq mu4e-headers-include-related nil)
 
-;; For getting org-msg to work
-(setq mail-user-agent 'mu4e-user-agent)
-(zanm-package org-msg)
-(setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
-      org-msg-startup "hidestars indent inlineimages"
-      org-msg-default-alternatives '((new		. (text html))
-				     (reply-to-html	. (text html))
-				     (reply-to-text	. (text)))
-      org-msg-convert-citation t)
-(add-hook 'org-msg-mode-hook 'visual-line-mode)
-(org-msg-mode)
-
 (setq send-mail-function 'smtpmail-send-it)
 
 (setq mu4e-compose-context-policy "ask-if-none")
@@ -56,25 +44,6 @@
 					     (:maildir "/work/drafts" :key ?d)
 					     (:maildir "/work/Trash" :key ?t)
 					     (:maildir "/work/Archive" :key ?a)))
-		  (org-msg-signature . "
-
-Regards,
-
-
-#+begin_signature
-*Zan Owsley*
-/Western Account Manager/
-
-file:/home/zan/.emacs.d/emacs-init-modules/signature-images/EM.png
-
-Ph: (587) 334-3425
-Web Site: [[https://www.electro-meters.com][_Electro-Meters_]]
-Web Store: [[https://electro-meters-online.com][_Electro-Meters-Online_]]
-
-file:/home/zan/.emacs.d/emacs-init-modules/signature-images/Lightel.png
-[[https://www.electro-meters.com/manufacturers/lightel/][Check out Lightel]]
-
-#+end_signature")
 		  ))
 	,(make-mu4e-context
 	  :name "personal"

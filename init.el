@@ -71,6 +71,11 @@
 
 (zanm-package eglot)
 (add-hook 'python-mode-hook 'eglot-ensure)
+(add-to-list 'eglot-server-programs
+	     '((js-mode) "typescript-language-server" "--stdio"))
+
+;; JS stuff - to move to it's own file.
+(setq js-indent-level 2)
 
 (require 'text-property-search) ; Potential short term workaround for eglot
 

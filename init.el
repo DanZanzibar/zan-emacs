@@ -77,6 +77,16 @@
 ;; JS stuff - to move to it's own file.
 (setq js-indent-level 2)
 
+;; Java stuff
+(zanm-package eglot-java)
+(add-hook 'java-mode-hook 'eglot-java-mode)
+(define-key eglot-java-mode-map (kbd "C-c l n") #'eglot-java-file-new)
+(define-key eglot-java-mode-map (kbd "C-c l x") #'eglot-java-run-main)
+(define-key eglot-java-mode-map (kbd "C-c l t") #'eglot-java-run-test)
+(define-key eglot-java-mode-map (kbd "C-c l N") #'eglot-java-project-new)
+(define-key eglot-java-mode-map (kbd "C-c l T") #'eglot-java-project-build-task)
+(define-key eglot-java-mode-map (kbd "C-c l R") #'eglot-java-project-build-refresh)
+
 (require 'text-property-search) ; Potential short term workaround for eglot
 
 (zanm-package corfu)

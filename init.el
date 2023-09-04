@@ -71,6 +71,7 @@
 
 (zanm-package eglot)
 (add-hook 'python-mode-hook 'eglot-ensure)
+(add-hook 'js-mode 'eglot-ensure)
 (add-to-list 'eglot-server-programs
 	     '((js-mode) "typescript-language-server" "--stdio"))
 
@@ -113,6 +114,10 @@
 	("~/codehome/" . 3)))
 
 (define-key global-map (kbd "C-c M-m") 'magit-list-repositories)
+
+;; Zeal
+(zanm-package zeal-at-point)
+(define-key global-map (kbd "C-c z") 'zeal-at-point)
 
 ;; Themes
 (zanm-package ef-themes)

@@ -72,6 +72,7 @@
 (zanm-package eglot)
 (add-hook 'python-mode-hook 'eglot-ensure)
 (add-hook 'js-mode 'eglot-ensure)
+(setq eglot-report-progress nil)
 (add-to-list 'eglot-server-programs
 	     '((js-mode) "typescript-language-server" "--stdio"))
 

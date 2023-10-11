@@ -36,7 +36,7 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (tooltip-mode -1)
-(electric-pair-mode)
+(electric-pair-mode 1)
 
 (global-display-line-numbers-mode t)
 (setq column-number-mode t)
@@ -51,7 +51,8 @@
 (setq initial-scratch-message nil)
 
 ;; LaTeX
-(zanm-package auctex)
+(load "auctex.el" nil t t)
+(load "preview.el" nil t t)
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 

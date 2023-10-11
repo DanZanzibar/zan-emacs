@@ -49,6 +49,11 @@
 (add-hook 'Info-mode-hook 'visual-line-mode) ; get word wrap on all help docs
 (setq initial-scratch-message nil)
 
+;; LaTeX
+(zanm-package auctex)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+
 ;; Autosave and backup
 (setq kill-buffer-delete-auto-save-files t)
 (setq make-backup-files nil)

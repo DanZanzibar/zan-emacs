@@ -36,6 +36,7 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (tooltip-mode -1)
+(electric-pair-mode)
 
 (global-display-line-numbers-mode t)
 (setq column-number-mode t)

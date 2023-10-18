@@ -17,7 +17,7 @@
 
 ;; Pyvenv
 
-(setenv "WORKON_HOME" "~/.venvs/")
+(setenv "WORKON_HOME" "~/sync-general/.venvs/")
 (zanm-package pyvenv)
 (define-key global-map (kbd "C-c v") 'pyvenv-workon)
 

@@ -13,25 +13,21 @@
 (setq org-capture-templates
       '(
 	("g" "Templates for gtd")
+	
 	("gu"
 	 "Urgent"
 	 entry
 	 (file+headline zan-gtd "Urgent")
 	 "* TODO %?")
+	
 	("ga"
 	 "Anytime"
 	 entry
 	 (file+headline zan-gtd "Anytime")
 	 "* TODO %?")
 	
-	("gd" "Daytime")
-	("gda"
-	 "Add Attachment"
-	 entry
-	 (file+headline zan-gtd "Daytime")
-	 "* TODO %a %?")
-	("gdn"
-	 "None"
+	("gd"
+	 "Daytime"
 	 entry
 	 (file+headline zan-gtd "Daytime")
 	 "* TODO %?")
@@ -42,14 +38,8 @@
 	 (file+headline zan-gtd "Personal")
 	 "* TODO %?")
 	
-	("gw" "Waiting")
-	("gwa"
-	 "Add Attachment"
-	 entry
-	 (file+headline zan-gtd "Waiting")
-	 "* TODO %u %a %?")
-	("gwn"
-	 "None"
+	("gw"
+	 "Waiting"
 	 entry
 	 (file+headline zan-gtd "Waiting")
 	 "* TODO %u %?")
@@ -59,21 +49,25 @@
 	 entry
 	 (file+headline zan-gtd "Home")
 	 "* TODO %?")
+	
 	("ge"
 	 "Errands"
 	 entry
 	 (file+headline zan-gtd "Errands")
 	 "* Todo %?")
+	
 	("gc"
 	 "Casi"
 	 entry
 	 (file+headline zan-gtd "Casi")
 	 "* TODO %?")
+	
 	("gD"
 	 "Dave"
 	 entry
 	 (file+headline zan-gtd "Dave")
 	 "* TODO %?")
+	
 	("gP"
 	 "Prot"
 	 entry

@@ -67,12 +67,6 @@
 	 entry
 	 (file+headline zan-gtd "Dave")
 	 "* TODO %?")
-	
-	("gP"
-	 "Prot"
-	 entry
-	 (file+headline zan-gtd "Prot")
-	 "* TODO %?")
 
 	("gt"
 	 "Tickler"
@@ -85,6 +79,107 @@
 	 entry
 	 (file+headline zan-gtd "Someday")
 	 "* TODO %?")
+
+	("gv" "Potential Visits")
+
+	("gve"
+	 "Edmonton"
+	 entry
+	 (file+olp zan-gtd "Visits" "Edmonton")
+	 "* TODO %?")
+
+	("gvc"
+	 "Calgary"
+	 entry
+	 (file+olp zan-gtd "Visits" "Calgary")
+	 "* TODO %?")
+
+	("gvv"
+	 "Vancouver"
+	 entry
+	 (file+olp zan-gtd "Visits" "Vancouver")
+	 "* TODO %?")
+
+	("gvV"
+	 "Victoria"
+	 entry
+	 (file+olp zan-gtd "Visits" "Victoria")
+	 "* TODO %?")
+
+	("gvi"
+	 "Interior"
+	 entry
+	 (file+olp zan-gtd "Visits" "Interior")
+	 "* TODO %?")
+
+	("gvs"
+	 "Saskatoon"
+	 entry
+	 (file+olp zan-gtd "Visits" "Saskatoon")
+	 "* TODO %?")
+
+	("gvr"
+	 "Regina"
+	 entry
+	 (file+olp zan-gtd "Visits" "Regina")
+	 "* TODO %?")
+
+	("gvw"
+	 "Winnipeg"
+	 entry
+	 (file+olp zan-gtd "Visits" "Winnipeg")
+	 "* TODO %?")
+
+	("gP" "Potential Prospects")
+
+	("gPe"
+	 "Edmonton"
+	 entry
+	 (file+olp zan-gtd "Prospects" "Edmonton")
+	 "* TODO %?")
+
+	("gPc"
+	 "Calgary"
+	 entry
+	 (file+olp zan-gtd "Prospects" "Calgary")
+	 "* TODO %?")
+
+	("gPv"
+	 "Vancouver"
+	 entry
+	 (file+olp zan-gtd "Prospects" "Vancouver")
+	 "* TODO %?")
+
+	("gPV"
+	 "Victoria"
+	 entry
+	 (file+olp zan-gtd "Prospects" "Victoria")
+	 "* TODO %?")
+
+	("gPi"
+	 "Interior"
+	 entry
+	 (file+olp zan-gtd "Prospects" "Interior")
+	 "* TODO %?")
+
+	("gPs"
+	 "Saskatoon"
+	 entry
+	 (file+olp zan-gtd "Prospects" "Saskatoon")
+	 "* TODO %?")
+
+	("gPr"
+	 "Regina"
+	 entry
+	 (file+olp zan-gtd "Prospects" "Regina")
+	 "* TODO %?")
+
+	("gPw"
+	 "Winnipeg"
+	 entry
+	 (file+olp zan-gtd "Prospects" "Winnipeg")
+	 "* TODO %?")
+	
 	))
 
 (provide 'zan-org-capture)

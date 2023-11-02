@@ -50,6 +50,8 @@
 (add-hook 'Info-mode-hook 'visual-line-mode) ; get word wrap on all help docs
 (setq initial-scratch-message nil)
 
+(define-key global-map (kbd "C-c M-r") 'replace-string)
+
 ;; LaTeX
 (load "auctex.el" nil t t)
 (load "preview.el" nil t t)

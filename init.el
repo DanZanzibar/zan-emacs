@@ -146,3 +146,5 @@
 (require 'zan-editing-functions)
 
 (require 'zan-python)
+
+(require 'zan-snippet)

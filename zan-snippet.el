@@ -13,7 +13,10 @@
   (when placeholder
     (while (search-forward placeholder end t)
       (replace-match input)
-      (goto-char start)))
+      (zanf-snippet-replace-field
+       start
+       (+ end (- (length input) (length placeholder)))
+       placeholder input)))
   (when (re-search-forward "~[^~]*~" end t)
     (let* ((placeholder (match-string 0))
 	   (input
@@ -28,8 +31,9 @@
 	 (length (nth 1 (insert-file-contents snip)))
 	 (end (+ start length)))
     (indent-region start end)
-    (zanf-snippet-replace-field start end nil nil)
-    (goto-char end)))
+    (zanf-snippet-replace-field start end nil nil)))
+
+(save-excursion)
 
 (setq zanv-snippet-dir "~/sync-general/emacs/snippets/")
 

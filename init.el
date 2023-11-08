@@ -85,6 +85,7 @@
 (setq eglot-report-progress nil)
 (add-to-list 'eglot-server-programs
 	     '((js-mode) "typescript-language-server" "--stdio"))
+(define-key global-map (kbd "C-c M-e") 'eglot-reconnect)
 
 ;; JS stuff - to move to it's own file.
 (setq js-indent-level 2)

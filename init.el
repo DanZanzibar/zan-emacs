@@ -51,6 +51,7 @@
 (setq initial-scratch-message nil)
 
 (define-key global-map (kbd "C-c M-r") 'replace-string)
+(define-key global-map (kbd "C-x C-c") 'save-buffers-kill-emacs)
 
 ;; LaTeX
 (load "auctex.el" nil t t)

@@ -7,7 +7,7 @@
 (setq org-agenda-files '("~/sync-general/gtd/gtd.org"))
 (setq zan-gtd "~/sync-general/gtd/gtd.org")
 
-(define-key global-map (kbd "C-c c") 'org-capture)
+(define-key global-map (kbd "C-c k") 'org-capture)
 (define-key global-map (kbd "C-c a") 'org-agenda)
 
 (setq org-capture-templates

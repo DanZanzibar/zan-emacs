@@ -16,9 +16,9 @@
 
 
 (defun zanf-java-run ()
-  (interactive)
+  (interactive))
   
 
-(define-key java-mode-map (kbd "C-c c") 'zanf-java-compile-all)
+(define-key eglot-java-mode-map (kbd "C-c c") 'zanf-java-compile-all)
 
 (provide 'zan-java)

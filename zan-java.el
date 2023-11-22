@@ -9,16 +9,32 @@
 (define-key eglot-java-mode-map (kbd "C-c l T") #'eglot-java-project-build-task)
 (define-key eglot-java-mode-map (kbd "C-c l R") #'eglot-java-project-build-refresh)
 
+
 (defun zanf-java-compile-all ()
   (interactive)
   (compile "javac *.java" t))
 
+(define-key eglot-java-mode-map (kbd "C-c c") 'zanf-java-compile-all)
 
+
+(setq zanv-java--last-run "")
+
+(defun zanf-java-run--completing-read ()
+  (interactive)
+  (setq zanv-java-files '())
+  (dolist (file
+	   (directory-files
+	    (file-name-directory (buffer-file-name)) nil ".+\\.java"))
+    (push (file-name-sans-extension file) zanv-java-files))
+  (completing-read "Which file: " zanv-java-files nil nil zanv-java--last-run))
 
 (defun zanf-java-run ()
-  (interactive))
-  
+  (interactive)
+  (let ((java-file (zanf-java-run--completing-read)))
+    (setq zanv-java--last-run java-file)
+    (compile (concat "java " java-file))))
 
-(define-key eglot-java-mode-map (kbd "C-c c") 'zanf-java-compile-all)
+(define-key eglot-java-mode-map (kbd "C-c r") 'zanf-java-run)
+  
 
 (provide 'zan-java)

@@ -35,4 +35,21 @@
 ;; End of zanf-org-refile-list-item
 
 
+;; Since org-agenda-kill doesn't save the file after, make it do so.
+(defun zanf-org-agenda-kill ()
+  (interactive)
+  (org-agenda-kill)
+  (org-save-all-org-buffers))
+
+(define-key org-agenda-mode-map (kbd "C-k") 'zanf-org-agenda-kill)
+
+;; Same for org-agenda-refile
+(defun zanf-org-agenda-refile ()
+  (interactive)
+  (org-agenda-refile)
+  (org-save-all-org-buffers))
+
+(define-key org-agenda-mode-map (kbd "C-x C-w") 'zanf-org-agenda-refile)
+
+
 (provide 'zan-org-functions)

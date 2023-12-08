@@ -44,7 +44,7 @@
 (add-hook
  'org-agenda-mode-hook
  (lambda ()
-   (keymap-local-set (kbd "C-k") 'zanf-org-agenda-kill)))
+   (keymap-local-set "C-k" 'zanf-org-agenda-kill)))
 
 ;; Same for org-agenda-refile
 (defun zanf-org-agenda-refile ()
@@ -55,7 +55,7 @@
 (add-hook
  'org-agenda-mode-hook
  (lambda ()
-   (keymap-local-set (kbd "C-x C-w") 'zanf-org-agenda-refile)))
+   (keymap-local-set "C-c C-w" 'zanf-org-agenda-refile)))
 
 
 (provide 'zan-org-functions)

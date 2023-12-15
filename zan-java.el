@@ -32,7 +32,9 @@
   (interactive)
   (let ((java-file (zanf-java-run--completing-read)))
     (setq zanv-java--last-run java-file)
-    (compile (concat "java " java-file))))
+    (compile (concat "java " java-file) t))
+  (other-window 1)
+  (goto-char (point-max)))
 
 (define-key eglot-java-mode-map (kbd "C-c r") 'zanf-java-run)
   

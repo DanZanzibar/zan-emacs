@@ -31,7 +31,8 @@
 	 (length (nth 1 (insert-file-contents snip)))
 	 (end (+ start length)))
     (indent-region start end)
-    (zanf-snippet-replace-field start end nil nil)))
+    (zanf-snippet-replace-field start end nil nil)
+    (goto-char end)))
 
 (save-excursion)
 

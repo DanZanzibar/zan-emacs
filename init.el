@@ -139,7 +139,7 @@
 ;; Keyboard Macros
 (defalias 'work-agenda-and-customers
    (kmacro "C-c a M d a y t i m e <return> C-x 1 C-x 2 C-x o M-x s h e l l <return> w o r k - c o n t a c t s <return>"))
-
+(keymap-global-set "C-x C-k 1" 'work-agenda-and-customers)
 
 
 ;; Load init modules

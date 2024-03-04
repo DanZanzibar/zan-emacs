@@ -81,49 +81,41 @@
 	 "* TODO %?")
 
 	("gv" "Potential Visits")
-
 	("gve"
 	 "Edmonton"
 	 entry
 	 (file+olp zan-gtd "Visits" "Edmonton")
 	 "* TODO %?")
-
 	("gvc"
 	 "Calgary"
 	 entry
 	 (file+olp zan-gtd "Visits" "Calgary")
 	 "* TODO %?")
-
 	("gvv"
 	 "Vancouver"
 	 entry
 	 (file+olp zan-gtd "Visits" "Vancouver")
 	 "* TODO %?")
-
 	("gvV"
 	 "Victoria"
 	 entry
 	 (file+olp zan-gtd "Visits" "Victoria")
 	 "* TODO %?")
-
 	("gvi"
 	 "Interior"
 	 entry
 	 (file+olp zan-gtd "Visits" "Interior")
 	 "* TODO %?")
-
 	("gvs"
 	 "Saskatoon"
 	 entry
 	 (file+olp zan-gtd "Visits" "Saskatoon")
 	 "* TODO %?")
-
 	("gvr"
 	 "Regina"
 	 entry
 	 (file+olp zan-gtd "Visits" "Regina")
 	 "* TODO %?")
-
 	("gvw"
 	 "Winnipeg"
 	 entry
@@ -134,6 +126,12 @@
 	 "Prospects"
 	 entry
 	 (file+headline zan-gtd "Prospects")
+	 "* TODO %?")
+
+	("gE"
+	 "Expense Reminders"
+	 entry
+	 (file+headline zan-gtd "Expense Reminders")
 	 "* TODO %?")
 	
 	))

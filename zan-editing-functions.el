@@ -4,6 +4,7 @@
   (interactive)
   (kill-region (point) (point-max)))
 
+(define-key global-map (kbd "C-c C-k") 'zanf-kill-to-end-of-buffer)
 
 ;; Start of function group for making scratch buffers.
 

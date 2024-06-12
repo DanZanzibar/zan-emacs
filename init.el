@@ -122,7 +122,7 @@
       '(("~/" . 1)
 	("~/.emacs.d/" . 1)
 	("~/orghome/" . 1)
-	("~/codehome/" . 3)
+	("~/codehome/" . 5)
 	("~/sync-general/" . 4)))
 
 (define-key global-map (kbd "C-c M-m") 'magit-list-repositories)

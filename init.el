@@ -39,7 +39,7 @@
 
 ;; Basic UI stuff
 
-(toggle-frame-fullscreen)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 (setq inhibit-startup-message t)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -144,7 +144,7 @@
 
 ;; Load init modules
 
-(require 'zan-email)
+;; (require 'zan-email)
 
 (require 'zan-org-capture)
 

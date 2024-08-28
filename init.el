@@ -62,6 +62,7 @@
 (define-key global-map (kbd "C-x C-c") 'save-buffers-kill-emacs)
 
 ;; LaTeX
+(zanm-package auctex)
 (load "auctex.el" nil t t)
 (load "preview.el" nil t t)
 (setq TeX-auto-save t)

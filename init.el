@@ -28,7 +28,9 @@
   (package-refresh-contents))
 
 
-;; Lisp Modes
+;; Set up 'C-c k' as prefix key
+(define-prefix-command 'zan-keymap)
+(keymap-global-set "C-c k" 'zan-keymap)
 
 
 ;; Electric pair mode hooks
@@ -50,6 +52,7 @@
 (setq column-number-mode t)
 (dolist (mode '(org-mode-hook
 		eshell-mode-hook
+		pdf-view-mode-hook
 		shell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode -1))))
 
@@ -132,6 +135,11 @@
 (zanm-package zeal-at-point)
 (define-key global-map (kbd "C-c z") 'zeal-at-point)
 
+;; doc-toc and pdf-tools
+(zanm-package doc-toc)
+(zanm-package pdf-tools)
+(pdf-loader-install)
+
 ;; Themes
 (zanm-package ef-themes)
 (load-theme 'ef-cherie :no-confirm)
@@ -150,6 +158,8 @@
 ;; Load init modules
 
 ;; (require 'zan-email)
+
+(require 'zan-school)
 
 (require 'zan-org-capture)
 

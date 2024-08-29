@@ -36,6 +36,7 @@
 ;; Electric pair mode hooks
 (dolist (mode '(python-mode-hook
 		java-mode-hook
+		c-mode-hook
 		LaTeX-mode-hook))
   (add-hook mode 'electric-pair-local-mode))
 
@@ -61,8 +62,10 @@
 (add-hook 'Info-mode-hook 'visual-line-mode) ; get word wrap on all help docs
 (setq initial-scratch-message nil)
 
-(define-key global-map (kbd "C-c M-r") 'replace-string)
-(define-key global-map (kbd "C-x C-c") 'save-buffers-kill-emacs)
+(keymap-global-set "C-c M-r" 'replace-string)
+(keymap-global-set "C-x C-c" 'save-buffers-kill-emacs)
+(keymap-set prog-mode-map "C-c c" 'compile)
+
 
 ;; LaTeX
 (zanm-package auctex)

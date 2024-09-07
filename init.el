@@ -65,6 +65,7 @@
 (keymap-global-set "C-c M-r" 'replace-string)
 (keymap-global-set "C-x C-c" 'save-buffers-kill-emacs)
 (keymap-set prog-mode-map "C-c c" 'compile)
+(keymap-set prog-mode-map "C-c n" 'flymake-goto-next-error)
 
 
 ;; LaTeX

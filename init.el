@@ -66,6 +66,8 @@
 (keymap-global-set "C-x C-c" 'save-buffers-kill-emacs)
 (keymap-set prog-mode-map "C-c c" 'compile)
 (keymap-set prog-mode-map "C-c n" 'flymake-goto-next-error)
+(keymap-set prog-mode-map "C-c k c" 'comment-region)
+(keymap-set prog-mode-map "C-c k u" 'uncomment-region)
 
 
 ;; LaTeX

@@ -145,6 +145,7 @@
 (zanm-package pdf-tools)
 (zanm-package doc-toc)
 (pdf-loader-install)
+(keymap-set pdf-view-mode-map "C-c k t" 'doc-toc-extract-pages)
 
 ;; Themes
 (zanm-package ef-themes)

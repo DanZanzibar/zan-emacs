@@ -142,8 +142,8 @@
 (define-key global-map (kbd "C-c z") 'zeal-at-point)
 
 ;; doc-toc and pdf-tools
-(zanm-package doc-toc)
 (zanm-package pdf-tools)
+(zanm-package doc-toc)
 (pdf-loader-install)
 
 ;; Themes

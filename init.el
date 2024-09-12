@@ -28,9 +28,10 @@
   (package-refresh-contents))
 
 
-;; Set up 'C-c k' as prefix key
+;; Set up 'zaan-keymap.
 (define-prefix-command 'zan-keymap)
 (keymap-global-set "C-c k" 'zan-keymap)
+(keymap-global-set "C-c k t" 'zan-texts-keymap)
 
 
 ;; Electric pair mode hooks

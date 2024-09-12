@@ -180,3 +180,5 @@
 (require 'zan-snippet)
 
 (require 'zan-java)
+
+(require 'zan-texts)

@@ -50,6 +50,8 @@
 (menu-bar-mode -1)
 (tooltip-mode -1)
 
+(setq split-height-threshold 100)
+
 (global-display-line-numbers-mode t)
 (setq column-number-mode t)
 (dolist (mode '(org-mode-hook

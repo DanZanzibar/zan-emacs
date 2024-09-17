@@ -28,7 +28,7 @@
   (package-refresh-contents))
 
 
-;; Set up 'zaan-keymap.
+;; Set up 'zan-keymap.
 (define-prefix-command 'zan-keymap)
 (keymap-global-set "C-c k" 'zan-keymap)
 (keymap-global-set "C-c k t" 'zan-texts-keymap)
@@ -184,3 +184,5 @@
 (require 'zan-java)
 
 (require 'zan-texts)
+
+(require 'zan-c)

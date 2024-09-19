@@ -1,3 +1,4 @@
+;; For everything related to 
 (defun zanf-compile-c ()
   "Compile the current C file."
   (interactive)
@@ -11,7 +12,9 @@
 	 (exe (file-name-sans-extension file)))
     (compile (concat "gcc " file " -o " exe " && ./" exe))))
 
-(keymap-set c-mode-map "C-c c" 'zanf-compile-c)
-(keymap-set c-mode-map "C-c r" 'zanf-compile-and-run-c)
+
+(with-eval-after-load 'cc-mode
+  (keymap-set c-mode-map "C-c c" 'zanf-compile-c)
+  (keymap-set c-mode-map "C-c r" 'zanf-compile-and-run-c))
 
 (provide 'zan-c)

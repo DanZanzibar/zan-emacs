@@ -16,4 +16,8 @@
 (setq vc-follow-symlinks t)
 
 
+;; Set the bookmarks file to one in the sync folder.
+(setq bookmark-default-file "~/sync-general/emacs/bookmarks")
+
+
 (provide 'zan-misc)

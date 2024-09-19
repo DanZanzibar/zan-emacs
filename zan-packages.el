@@ -17,8 +17,10 @@
 (setq eglot-report-progress nil)
 (add-to-list 'eglot-server-programs
 	     '((js-mode) "typescript-language-server" "--stdio"))
+
 (keymap-set prog-mode-map "C-c e" 'eglot)
 (keymap-set prog-mode-map "C-c M-e" 'eglot-reconnect)
+(keymap-set prog-mode-map "C-c k r" 'eglot-rename)
 
 
 (zanm-package corfu)

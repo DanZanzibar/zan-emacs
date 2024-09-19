@@ -12,8 +12,6 @@
   (interactive)
   (run-python (zanf-run-python--get-interpreter) nil t))
 
-(define-key global-map (kbd "C-c M-p") 'zanf-run-python)
-
 
 ;; Pyvenv
 
@@ -23,7 +21,8 @@
 
 ;; Keybindings
 (with-eval-after-load 'python
-  (keymap-set python-mode-map "C-c v" 'pyvenv-workon))
+  (keymap-set python-mode-map "C-c v" 'pyvenv-workon)
+  (keymap-set python-mode-map "C-c p" 'zanf-run-python))
 
 
 (provide 'zan-python)

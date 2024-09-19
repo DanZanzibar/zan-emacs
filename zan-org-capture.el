@@ -1,14 +1,14 @@
 ;; Org-mode-capture-templates
 
 (setq org-directory "~/orghome")
-(setq org-agenda-entry-text-maxlines 10)
+(setq org-agenda-entry-text-maxlines 20)
 (setq org-refile-use-outline-path t)
 
 (setq org-agenda-files '("~/sync-general/gtd/gtd.org"))
 (setq zan-gtd "~/sync-general/gtd/gtd.org")
 
-(keymap-global-set "C-c p" 'org-capture)
-(keymap-global-set "C-c a" 'org-agenda)
+(keymap-global-set "C-c k k" 'org-capture)
+(keymap-global-set "C-c k a" 'org-agenda)
 
 (setq org-capture-templates
       '(

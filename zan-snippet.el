@@ -1,4 +1,21 @@
-(setq zanv-snippet-placeholder-affix "~")
+;; The snippet inserting function, helpers, and variables. It uses a directory
+;; of text files where each file contains an insertable snippet. They may
+;; contain fields to be replaced at the time of insertion. In the text file,
+;; these fields should begin and end with 'zanv-snippet-placeholder-delimiter'
+;; and are grouped by the name within these delimiters. Each group of fields
+;; with the same name will be replaced by the same string which the user is
+;; prompted to give at time of insertion. Thus the user will be prompted once to
+;; supply a new string for "~NAME~" (supposing the delimiter is "~") and all
+;; instances of "~NAME~" will become the new string.
+
+;; TODO - I would like to add a 'capture-snippet' function that takes a region or
+;; the whole buffer and make a new snippet file. Also a function that changes the
+;; delimiter and replaces it properly in all snippet files.
+
+
+(setq zanv-snippet-dir "~/sync-general/emacs/snippets/")
+
+(setq zanv-snippet-placeholder-delimiter "~")
 
 (defun zanf-snippet--indent-line ()
   (interactive)
@@ -26,7 +43,7 @@
 	  (directory-files zanv-snippet-dir))))))
 
 (defun zanf-snippet--replace-placeholder-get-input (placeholder)
-  (let ((affix-length (length zanv-snippet-placeholder-affix)))
+  (let ((affix-length (length zanv-snippet-placeholder-delimiter)))
     (read-string
      (concat
       (substring placeholder affix-length (* affix-length -1))
@@ -44,8 +61,8 @@
 (defun zanf-snippet--has-next-placeholder ()
   (goto-char zanv-snippet--start)
   (if (re-search-forward
-       (concat zanv-snippet-placeholder-affix
-	       "[^" zanv-snippet-placeholder-affix "]*" zanv-snippet-placeholder-affix)
+       (concat zanv-snippet-placeholder-delimiter
+	       "[^" zanv-snippet-placeholder-delimiter "]*" zanv-snippet-placeholder-delimiter)
        zanv-snippet--end t) t nil))
 
 (defun zanf-snippet-insert-at-point ()
@@ -65,8 +82,8 @@
   (goto-char zanv-snippet--end))
 
 
-(setq zanv-snippet-dir "~/sync-general/emacs/snippets/")
+;; Keybindings
+(keymap-global-set "C-c k s" 'zanf-snippet-insert-at-point)
 
-(define-key global-map (kbd "C-c M-s") 'zanf-snippet-insert-at-point)
 
 (provide 'zan-snippet)

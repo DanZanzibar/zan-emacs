@@ -7,8 +7,6 @@
   (interactive)
   (kill-region (point) (point-max)))
 
-(define-key global-map (kbd "C-c C-k") 'zanf-kill-to-end-of-buffer)
-
 
 ;; A function and helpers for creating a scratch buffer with a specified
 ;; major mode.
@@ -60,7 +58,7 @@ loaded, you may specify it anyway (without completion)."
 
 ;; Keybindings
 (keymap-global-set "C-c k C-k" 'zanf-kill-to-end-of-buffer)
-(keymap-global-set "C-c k s" 'zanf-scratch-buffer)
+(keymap-global-set "C-c k C-s" 'zanf-scratch-buffer)
 
 
 (provide 'zan-editing-functions)

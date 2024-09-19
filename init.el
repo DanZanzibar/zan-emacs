@@ -24,13 +24,13 @@
 
 (require 'zan-python)
 
-(require 'zan-snippet)
-
 (require 'zan-java)
 
-(require 'zan-texts)
-
 (require 'zan-c)
+
+(require 'zan-snippet)
+
+(require 'zan-texts)
 
 (require 'zan-keyboard-macros)
 

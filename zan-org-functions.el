@@ -1,3 +1,6 @@
+;; Custom functions for org-mode and org-agenda-mode.
+
+
 ;; Start of zanf-org-refile-list-item and helpers
 ;; Lets you move a list item as-is to another heading within the same file.
 
@@ -32,8 +35,6 @@
     (insert "\n")
     (insert zanv-org-refile-last-stored-list-item)))
 
-;; End of zanf-org-refile-list-item
-
 
 ;; Since org-agenda-kill doesn't save the file after, make it do so.
 (defun zanf-org-agenda-kill ()
@@ -41,10 +42,6 @@
   (org-agenda-kill)
   (org-save-all-org-buffers))
 
-(add-hook
- 'org-agenda-mode-hook
- (lambda ()
-   (keymap-local-set "C-k" 'zanf-org-agenda-kill)))
 
 ;; Same for org-agenda-refile
 (defun zanf-org-agenda-refile ()
@@ -52,10 +49,11 @@
   (org-agenda-refile)
   (org-save-all-org-buffers))
 
-(add-hook
- 'org-agenda-mode-hook
- (lambda ()
-   (keymap-local-set "C-c C-w" 'zanf-org-agenda-refile)))
+
+;; Keybindings
+(with-eval-after-load 'org-agenda
+  (keymap-set org-agenda-mode-map "C-k" 'zanf-org-agenda-kill)
+  (keymap-set org-agenda-mode-map "C-c C-q" 'zanf-org-agenda-refile))
 
 
 (provide 'zan-org-functions)

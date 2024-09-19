@@ -18,8 +18,8 @@
 (add-to-list 'eglot-server-programs
 	     '((js-mode) "typescript-language-server" "--stdio"))
 
-(keymap-set prog-mode-map "C-c e" 'eglot)
-(keymap-set prog-mode-map "C-c M-e" 'eglot-reconnect)
+(keymap-set prog-mode-map "C-c k e" 'eglot)
+(keymap-set prog-mode-map "C-c k C-e" 'eglot-reconnect)
 (keymap-set prog-mode-map "C-c k r" 'eglot-rename)
 
 
@@ -47,7 +47,7 @@
 	("~/orghome/" . 1)
 	("~/codehome/" . 5)
 	("~/sync-general/" . 4)))
-(keymap-global-set "C-c m" 'magit-list-repositories)
+(keymap-global-set "C-c k m" 'magit-list-repositories)
 
 
 (zanm-package zeal-at-point)

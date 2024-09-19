@@ -1,4 +1,4 @@
-;; This is for general prog-mode customization and keybindings.
+;; A place for general prog-mode customization and keybindings.
 
 
 ;; Electric pair mode hooks
@@ -10,7 +10,7 @@
 
 
 ;; Keybindings
-(keymap-set prog-mode-map "C-c n" 'flymake-goto-next-error)
+(keymap-set prog-mode-map "C-c k n" 'flymake-goto-next-error)
 (keymap-set prog-mode-map "C-c k c" 'comment-region)
 (keymap-set prog-mode-map "C-c k u" 'uncomment-region)
 

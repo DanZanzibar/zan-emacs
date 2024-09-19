@@ -1,3 +1,6 @@
+;; Email configuration. Not currently being used.
+
+
 (require 'sendmail)
 
 ;; This is the MU4E email client

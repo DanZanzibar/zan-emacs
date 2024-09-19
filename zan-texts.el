@@ -1,3 +1,6 @@
+;; A place just for this function. Perhaps overkill...
+
+
 (setq zanv-texts-directory "~/sync-general/texts/")
 
 (defun zanf-open-text--get-text ()
@@ -10,5 +13,6 @@
     (find-file text-file-path)))
 
 (keymap-global-set "C-c k o" 'zanf-open-text)
+
 
 (provide 'zan-texts)

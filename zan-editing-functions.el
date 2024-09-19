@@ -1,15 +1,19 @@
 ;; General text editing functions.
 
+
+;; A function for wiping out the rest of buffer after point.
+
 (defun zanf-kill-to-end-of-buffer ()
   (interactive)
   (kill-region (point) (point-max)))
 
 (define-key global-map (kbd "C-c C-k") 'zanf-kill-to-end-of-buffer)
 
-;; Start of function group for making scratch buffers.
+
+;; A function and helpers for creating a scratch buffer with a specified
+;; major mode.
 
 (defvar zanv-derived-majors ())
-
 
 (defun zanf-derived-majors--mapatoms-f (symbol)
   (when (and (apply 'provided-mode-derived-p symbol zanv-derived-majors)
@@ -17,13 +21,11 @@
     (setq mode-found t)
     (add-to-list 'zanv-derived-majors symbol)))
 
-
 (defun zanf-derived-majors--get-modes ()
   (let ((mode-found nil))
     (mapatoms 'zanf-derived-majors--mapatoms-f)
     (if mode-found
 	(zanf-derived-majors--get-modes))))
-
 
 (defun zanf-derived-majors (&rest modes)
   "Search 'obarray' for derived major modes currently loaded in Emacs.
@@ -37,11 +39,9 @@ and text-mode. Returns a list of found major modes. Also updates variable
     (dolist (mode parent-modes zanv-derived-majors)
       (setq zanv-derived-majors (remove mode zanv-derived-majors)))))
 
-
 (defun zanf-scratch-buffer--choose-major ()
   (completing-read "Which major mode? (default: python-mode) "
 		   (zanf-derived-majors) nil nil nil nil "python-mode"))
-
 
 (defun zanf-scratch-buffer ()
   "Create and switch to a new scratch buffer with the chosen major mode enabled.
@@ -57,6 +57,10 @@ loaded, you may specify it anyway (without completion)."
     (switch-to-buffer scratch-name)
     (funcall (intern-soft mode))))
 
+
+;; Keybindings
+(keymap-global-set "C-c k C-k" 'zanf-kill-to-end-of-buffer)
+(keymap-global-set "C-c k s" 'zanf-scratch-buffer)
 
 
 (provide 'zan-editing-functions)

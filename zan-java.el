@@ -1,21 +1,17 @@
-(zanm-package eglot-java)
+;; All things Java.
 
+
+;; I'm using the eglot-java package for additional Java functionality.
+(zanm-package eglot-java)
 (add-hook 'java-mode-hook 'eglot-java-mode)
 
-(define-key eglot-java-mode-map (kbd "C-c l n") #'eglot-java-file-new)
-(define-key eglot-java-mode-map (kbd "C-c l x") #'eglot-java-run-main)
-(define-key eglot-java-mode-map (kbd "C-c l t") #'eglot-java-run-test)
-(define-key eglot-java-mode-map (kbd "C-c l N") #'eglot-java-project-new)
-(define-key eglot-java-mode-map (kbd "C-c l T") #'eglot-java-project-build-task)
-(define-key eglot-java-mode-map (kbd "C-c l R") #'eglot-java-project-build-refresh)
 
+
+;; Compiling and running functions.
 
 (defun zanf-java-compile-all ()
   (interactive)
   (compile "javac *.java" t))
-
-(define-key eglot-java-mode-map (kbd "C-c c") 'zanf-java-compile-all)
-
 
 (setq zanv-java--last-run "")
 
@@ -36,7 +32,17 @@
   (other-window 1)
   (goto-char (point-max)))
 
-(define-key eglot-java-mode-map (kbd "C-c r") 'zanf-java-run)
+
+;; Keybindings
+(keymap-set eglot-java-mode-map "C-c c" 'zanf-java-compile-all)
+(keymap-set eglot-java-mode-map "C-c r" 'zanf-java-run)
+
+(keymap-set eglot-java-mode-map "C-c l n" #'eglot-java-file-new)
+(keymap-set eglot-java-mode-map "C-c l x" #'eglot-java-run-main)
+(keymap-set eglot-java-mode-map "C-c l t" #'eglot-java-run-test)
+(keymap-set eglot-java-mode-map "C-c l N" #'eglot-java-project-new)
+(keymap-set eglot-java-mode-map "C-c l T" #'eglot-java-project-build-task)
+(keymap-set eglot-java-mode-map "C-c l R" #'eglot-java-project-build-refresh)
   
 
 (provide 'zan-java)

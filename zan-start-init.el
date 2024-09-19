@@ -1,3 +1,6 @@
+;; The first init file loaded. 
+
+
 ;; A use-package macro.
 (defmacro zanm-package (package &rest args)
   `(progn

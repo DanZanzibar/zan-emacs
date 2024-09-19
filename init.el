@@ -14,8 +14,6 @@
 
 ;; (require 'zan-email)
 
-(require 'zan-school)
-
 (require 'zan-org-capture)
 
 (require 'zan-org-functions)

@@ -16,7 +16,7 @@
 
 (require 'zan-org-capture)
 
-(require 'zan-org-functions)
+(require 'zan-org-mode)
 
 (require 'zan-editing-functions)
 

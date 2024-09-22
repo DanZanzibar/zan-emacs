@@ -1,3 +1,7 @@
+;; All things org-mode. Note that org-capture-templates are stored in their own
+;; file.
+
+
 ;; Custom functions for org-mode and org-agenda-mode.
 
 
@@ -36,24 +40,41 @@
     (insert zanv-org-refile-last-stored-list-item)))
 
 
-;; Since org-agenda-kill doesn't save the file after, make it do so.
+;; Since 'org-agenda-kill' doesn't save the file after, make it do so.
 (defun zanf-org-agenda-kill ()
   (interactive)
   (org-agenda-kill)
   (org-save-all-org-buffers))
 
 
-;; Same for org-agenda-refile
+;; Same for 'org-agenda-refile'.
 (defun zanf-org-agenda-refile ()
   (interactive)
   (org-agenda-refile)
   (org-save-all-org-buffers))
 
 
+;; Same for 'org-agenda-add-note'.
+(defun zanf-org-agenda-add-note ()
+  (interactive)
+  (org-agenda-add-note)
+  (org-save-all-org-buffers))
+
+
+;; Make 'org-agenda-quit' close the gtd.org buffer.
+(defun zanf-org-agenda-quit ()
+  (interactive)
+  (org-agenda-quit)
+  (org-save-all-org-buffers)
+  (kill-buffer "gtd.org"))
+
+
 ;; Keybindings
 (with-eval-after-load 'org-agenda
   (keymap-set org-agenda-mode-map "C-k" 'zanf-org-agenda-kill)
-  (keymap-set org-agenda-mode-map "C-c C-q" 'zanf-org-agenda-refile))
+  (keymap-set org-agenda-mode-map "C-c C-q" 'zanf-org-agenda-refile)
+  (keymap-set org-agenda-mode-map "z" 'zanf-org-agenda-add-note)
+  (keymap-set org-agenda-mode-map "q" 'zanf-org-agenda-quit))
 
 
-(provide 'zan-org-functions)
+(provide 'zan-org-mode)

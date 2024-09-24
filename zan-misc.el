@@ -19,5 +19,12 @@
 ;; Set the bookmarks file to one in the sync folder.
 (setq bookmark-default-file "~/sync-general/emacs/bookmarks")
 
+;; Make setting bookmark save bookmarks file.
+(defun zanf-bookmark-set ()
+  (interactive)
+  (bookmark-set)
+  (bookmark-save))
+(keymap-global-set "C-x r m" 'zanf-bookmark-set)
+
 
 (provide 'zan-misc)

@@ -68,6 +68,12 @@
 	 (file+headline zan-gtd "Dave")
 	 "* TODO %?")
 
+	("gn"
+	 "Name on Accounts"
+	 entry
+	 (file+headline zan-gtd "Name on Accounts")
+	 "* TODO %?")
+
 	("gt"
 	 "Tickler"
 	 entry

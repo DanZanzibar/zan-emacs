@@ -1,4 +1,4 @@
-;; General text editing functions.
+;; General functions.
 
 
 ;; A function for wiping out the rest of buffer after point.
@@ -56,9 +56,17 @@ loaded, you may specify it anyway (without completion)."
     (funcall (intern-soft mode))))
 
 
+;; Ask the user if they want to set a bookmark.
+(defun zanf-prompt-for-bookmark ()
+  (let ((prompt (read-from-minibuffer "Save a bookmark? (y/n default: no): "
+				      nil nil nil nil "n")))
+    (if (string= prompt "y")
+	(bookmark-set))))
+
+
 ;; Keybindings
 (keymap-global-set "C-c k C-k" 'zanf-kill-to-end-of-buffer)
 (keymap-global-set "C-c k C-s" 'zanf-scratch-buffer)
 
 
-(provide 'zan-editing-functions)
+(provide 'zan-functions)

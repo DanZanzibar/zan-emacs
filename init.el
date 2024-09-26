@@ -10,6 +10,8 @@
 
 (require 'zan-ui)
 
+(require 'zan-functions)
+
 (require 'zan-packages)
 
 ;; (require 'zan-email)
@@ -17,8 +19,6 @@
 (require 'zan-org-capture)
 
 (require 'zan-org-mode)
-
-(require 'zan-editing-functions)
 
 (require 'zan-prog)
 

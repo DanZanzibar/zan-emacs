@@ -57,7 +57,12 @@
 (zanm-package pdf-tools)
 (zanm-package doc-toc)
 (pdf-loader-install)
+(defun zanf-pdf-view-quit ()
+  (interactive)
+  (zanf-prompt-for-bookmark)
+  (quit-window))
 (keymap-set pdf-view-mode-map "C-c k t" 'doc-toc-extract-pages)
+(keymap-set pdf-view-mode-map "q" 'zanf-pdf-view-quit)
 
 
 (zanm-package auctex)

@@ -22,6 +22,7 @@
 (keymap-set prog-mode-map "C-c k C-e" 'eglot-reconnect)
 (keymap-set prog-mode-map "C-c k r" 'eglot-rename)
 (keymap-set prog-mode-map "C-c k f" 'eglot-format-buffer)
+(keymap-set prog-mode-map "C-c k C-n" 'eglot-code-actions)
 
 
 (zanm-package corfu)

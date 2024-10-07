@@ -64,9 +64,4 @@ loaded, you may specify it anyway (without completion)."
 	(bookmark-set))))
 
 
-;; Keybindings
-(keymap-global-set "C-c k C-k" 'zanf-kill-to-end-of-buffer)
-(keymap-global-set "C-c k C-s" 'zanf-scratch-buffer)
-
-
 (provide 'zan-functions)

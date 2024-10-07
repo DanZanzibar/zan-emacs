@@ -33,16 +33,4 @@
   (goto-char (point-max)))
 
 
-;; Keybindings
-(keymap-set eglot-java-mode-map "C-c c" 'zanf-java-compile-all)
-(keymap-set eglot-java-mode-map "C-c r" 'zanf-java-run)
-
-(keymap-set eglot-java-mode-map "C-c l n" #'eglot-java-file-new)
-(keymap-set eglot-java-mode-map "C-c l x" #'eglot-java-run-main)
-(keymap-set eglot-java-mode-map "C-c l t" #'eglot-java-run-test)
-(keymap-set eglot-java-mode-map "C-c l N" #'eglot-java-project-new)
-(keymap-set eglot-java-mode-map "C-c l T" #'eglot-java-project-build-task)
-(keymap-set eglot-java-mode-map "C-c l R" #'eglot-java-project-build-refresh)
-  
-
 (provide 'zan-java)

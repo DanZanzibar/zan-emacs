@@ -9,10 +9,4 @@
   (add-hook mode 'electric-pair-local-mode))
 
 
-;; Keybindings
-(keymap-set prog-mode-map "C-c k n" 'flymake-goto-next-error)
-(keymap-set prog-mode-map "C-c k c" 'comment-region)
-(keymap-set prog-mode-map "C-c k u" 'uncomment-region)
-
-
 (provide 'zan-prog)

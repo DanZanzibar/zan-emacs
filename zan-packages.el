@@ -18,12 +18,6 @@
 (add-to-list 'eglot-server-programs
 	     '((js-mode) "typescript-language-server" "--stdio"))
 
-(keymap-set prog-mode-map "C-c k e" 'eglot)
-(keymap-set prog-mode-map "C-c k C-e" 'eglot-reconnect)
-(keymap-set prog-mode-map "C-c k r" 'eglot-rename)
-(keymap-set prog-mode-map "C-c k f" 'eglot-format-buffer)
-(keymap-set prog-mode-map "C-c k C-n" 'eglot-code-actions)
-
 
 (zanm-package corfu)
 (setq corfu-auto t)
@@ -49,11 +43,9 @@
 	("~/orghome/" . 1)
 	("~/codehome/" . 5)
 	("~/sync-general/" . 4)))
-(keymap-global-set "C-c k m" 'magit-list-repositories)
 
 
 (zanm-package zeal-at-point)
-(keymap-set prog-mode-map "C-c z" 'zeal-at-point)
 
 
 (zanm-package pdf-tools)
@@ -63,8 +55,6 @@
   (interactive)
   (zanf-prompt-for-bookmark)
   (quit-window))
-(keymap-set pdf-view-mode-map "C-c k t" 'doc-toc-extract-pages)
-(keymap-set pdf-view-mode-map "q" 'zanf-pdf-view-quit)
 
 
 (zanm-package auctex)

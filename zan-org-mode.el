@@ -69,12 +69,4 @@
   (kill-buffer "gtd.org"))
 
 
-;; Keybindings
-(with-eval-after-load 'org-agenda
-  (keymap-set org-agenda-mode-map "C-k" 'zanf-org-agenda-kill)
-  (keymap-set org-agenda-mode-map "C-c C-q" 'zanf-org-agenda-refile)
-  (keymap-set org-agenda-mode-map "z" 'zanf-org-agenda-add-note)
-  (keymap-set org-agenda-mode-map "q" 'zanf-org-agenda-quit))
-
-
 (provide 'zan-org-mode)

@@ -19,10 +19,4 @@
 (zanm-package pyvenv)
 
 
-;; Keybindings
-(with-eval-after-load 'python
-  (keymap-set python-mode-map "C-c v" 'pyvenv-workon)
-  (keymap-set python-mode-map "C-c p" 'zanf-run-python))
-
-
 (provide 'zan-python)

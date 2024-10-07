@@ -28,16 +28,4 @@
   (package-refresh-contents))
 
 
-;; Set up 'zan-keymap' and set up one extra level of prefix key 'k'. The prefix
-;; key should be used for most global keybindings and reserve "C-c single-letter"
-;; bindings for major-mode specific bindings.
-(define-prefix-command 'zan-keymap)
-(keymap-global-set "C-c k" 'zan-keymap)
-
-
-;; Since I'm using emacsclient typically, set this keybinding to terminate the
-;; entire daemon.
-(keymap-global-set "C-x C-c" 'save-buffers-kill-emacs)
-
-
 (provide 'zan-start-init)

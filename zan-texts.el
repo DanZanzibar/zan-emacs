@@ -12,7 +12,5 @@
 	 (text-file-path (concat zanv-texts-directory text-book)))
     (find-file text-file-path)))
 
-(keymap-global-set "C-c k o" 'zanf-open-text)
-
 
 (provide 'zan-texts)

@@ -24,7 +24,6 @@
   (interactive)
   (bookmark-set)
   (bookmark-save))
-(keymap-global-set "C-x r m" 'zanf-bookmark-set)
 
 
 (provide 'zan-misc)

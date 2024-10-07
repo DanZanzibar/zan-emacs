@@ -82,8 +82,4 @@
   (goto-char zanv-snippet--end))
 
 
-;; Keybindings
-(keymap-global-set "C-c k s" 'zanf-snippet-insert-at-point)
-
-
 (provide 'zan-snippet)

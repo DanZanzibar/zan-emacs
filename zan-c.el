@@ -16,9 +16,4 @@
     (compile (concat "gcc " file " -o " exe " && ./" exe))))
 
 
-;; Keybindings
-(with-eval-after-load 'cc-mode
-  (keymap-set c-mode-map "C-c c" 'zanf-compile-c)
-  (keymap-set c-mode-map "C-c r" 'zanf-compile-and-run-c))
-
 (provide 'zan-c)

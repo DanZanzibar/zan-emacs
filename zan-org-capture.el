@@ -7,9 +7,6 @@
 (setq org-agenda-files '("~/sync-general/gtd/gtd.org"))
 (setq zan-gtd "~/sync-general/gtd/gtd.org")
 
-(keymap-global-set "C-c k k" 'org-capture)
-(keymap-global-set "C-c k a" 'org-agenda)
-
 (setq org-capture-templates
       '(
 	("g" "Templates for gtd")
@@ -138,8 +135,8 @@
 	 "Expense Reminders"
 	 entry
 	 (file+headline zan-gtd "Expense Reminders")
-	 "* TODO %?")
-	
+	 "* TODO %?")	
 	))
+
 
 (provide 'zan-org-capture)

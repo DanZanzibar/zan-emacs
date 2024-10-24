@@ -39,9 +39,4 @@
   (add-hook mode (lambda () (display-line-numbers-mode -1))))
 
 
-;; Increase font size on higher res machines.
-(if (or (string= (system-name) "legion"))
-    (set-face-attribute 'default nil :height 120))
-
-
 (provide 'zan-ui)

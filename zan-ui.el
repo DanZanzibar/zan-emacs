@@ -40,8 +40,7 @@
 
 
 ;; Increase font size on higher res machines.
-(if (or (string= (system-name) "legion")
-	(string= (system-name) "x1"))
+(if (or (string= (system-name) "legion"))
     (set-face-attribute 'default nil :height 120))
 
 

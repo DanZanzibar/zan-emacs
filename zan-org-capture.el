@@ -4,8 +4,8 @@
 (setq org-agenda-entry-text-maxlines 20)
 (setq org-refile-use-outline-path t)
 
-(setq org-agenda-files '("~/sync-general/gtd/gtd.org"))
-(setq zan-gtd "~/sync-general/gtd/gtd.org")
+(setq org-agenda-files '("~/sync/gtd/gtd.org"))
+(setq zan-gtd "~/sync/gtd/gtd.org")
 
 (setq org-capture-templates
       '(

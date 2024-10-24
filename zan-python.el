@@ -15,7 +15,7 @@
 
 ;; Pyvenv
 
-(setenv "WORKON_HOME" "~/sync-general/.venvs/")
+(setenv "WORKON_HOME" "~/sync/.venvs/")
 (zanm-package pyvenv)
 
 

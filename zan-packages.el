@@ -42,7 +42,7 @@
 	("~/.emacs.d/" . 1)
 	("~/orghome/" . 1)
 	("~/codehome/" . 5)
-	("~/sync-general/" . 4)))
+	("~/sync/" . 4)))
 
 
 (zanm-package zeal-at-point)

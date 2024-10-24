@@ -1,7 +1,7 @@
 ;; A place just for this function. Perhaps overkill...
 
 
-(setq zanv-texts-directory "~/sync-general/texts/")
+(setq zanv-texts-directory "~/sync/texts/")
 
 (defun zanf-open-text--get-text ()
   (completing-read "Which text? :" (directory-files zanv-texts-directory)))

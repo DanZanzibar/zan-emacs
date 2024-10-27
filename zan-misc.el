@@ -17,7 +17,7 @@
 
 
 ;; Set the bookmarks file to one in the sync folder.
-(setq bookmark-default-file "~/sync/emacs/bookmarks")
+(setq bookmark-default-file "~/sync/dat/emacs/bookmarks")
 
 ;; Make setting bookmark save bookmarks file.
 (defun zanf-bookmark-set ()

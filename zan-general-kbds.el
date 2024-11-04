@@ -18,7 +18,8 @@
 (keymap-global-set "C-c k C-s" 'zanf-scratch-buffer)
 (keymap-global-set "C-x r m" 'zanf-bookmark-set)
 (keymap-global-set "C-c k s" 'zanf-snippet-insert-at-point)
-(keymap-global-set "C-c k o" 'zanf-open-text)
+(keymap-global-set "C-c k t" 'zanf-open-text)
+(keymap-global-set "C-c k p" 'zanf-open-pricelist)
 
 
 ;; General Prog-mode
@@ -82,11 +83,6 @@
 (with-eval-after-load 'python
   (keymap-set python-mode-map "C-c v" 'pyvenv-workon)
   (keymap-set python-mode-map "C-c p" 'zanf-run-python))
-
-
-;; Open textbooks.
-(keymap-global-set "C-c k t" 'zanf-open-text)
-(keymap-global-set "C-c k p" 'zanf-open-pricelist)
 
 
 (provide 'zan-general-kbds)

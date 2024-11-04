@@ -32,8 +32,6 @@
 
 (require 'zan-snippet)
 
-(require 'zan-texts)
-
 (require 'zan-keyboard-macros)
 
 (require 'zan-general-kbds)

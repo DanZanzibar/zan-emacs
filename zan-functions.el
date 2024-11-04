@@ -64,4 +64,40 @@ loaded, you may specify it anyway (without completion)."
 	(bookmark-set))))
 
 
+;; Make setting bookmark save bookmarks file.
+(defun zanf-bookmark-set ()
+  (interactive)
+  (bookmark-set)
+  (bookmark-save))
+
+
+;; File-opening functions.
+(defun zanf-open-file-in-dir (dir-path &optional prompt file-extension)
+  "Prompt the user to open a file from a specified directory.
+
+File names will be completed and a file-extension can be specified to filter
+the results."
+  (unless prompt (defvar prompt "Which file: "))
+  (let* ((files (directory-files dir-path nil (when file-extension (concat ".*\." file-extension))))
+	 (files (remove "." files))
+	 (files (remove ".." files))
+	 (file-name (completing-read prompt files nil t))
+	 (file-path (concat dir-path file-name)))
+    (find-file file-path)))
+
+(defun zanf-open-text ()
+  "Prompts the user to open a textbook pdf.
+
+Uses pdfs stored in the directory specified by 'zanv-texts-dir'."
+  (interactive)
+  (zanf-open-file-in-dir zanv-texts-dir "Which text: " "pdf"))
+
+(defun zanf-open-pricelist ()
+  "Prompts the user to open a pricelist pdf.
+
+Uses pdfs stored in the directory specified by 'zanv-pricelists-dir'."
+  (interactive)
+  (zanf-open-file-in-dir zanv-pricelists-dir "Which pricelist: " "pdf"))
+
+
 (provide 'zan-functions)

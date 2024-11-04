@@ -6,11 +6,13 @@
 
 (require 'zan-start-init)
 
+(require 'zan-config-vars)
+
+(require 'zan-functions)
+
 (require 'zan-misc)
 
 (require 'zan-ui)
-
-(require 'zan-functions)
 
 (require 'zan-packages)
 

@@ -57,7 +57,7 @@
 
 
 ;; PDF-View
-(keymap-set pdf-view-mode-map "C-c k t" 'doc-toc-extract-pages)
+(keymap-set pdf-view-mode-map "C-c k C-t" 'doc-toc-extract-pages)
 (keymap-set pdf-view-mode-map "q" 'zanf-pdf-view-quit)
 
 
@@ -82,6 +82,11 @@
 (with-eval-after-load 'python
   (keymap-set python-mode-map "C-c v" 'pyvenv-workon)
   (keymap-set python-mode-map "C-c p" 'zanf-run-python))
+
+
+;; Open textbooks.
+(keymap-global-set "C-c k t" 'zanf-open-text)
+(keymap-global-set "C-c k p" 'zanf-open-pricelist)
 
 
 (provide 'zan-general-kbds)

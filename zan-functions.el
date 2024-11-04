@@ -86,18 +86,18 @@ the results."
     (find-file file-path)))
 
 (defun zanf-open-text ()
-  "Prompts the user to open a textbook pdf.
+  "Prompts the user to open a textbook pdf in 'zanv-texts-dir'.
 
-Uses pdfs stored in the directory specified by 'zanv-texts-dir'."
+Completion is provided for any pdf in the directory."
   (interactive)
-  (zanf-open-file-in-dir zanv-texts-dir "Which text: " "pdf"))
+  (zanf-open-file-in-dir zanv-texts-dir "Which text? " "pdf"))
 
 (defun zanf-open-pricelist ()
-  "Prompts the user to open a pricelist pdf.
+  "Prompts the user to open a pricelist pdf in 'zanv-pricelists-dir'.
 
-Uses pdfs stored in the directory specified by 'zanv-pricelists-dir'."
+Completion is provided for any pdf in the directory."
   (interactive)
-  (zanf-open-file-in-dir zanv-pricelists-dir "Which pricelist: " "pdf"))
+  (zanf-open-file-in-dir zanv-pricelists-dir "Which pricelist? " "pdf"))
 
 
 (provide 'zan-functions)

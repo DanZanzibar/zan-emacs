@@ -2,12 +2,16 @@
 
 
 ;; Electric pair mode hooks
-(dolist (mode '(python-mode-hook
-		java-mode-hook
-		c-mode-hook
-		sh-mode
-		LaTeX-mode-hook))
-  (add-hook mode 'electric-pair-local-mode))
+(defvar zanv-epair-mode-hooks
+  '(python-mode-hook
+    java-mode-hook
+    c-mode-hook
+    shell-mode-hook
+    sh-mode-hook
+    emacs-lisp-mode-hook
+    LaTeX-mode-hook))
+
+(dolist (mode zanv-epair-mode-hooks) (add-hook mode 'electric-pair-local-mode))
 
 
 (provide 'zan-prog)

@@ -56,19 +56,19 @@ loaded, you may specify it anyway (without completion)."
     (funcall (intern-soft mode))))
 
 
-;; Ask the user if they want to set a bookmark.
-(defun zanf-prompt-for-bookmark ()
-  (let ((prompt (read-from-minibuffer "Save a bookmark? (y/n default: no): "
-				      nil nil nil nil "n")))
-    (if (string= prompt "y")
-	(bookmark-set))))
-
-
 ;; Make setting bookmark save bookmarks file.
 (defun zanf-bookmark-set ()
   (interactive)
   (bookmark-set)
   (bookmark-save))
+
+
+;; Ask the user if they want to set a bookmark.
+(defun zanf-prompt-for-bookmark ()
+  (let ((prompt (read-from-minibuffer "Save a bookmark? (y/n default: no): "
+				      nil nil nil nil "n")))
+    (if (string= prompt "y")
+	(zanf-bookmark-set))))
 
 
 ;; File-opening functions.

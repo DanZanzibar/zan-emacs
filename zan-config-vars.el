@@ -11,4 +11,9 @@
 (setq bookmark-default-file (concat zanv-sync-dir "dat/emacs/bookmarks"))
 
 
+;; Set default printer to 'lp'.
+(setq lpr-command "lp")
+(setq lpr-add-switches nil)
+
+
 (provide 'zan-config-vars)

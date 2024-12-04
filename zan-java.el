@@ -2,7 +2,8 @@
 
 
 ;; I'm using the eglot-java package for additional Java functionality.
-(zanm-package eglot-java)
+(use-package eglot-java
+  :ensure t)
 (add-hook 'java-mode-hook 'eglot-java-mode)
 
 

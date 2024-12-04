@@ -18,8 +18,10 @@
 
 
 ;; Themes
-(zanm-package ef-themes)
-(load-theme 'ef-trio-dark :no-confirm)
+(use-package ef-themes
+  :ensure t
+  :config
+  (load-theme 'ef-trio-dark :no-confirm))
 
 
 ;; Get word wrap on all help docs.

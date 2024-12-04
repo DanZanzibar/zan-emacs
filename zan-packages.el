@@ -2,41 +2,49 @@
 ;; stuff out of here if it gets too busy.
 
 
-(zanm-package diminish)
+(use-package diminish
+  :ensure t)
 
 
-(zanm-package which-key)
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+  :custom
+  (vertico-count 4)
+  (vertico-resize nil)
+  )
+
+
+(use-package which-key
+  :ensure t)
 (which-key-mode)
 (diminish 'which-key-mode)
 (which-key-setup-minibuffer) ; to help with echo area covering which-key
 
 
-(zanm-package eglot)
-(add-hook 'python-mode-hook 'eglot-ensure)
-(add-hook 'js-mode 'eglot-ensure)
-(setq eglot-report-progress nil)
-(add-to-list 'eglot-server-programs
-	     '((js-mode) "typescript-language-server" "--stdio"))
-
-
-(zanm-package corfu)
+(use-package corfu
+  :ensure t)
 (setq corfu-auto t)
 (global-corfu-mode)
 
 
-(zanm-package git-gutter)
+(use-package git-gutter
+  :ensure t)
 (diminish 'git-gutter)
 (add-hook 'prog-mode-hook 'git-gutter-mode)
 (setq git-gutter:update-interval 0.02)
 
 
-(zanm-package git-gutter-fringe)
+(use-package git-gutter-fringe
+  :ensure t)
 (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
 (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
 (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom)
 
 
-(zanm-package magit)
+(use-package magit
+  :ensure t)
 (setq magit-repository-directories
       '(("~/" . 1)
 	("~/.emacs.d/" . 1)
@@ -45,11 +53,14 @@
 	("~/sync/" . 4)))
 
 
-(zanm-package zeal-at-point)
+(use-package zeal-at-point
+  :ensure t)
 
 
-(zanm-package pdf-tools)
-(zanm-package doc-toc)
+(use-package pdf-tools
+  :ensure t)
+(use-package doc-toc
+  :ensure t)
 (pdf-loader-install)
 (defun zanf-pdf-view-quit ()
   (interactive)
@@ -57,7 +68,8 @@
   (quit-window))
 
 
-(zanm-package auctex)
+(use-package auctex
+  :ensure t)
 (load "auctex.el" nil t t)
 (load "preview.el" nil t t)
 (setq TeX-auto-save t)

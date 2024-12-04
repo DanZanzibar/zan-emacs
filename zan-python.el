@@ -14,9 +14,9 @@
 
 
 ;; Pyvenv
-
+(use-package pyvenv
+  :ensure t)
 (setenv "WORKON_HOME" "~/sync/.venvs/")
-(zanm-package pyvenv)
 
 
 (provide 'zan-python)

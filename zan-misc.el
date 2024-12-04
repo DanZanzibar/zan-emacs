@@ -16,4 +16,9 @@
 (setq vc-follow-symlinks t)
 
 
+;; Set Treesitter grammer load path.
+(setq treesit-extra-load-path '("~/sync/dat/tree-sitter-grammers/"))
+(setq treesit-font-lock-level 4)
+
+
 (provide 'zan-misc)

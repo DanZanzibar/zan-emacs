@@ -19,7 +19,7 @@
 
 ;; Themes
 (zanm-package ef-themes)
-(load-theme 'ef-cherie :no-confirm)
+(load-theme 'ef-trio-dark :no-confirm)
 
 
 ;; Get word wrap on all help docs.

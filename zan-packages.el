@@ -16,6 +16,16 @@
   )
 
 
+(use-package marginalia
+  :ensure t
+  :init
+  (marginalia-mode))
+
+
+(use-package consult
+  :ensure t)
+
+
 (use-package which-key
   :ensure t)
 (which-key-mode)

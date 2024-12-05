@@ -11,9 +11,8 @@
   :init
   (vertico-mode)
   :custom
-  (vertico-count 4)
-  (vertico-resize nil)
-  )
+  (vertico-count 10)
+  (vertico-resize nil))
 
 
 (use-package marginalia

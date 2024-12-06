@@ -21,4 +21,9 @@
 (setq treesit-font-lock-level 4)
 
 
+;; Dired customizations.
+(setq dired-maybe-use-globstar t)
+(setq dired-kill-when-opening-new-dired-buffer t)
+
+
 (provide 'zan-misc)

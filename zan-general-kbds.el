@@ -1,11 +1,11 @@
 ;; Storing all kbd's here.
 
 
-;; Set up 'zan-extra-keymap' for one extra level of prefix key 'k'. The prefix
+;; Set up 'zan-global-keymap' for one extra level of prefix key 'C-c g'. The prefix
 ;; key should be used for most global keybindings and reserve "C-c letter"
-;; bindings for major-mode specific bindings.
-(define-prefix-command 'zan-extra-keymap)
-(keymap-global-set "C-c k" 'zan-extra-keymap)
+;; bindings for major-mode specific bindings or other prefix keys.
+(define-prefix-command 'zan-global-keymap)
+(keymap-global-set "C-c g" 'zan-global-keymap)
 
 
 ;; Since I'm using emacsclient typically, set this keybinding to terminate the
@@ -14,25 +14,23 @@
 
 
 ;; Globals
-(keymap-global-set "C-c k C-k" 'zanf-kill-to-end-of-buffer)
-(keymap-global-set "C-c k C-s" 'zanf-scratch-buffer)
+(keymap-set zan-global-keymap "C-s" 'zanf-scratch-buffer)
 (keymap-global-set "C-x r m" 'zanf-bookmark-set)
-(keymap-global-set "C-c k s" 'zanf-snippet-insert-at-point)
-(keymap-global-set "C-c k t" 'zanf-open-text)
-(keymap-global-set "C-c k p" 'zanf-open-pricelist)
-
-
-;; General Prog-mode
-(keymap-set prog-mode-map "C-c k n" 'flymake-goto-next-error)
-(keymap-set prog-mode-map "C-c k c" 'comment-region)
-(keymap-set prog-mode-map "C-c k u" 'uncomment-region)
-
-
-;; Magit
+(keymap-set zan-global-keymap "s" 'zanf-snippet-insert-at-point)
+(keymap-set zan-global-keymap "t" 'zanf-open-text)
+(keymap-set zan-global-keymap "p" 'zanf-open-pricelist)
 (keymap-global-set "C-c k m" 'magit-list-repositories)
 
 
-;; Org
+;; General Prog-mode
+(define-prefix-command 'zan-prog-general-keymap)
+(keymap-set prog-mode-map "C-c g" 'zan-prog-general-keymap)
+(keymap-set zan-prog-general-keymap "n" 'flymake-goto-next-error)
+(keymap-set zan-prog-general-keymap "c" 'comment-region)
+(keymap-set zan-prog-general-keymap "u" 'uncomment-region)
+
+
+;; Org - NEED TO FIX
 (keymap-global-set "C-c k k" 'org-capture)
 (keymap-global-set "C-c k a" 'org-agenda)
 (with-eval-after-load 'org-agenda
@@ -42,15 +40,15 @@
   (keymap-set org-agenda-mode-map "q" 'zanf-org-agenda-quit))
 
 
-;; Eglot - gets its own prefix key 'e'
+;; Eglot - gets its own prefix key 'C-c e'.
 (define-prefix-command 'zan-eglot-keymap)
 (keymap-set prog-mode-map "C-c e" 'zan-eglot-keymap)
-(keymap-set prog-mode-map "C-c e e" 'eglot)
-(keymap-set prog-mode-map "C-c e C-e" 'eglot-reconnect)
-(keymap-set prog-mode-map "C-c e r" 'eglot-rename)
-(keymap-set prog-mode-map "C-c e f" 'eglot-format-buffer)
-(keymap-set prog-mode-map "C-c e c" 'eglot-code-actions)
-(keymap-set prog-mode-map "C-c e x" 'eglot-code-action-extract)
+(keymap-set zan-eglot-keymap "e" 'eglot)
+(keymap-set zan-eglot-keymap "C-e" 'eglot-reconnect)
+(keymap-set zan-eglot-keymap "r" 'eglot-rename)
+(keymap-set zan-eglot-keymap "f" 'eglot-format-buffer)
+(keymap-set zan-eglot-keymap "c" 'eglot-code-actions)
+(keymap-set zan-eglot-keymap "x" 'eglot-code-action-extract)
 
 
 ;; Zeal
@@ -86,3 +84,4 @@
 
 
 (provide 'zan-general-kbds)
+

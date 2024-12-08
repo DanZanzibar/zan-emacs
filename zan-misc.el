@@ -26,4 +26,8 @@
 (setq dired-kill-when-opening-new-dired-buffer t)
 
 
+;; Set dictionary.
+(setq ispell-alternate-dictionary "/home/zan/sync/dat/emacs/word-list/en_CA.txt")
+
+
 (provide 'zan-misc)

@@ -1,4 +1,15 @@
-;; General functions.
+;;;; General functions.
+
+
+;;; Insert filename.
+(defun zanf-insert-filename ()
+  "Insert filename at point.
+
+Prompts user to pick a file using the 'find-file' interface. Requires that an
+existing file is chosen. Inserts the full filename (including path) as currently
+shown in the minibuffer."
+  (interactive)
+  (insert (read-file-name "Which file: " nil nil t nil nil)))
 
 
 ;; A function for wiping out the rest of buffer after point.

@@ -26,7 +26,9 @@
 (setq dired-kill-when-opening-new-dired-buffer t)
 
 
-;; Set dictionary.
+;; Set dictionary. Plain text word lists to be used with the variable below can
+;; be generated at http://app.aspell.net/create/. Note that this variable needs
+;; the path set without using the tilde.
 (setq ispell-alternate-dictionary "/home/zan/sync/dat/emacs/word-list/en_CA.txt")
 
 

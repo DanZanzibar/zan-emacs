@@ -34,4 +34,4 @@
 
 (require 'zan-keyboard-macros)
 
-(require 'zan-general-kbds)
+(require 'zan-keybindings)

@@ -17,18 +17,9 @@
 
 ;;; Emacs commands that I have redefined and shadowed with my own functions.
 (keymap-global-set "C-x C-c" 'save-buffers-kill-emacs)  ; ends daemon
-(keymap-global-set "C-x r m" 'zanf-bookmark-set) ; saves bookmark file 
+(keymap-global-set "C-x r m" 'zanf-bookmark-set) ; saves bookmark file
 
-
-;; General Prog-mode
-(define-prefix-command 'zan-prog-general-keymap)
-(keymap-set prog-mode-map "C-c g" 'zan-prog-general-keymap)
-(keymap-set zan-prog-general-keymap "n" 'flymake-goto-next-error)
-(keymap-set zan-prog-general-keymap "c" 'comment-region)
-(keymap-set zan-prog-general-keymap "u" 'uncomment-region)
-
-
-;; Org - NEED TO FIX
+;; Org-mode changes.
 (with-eval-after-load 'org-agenda
   (keymap-set org-agenda-mode-map "C-k" 'zanf-org-agenda-kill)
   (keymap-set org-agenda-mode-map "C-c C-q" 'zanf-org-agenda-refile)
@@ -36,7 +27,13 @@
   (keymap-set org-agenda-mode-map "q" 'zanf-org-agenda-quit))
 
 
-;; Eglot - gets its own prefix key 'C-c e'.
+;;; Prog-mode.
+(keymap-set prog-mode-map "C-c n" 'flymake-goto-next-error)
+(keymap-set prog-mode-map "C-c c" 'comment-region)
+(keymap-set prog-mode-map "C-c u" 'uncomment-region)
+(keymap-set prog-mode-map "C-c z" 'zeal-at-point)
+
+;; Eglot 'C-c e'.
 (define-prefix-command 'zan-eglot-keymap)
 (keymap-set prog-mode-map "C-c e" 'zan-eglot-keymap)
 (keymap-set zan-eglot-keymap "e" 'eglot)
@@ -45,11 +42,6 @@
 (keymap-set zan-eglot-keymap "f" 'eglot-format-buffer)
 (keymap-set zan-eglot-keymap "c" 'eglot-code-actions)
 (keymap-set zan-eglot-keymap "x" 'eglot-code-action-extract)
-
-
-;; Zeal
-(keymap-set prog-mode-map "C-c z" 'zeal-at-point)
-
 
 ;; PDF-View
 (keymap-set pdf-view-mode-map "C-c k C-t" 'doc-toc-extract-pages)

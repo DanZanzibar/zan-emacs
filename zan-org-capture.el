@@ -1,11 +1,12 @@
 ;; Org-mode-capture-templates
 
-(setq org-directory "~/orghome")
+(setq org-directory "~/sync/gtd")
 (setq org-agenda-entry-text-maxlines 20)
 (setq org-refile-use-outline-path t)
 
-(setq org-agenda-files (concat zanv-sync-dir "gtd/gtd.org"))
 (setq zan-gtd (concat zanv-sync-dir "gtd/gtd.org"))
+(setq org-agenda-files `(,zan-gtd))
+
 
 (setq org-capture-templates
       '(

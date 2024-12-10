@@ -18,7 +18,7 @@
 
 
 ;;; Set Treesitter grammer load path.
-(setq treesit-extra-load-path '("~/sync/dat/tree-sitter-grammers/"))
+(setq treesit-extra-load-path (concat zanv-sync-dir "dat/tree-sitter-grammers/"))
 (setq treesit-font-lock-level 4)
 
 
@@ -36,6 +36,17 @@
 ;;; Have 'C-h f' show examples of function usage.
 (add-hook 'help-fns-describe-function-functions
 	  #'shortdoc-help-fns-examples-function)
+
+
+;;; Abbrev-mode customizations
+(setq abbrev-suggest t)
+(setq abbrev-file-name (concat zanv-emacs-dat-dir "abbrevs_defs"))
+(setq-default abbrev-mode t)
+
+
+;;; Set default printer to 'lp'.
+(setq lpr-command "lp")
+(setq lpr-add-switches nil)
 
 
 (provide 'zan-misc)

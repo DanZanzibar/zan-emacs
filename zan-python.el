@@ -16,7 +16,7 @@
 ;; Pyvenv
 (use-package pyvenv
   :ensure t)
-(setenv "WORKON_HOME" "~/sync/.venvs/")
+(setenv "WORKON_HOME" (concat zanv-sync-dir ".venvs/"))
 
 
 (provide 'zan-python)

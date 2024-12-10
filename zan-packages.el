@@ -57,8 +57,6 @@
 (setq magit-repository-directories
       '(("~/" . 1)
 	("~/.emacs.d/" . 1)
-	("~/orghome/" . 1)
-	("~/codehome/" . 5)
 	("~/sync/" . 4)))
 
 

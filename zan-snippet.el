@@ -13,7 +13,7 @@
 ;; delimiter and replaces it properly in all snippet files.
 
 
-(setq zanv-snippet-dir "~/sync/emacs/snippets/")
+(setq zanv-snippet-dir (concat zanv-sync-dir "emacs/snippets/"))
 
 (setq zanv-snippet-placeholder-delimiter "~")
 

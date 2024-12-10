@@ -6,8 +6,6 @@
 
 (require 'zan-start-init)
 
-(require 'zan-config-vars)
-
 (require 'zan-functions)
 
 (require 'zan-misc)

@@ -49,4 +49,8 @@
 (setq lpr-add-switches nil)
 
 
+;;; Change location of 'persist.el' files.
+(setq persist--directory-location (concat zanv-emacs-dat-dir "persist"))
+
+
 (provide 'zan-misc)

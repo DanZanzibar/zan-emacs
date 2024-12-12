@@ -11,10 +11,12 @@
 ;; TODO - I would like to add a 'capture-snippet' function that takes a region or
 ;; the whole buffer and make a new snippet file. Also a function that changes the
 ;; delimiter and replaces it properly in all snippet files.
+;;
+;; TODO - Make 'zanf-snippet' and the system-wide snippet system use the same
+;; files.
 
 
-(setq zanv-snippet-dir (concat zanv-sync-dir "emacs/snippets/"))
-
+(setq zanv-snippet-dir (concat zanv-emacs-dat-dir "snippets/"))
 (setq zanv-snippet-placeholder-delimiter "~")
 
 (defun zanf-snippet--indent-line ()

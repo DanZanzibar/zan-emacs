@@ -18,7 +18,7 @@
 
 
 ;;; Set Treesitter grammer load path.
-(setq treesit-extra-load-path (concat zanv-sync-dir "dat/tree-sitter-grammers/"))
+(setq treesit-extra-load-path `(,(concat zanv-sync-dir "dat/tree-sitter-grammers/")))
 (setq treesit-font-lock-level 4)
 
 
@@ -28,8 +28,9 @@
 
 
 ;;; Set dictionary. Plain text word lists to be used with the variable below can
-;;; be generated at http://app.aspell.net/create/. Note that this variable needs
-;;; the path set without using the tilde.
+;;; be generated at http://app.aspell.net/create/. NOTE: Lines with apostrophes
+;;; need to be removed from generated word list.
+;;; Note that this variable needs the path set without using the tilde.
 (setq ispell-alternate-dictionary "/home/zan/sync/dat/emacs/word-list/en_CA.txt")
 
 

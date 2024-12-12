@@ -104,4 +104,12 @@
    ("C-x C-a l" . activities-list)))
 
 
+(use-package ace-window
+  :ensure t
+  :bind
+  ("M-o" . ace-window)
+  :custom
+  (aw-keys '(?a ?s ?d ?f ?h ?j ?k ?l)))
+
+
 (provide 'zan-packages)

@@ -12,6 +12,8 @@
 
 (require 'zan-ui)
 
+(require 'zan-window)
+
 (require 'zan-packages)
 
 ;; (require 'zan-email)

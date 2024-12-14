@@ -2,6 +2,12 @@
 ;;;; conflicts.
 
 
+;;; A macro for combining 'with-eval-after-load' and 'keymap-set'.
+(defmacro zanm-with-eval-keymap-set (mode keymap kbd command)
+  `(with-eval-after-load ',mode
+     (keymap-set ,keymap ,kbd ',command)))
+
+
 ;;; Zan's globals: begin with 'C-c g'.
 (define-prefix-command 'zan-global-keymap)
 (keymap-global-set "C-c g" 'zan-global-keymap)
@@ -14,10 +20,15 @@
 (keymap-set zan-global-keymap "a" 'org-agenda)
 (keymap-set zan-global-keymap "f" 'zanf-insert-filename)
 
+;; Window commands.
+(keymap-global-set "C-c f" 'zanf-open-dired-right-side)
+
 
 ;;; Emacs commands that I have redefined and shadowed with my own functions.
 (keymap-global-set "C-x C-c" 'save-buffers-kill-emacs)  ; ends daemon
 (keymap-global-set "C-x r m" 'zanf-bookmark-set) ; saves bookmark file
+(zanm-with-eval-keymap-set
+ pdf-view-mode pdf-view-mode-map "q" zanf-pdf-view-quit) ; prompts for bookmark
 
 ;; Org-mode changes.
 (with-eval-after-load 'org-agenda
@@ -35,17 +46,13 @@
 
 ;; Eglot 'C-c e'.
 (define-prefix-command 'zan-eglot-keymap)
-(keymap-set prog-mode-map "C-c e" 'zan-eglot-keymap)
+(keymap-set prog-mode-map "C-c C-e" 'zan-eglot-keymap)
 (keymap-set zan-eglot-keymap "e" 'eglot)
 (keymap-set zan-eglot-keymap "C-e" 'eglot-reconnect)
 (keymap-set zan-eglot-keymap "r" 'eglot-rename)
 (keymap-set zan-eglot-keymap "f" 'eglot-format-buffer)
 (keymap-set zan-eglot-keymap "c" 'eglot-code-actions)
 (keymap-set zan-eglot-keymap "x" 'eglot-code-action-extract)
-
-;; PDF-View
-(keymap-set pdf-view-mode-map "C-c k C-t" 'doc-toc-extract-pages)
-(keymap-set pdf-view-mode-map "q" 'zanf-pdf-view-quit)
 
 
 ;; C
@@ -55,14 +62,16 @@
 
 
 ;; Java
-(keymap-set eglot-java-mode-map "C-c c" 'zanf-java-compile-all)
-(keymap-set eglot-java-mode-map "C-c r" 'zanf-java-run)
-(keymap-set eglot-java-mode-map "C-c l n" #'eglot-java-file-new)
-(keymap-set eglot-java-mode-map "C-c l x" #'eglot-java-run-main)
-(keymap-set eglot-java-mode-map "C-c l t" #'eglot-java-run-test)
-(keymap-set eglot-java-mode-map "C-c l N" #'eglot-java-project-new)
-(keymap-set eglot-java-mode-map "C-c l T" #'eglot-java-project-build-task)
-(keymap-set eglot-java-mode-map "C-c l R" #'eglot-java-project-build-refresh)
+
+(with-eval-after-load 'eglot-java-mode
+  (keymap-set eglot-java-mode-map "C-c c" 'zanf-java-compile-all)
+  (keymap-set eglot-java-mode-map "C-c r" 'zanf-java-run)
+  (keymap-set eglot-java-mode-map "C-c l n" #'eglot-java-file-new)
+  (keymap-set eglot-java-mode-map "C-c l x" #'eglot-java-run-main)
+  (keymap-set eglot-java-mode-map "C-c l t" #'eglot-java-run-test)
+  (keymap-set eglot-java-mode-map "C-c l N" #'eglot-java-project-new)
+  (keymap-set eglot-java-mode-map "C-c l T" #'eglot-java-project-build-task)
+  (keymap-set eglot-java-mode-map "C-c l R" #'eglot-java-project-build-refresh))
 
 
 ;; Python
@@ -71,5 +80,10 @@
   (keymap-set python-mode-map "C-c p" 'zanf-run-python))
 
 
-(provide 'zan-keybindings)
+;;; Other modes.
 
+;; PDF-View
+(keymap-set pdf-view-mode-map "C-c x" 'doc-toc-extract-pages)
+
+
+(provide 'zan-keybindings)

@@ -11,6 +11,7 @@
 (setq visible-bell t)
 (setq initial-scratch-message nil)
 (setq column-number-mode t)
+(setq global-visual-line-mode t)
 
 
 ;; Make frames maximized by default.

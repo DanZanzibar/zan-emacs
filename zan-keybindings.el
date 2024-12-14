@@ -8,9 +8,9 @@
      (keymap-set ,keymap ,kbd ',command)))
 
 
-;;; Zan's globals: begin with 'C-c g'.
+;;; Zan's globals: begin with 'C-c C-k'. 'k' for global KEYS.
 (define-prefix-command 'zan-global-keymap)
-(keymap-global-set "C-c g" 'zan-global-keymap)
+(keymap-global-set "C-c C-k" 'zan-global-keymap)
 (keymap-set zan-global-keymap "C-s" 'zanf-scratch-buffer)
 (keymap-set zan-global-keymap "s" 'zanf-snippet-insert-at-point)
 (keymap-set zan-global-keymap "t" 'zanf-open-text)
@@ -19,9 +19,8 @@
 (keymap-set zan-global-keymap "k" 'org-capture)
 (keymap-set zan-global-keymap "a" 'org-agenda)
 (keymap-set zan-global-keymap "f" 'zanf-insert-filename)
-
-;; Window commands.
-(keymap-global-set "C-c f" 'zanf-open-dired-right-side)
+(keymap-set zan-global-keymap "d" 'zanf-dired-right-side-window)
+(keymap-set zan-global-keymap "w" 'window-toggle-side-windows)
 
 
 ;;; Emacs commands that I have redefined and shadowed with my own functions.

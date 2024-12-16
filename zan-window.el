@@ -22,7 +22,7 @@
 
 (defun zanf-dired-right-side-window (directory)
   (interactive "DDirectory: ")
-  (zanf-side-window-prefix "right" 1)
+  (zanf-side-window-prefix "right" 0)
   (dired directory))
 
 
@@ -33,7 +33,22 @@
 	 (side . right)
 	 (slot . -1)
 	 (window-width . 80)
-	 (window-height . 0.7))))
+	 (window-height . 0.7)
+	 (window-parameters . ((no-delete-other-windows . t))))
+	("\\*Help\\*"
+	 (display-buffer-in-side-window)
+	 (side . right)
+	 (slot . 1)
+	 (window-width . 80)
+	 (window-height . 0.3)
+	 (window-parameters . ((no-delete-other-windows . t))))
+	("\\*Outline.*\\.pdf\\*"
+	 (display-buffer-in-side-window)
+	 (side . right)
+	 (slot . -2)
+	 (window-width . 80)
+	 (window-height . 0.3)
+	 (window-parameters . ((no-delete-other-windows . t))))))
 
 
 (provide 'zan-window)

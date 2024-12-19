@@ -2,8 +2,10 @@
 
 
 ;;; Basic UI customization.
+;; Needed to avoid errors on non-gui compilation.
 (require 'scroll-bar)
 (require 'tool-bar)
+
 (setq inhibit-startup-message t)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)

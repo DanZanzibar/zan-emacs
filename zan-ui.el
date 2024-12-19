@@ -1,11 +1,11 @@
 ;; All basic UI customization goes here.
 
 
-
 ;; Self explanatory.
 (setq inhibit-startup-message t)
-(setq scroll-bar-mode nil)
-(tool-bar-mode -1)
+(set-scroll-bar-mode nil)
+(if (fboundp tool-bar-mode)
+    (tool-bar-mode -1))
 (menu-bar-mode -1)
 (tooltip-mode -1)
 (setq visible-bell t)

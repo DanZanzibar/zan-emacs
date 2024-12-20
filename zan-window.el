@@ -26,8 +26,9 @@
   (dired directory))
 
 
-;;; 'display-buffer-alist' for matching buffer names to rules.
-(setq display-buffer-alist
+;;; 'display-buffer-alist' customization.
+;; A variable to store my custom version.
+(setq zanv-user-display-buffer-alist
       '(("\\*info\\*"
 	 (display-buffer-in-side-window)
 	 (side . right)
@@ -48,7 +49,33 @@
 	 (slot . -2)
 	 (window-width . 80)
 	 (window-height . 0.3)
+	 (window-parameters . ((no-delete-other-windows . t))))
+	((major-mode . dired-mode)
+	 (display-buffer-in-side-window)
+	 (side . right)
+	 (slot . -2)
+	 (window-width . 80)
+	 (window-height . 0.3)
+	 (window-parameters . ((no-delete-other-windows . t))))
+	("\\*eshell\\*"
+	 (display-buffer-in-side-window)
+	 (side . bottom)
+	 (slot . 0)
+	 (window-height . 0.15)
 	 (window-parameters . ((no-delete-other-windows . t))))))
+
+;; Load 'zanv-user-display-buffer-alist' when starting emacs.
+(setq display-buffer-alist zanv-user-display-buffer-alist)
+
+;; A command for toggling default vs custom alist.
+(defun zanf-toggle-user-display-buffer-alist ()
+  (interactive)
+  (if display-buffer-alist
+      (progn
+	(setq display-buffer-alist nil)
+	(message "Using default 'display-buffer-alist'"))
+    (setq display-buffer-alist zanv-user-display-buffer-alist)
+    (message "Using user-defined 'display-buffer-alist'")))
 
 
 (provide 'zan-window)

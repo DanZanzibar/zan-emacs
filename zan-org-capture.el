@@ -136,8 +136,7 @@
 	 "Expense Reminders"
 	 entry
 	 (file+headline zan-gtd "Expense Reminders")
-	 "* TODO %?")	
-	))
+	 "* TODO %u %?")))
 
 
 (provide 'zan-org-capture)

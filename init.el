@@ -14,6 +14,8 @@
 
 (require 'zan-window)
 
+(require 'zan-eshell)
+
 (require 'zan-packages)
 
 ;; (require 'zan-email)

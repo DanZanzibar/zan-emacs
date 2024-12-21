@@ -2,8 +2,7 @@
 
 
 ;;; Side window prefix functions.
-
-
+;;; TODO - make it interactive and assign keybinding.
 (defun zanf-side-window-prefix (side &optional slot width)
   (display-buffer-override-next-command
    `(lambda (buffer alist)
@@ -66,6 +65,7 @@
 
 ;; Load 'zanv-user-display-buffer-alist' when starting emacs.
 (setq display-buffer-alist zanv-user-display-buffer-alist)
+(setq window-sides-vertical t)
 
 ;; A command for toggling default vs custom alist.
 (defun zanf-toggle-user-display-buffer-alist ()

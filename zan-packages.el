@@ -111,5 +111,13 @@
   :custom
   (aw-keys '(?a ?s ?d ?f ?h ?j ?k ?l)))
 
+(use-package embark
+  :ensure t
+  :bind
+  (("C-." . embark-act)))
+
+(use-package embark-consult
+  :ensure t)
+
 
 (provide 'zan-packages)

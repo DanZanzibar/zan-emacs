@@ -4,138 +4,181 @@
 (setq org-agenda-entry-text-maxlines 20)
 (setq org-refile-use-outline-path t)
 
-(setq zan-gtd (concat zanv-sync-dir "gtd/gtd.org"))
-(setq org-agenda-files `(,zan-gtd))
+(setq zanv-gtd (concat zanv-sync-dir "gtd/gtd.org"))
+(setq org-agenda-files `(,zanv-gtd))
+
+
+(setq zanv-org-capture-templates-static
+      '())
+
+(defun zanf-gen-org-capture-template (parent parent-keys name key)
+  (list
+   (concat parent-keys key)
+   name
+   entry
+   (file+olp zanv-gtd )))
+
+(defun zanf-set-org-capture-templates ()
+  )
 
 
 (setq org-capture-templates
-      '(
-	("g" "Templates for gtd")
-	
-	("gu"
-	 "Urgent"
-	 entry
-	 (file+headline zan-gtd "Urgent")
-	 "* TODO %?")
+      '(("g" "Templates for gtd")
 	
 	("ga"
 	 "Anytime"
 	 entry
-	 (file+headline zan-gtd "Anytime")
+	 (file+headline zanv-gtd "Anytime")
 	 "* TODO %?")
 	
 	("gd"
 	 "Daytime"
 	 entry
-	 (file+headline zan-gtd "Daytime")
+	 (file+headline zanv-gtd "Daytime")
 	 "* TODO %?")
 	
 	("gp"
 	 "Personal"
 	 entry
-	 (file+headline zan-gtd "Personal")
+	 (file+headline zanv-gtd "Personal")
 	 "* TODO %?")
 	
 	("gw"
 	 "Waiting"
 	 entry
-	 (file+headline zan-gtd "Waiting")
+	 (file+headline zanv-gtd "Waiting")
 	 "* TODO %u %?")
 	
 	("gh"
 	 "Home"
 	 entry
-	 (file+headline zan-gtd "Home")
+	 (file+headline zanv-gtd "Home")
 	 "* TODO %?")
 	
 	("ge"
 	 "Errands"
 	 entry
-	 (file+headline zan-gtd "Errands")
+	 (file+headline zanv-gtd "Errands")
 	 "* Todo %?")
 	
 	("gc"
 	 "Casi"
 	 entry
-	 (file+headline zan-gtd "Casi")
+	 (file+headline zanv-gtd "Casi")
 	 "* TODO %?")
 	
 	("gD"
 	 "Dave"
 	 entry
-	 (file+headline zan-gtd "Dave")
+	 (file+headline zanv-gtd "Dave")
 	 "* TODO %?")
 
 	("gn"
 	 "Name on Accounts"
 	 entry
-	 (file+headline zan-gtd "Name on Accounts")
+	 (file+headline zanv-gtd "Name on Accounts")
 	 "* TODO %?")
 
 	("gt"
 	 "Tickler"
 	 entry
-	 (file+headline zan-gtd "Tickler")
+	 (file+headline zanv-gtd "Tickler")
 	 "* TODO %? %^g\nSCHEDULED: %^t")
 
 	("gs"
 	 "Someday"
 	 entry
-	 (file+headline zan-gtd "Someday")
+	 (file+headline zanv-gtd "Someday")
 	 "* TODO %?")
 
 	("gv" "Potential Visits")
 	("gve"
 	 "Edmonton"
 	 entry
-	 (file+olp zan-gtd "Visits" "Edmonton")
+	 (file+olp zanv-gtd "Visits" "Edmonton")
 	 "* TODO %?")
 	("gvc"
 	 "Calgary"
 	 entry
-	 (file+olp zan-gtd "Visits" "Calgary")
+	 (file+olp zanv-gtd "Visits" "Calgary")
 	 "* TODO %?")
 	("gvv"
 	 "Vancouver"
 	 entry
-	 (file+olp zan-gtd "Visits" "Vancouver")
+	 (file+olp zanv-gtd "Visits" "Vancouver")
 	 "* TODO %?")
 	("gvV"
 	 "Victoria"
 	 entry
-	 (file+olp zan-gtd "Visits" "Victoria")
+	 (file+olp zanv-gtd "Visits" "Victoria")
 	 "* TODO %?")
 	("gvi"
 	 "Interior"
 	 entry
-	 (file+olp zan-gtd "Visits" "Interior")
+	 (file+olp zanv-gtd "Visits" "Interior")
 	 "* TODO %?")
 	("gvs"
 	 "Saskatoon"
 	 entry
-	 (file+olp zan-gtd "Visits" "Saskatoon")
+	 (file+olp zanv-gtd "Visits" "Saskatoon")
 	 "* TODO %?")
 	("gvr"
 	 "Regina"
 	 entry
-	 (file+olp zan-gtd "Visits" "Regina")
+	 (file+olp zanv-gtd "Visits" "Regina")
 	 "* TODO %?")
 	("gvw"
 	 "Winnipeg"
 	 entry
-	 (file+olp zan-gtd "Visits" "Winnipeg")
+	 (file+olp zanv-gtd "Visits" "Winnipeg")
 	 "* TODO %?")
 
-	("gP"
-	 "Prospects"
+	("gP" "Prospects")
+	("gPe"
+	 "Edmonton"
 	 entry
-	 (file+headline zan-gtd "Prospects")
+	 (file+olp zanv-gtd "Prospects" "Edmonton")
+	 "* TODO %?")
+	("gPc"
+	 "Calgary"
+	 entry
+	 (file+olp zanv-gtd "Prospects" "Calgary")
+	 "* TODO %?")
+	("gPv"
+	 "Vancouver"
+	 entry
+	 (file+olp zanv-gtd "Prospects" "Vancouver")
+	 "* TODO %?")
+	("gPV"
+	 "Victoria"
+	 entry
+	 (file+olp zanv-gtd "Prospects" "Victoria")
+	 "* TODO %?")
+	("gPi"
+	 "Interior"
+	 entry
+	 (file+olp zanv-gtd "Prospects" "Interior")
+	 "* TODO %?")
+	("gPs"
+	 "Saskatoon"
+	 entry
+	 (file+olp zanv-gtd "Prospects" "Saskatoon")
+	 "* TODO %?")
+	("gPr"
+	 "Regina"
+	 entry
+	 (file+olp zanv-gtd "Prospects" "Regina")
+	 "* TODO %?")
+	("gPw"
+	 "Winnipeg"
+	 entry
+	 (file+olp zanv-gtd "Prospects" "Winnipeg")
 	 "* TODO %?")
 
 	("gE"
 	 "Expense Reminders"
 	 entry
-	 (file+headline zan-gtd "Expense Reminders")
+	 (file+headline zanv-gtd "Expense Reminders")
 	 "* TODO %u %?")))
 
 

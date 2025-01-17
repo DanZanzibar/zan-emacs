@@ -69,4 +69,7 @@
   (kill-buffer "gtd.org"))
 
 
+(setq org-refile-targets '((nil . (:maxlevel . 5))))
+
+
 (provide 'zan-org-mode)

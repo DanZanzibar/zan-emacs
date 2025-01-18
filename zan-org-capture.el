@@ -1,5 +1,6 @@
 ;; Org-mode-capture-templates
 
+(require 'org-capture)
 (setq org-directory "~/sync/gtd")
 (setq org-agenda-entry-text-maxlines 20)
 (setq org-refile-use-outline-path t)
@@ -8,178 +9,122 @@
 (setq org-agenda-files `(,zanv-gtd))
 
 
+(defun zanf-gen-org-capture-template
+    (key name &optional parent-keys parent timestamp literal-heading)
+  (let ((parent-keys (or parent-keys ""))
+	(parent (or parent '()))
+	(template (if timestamp "* TODO %u %?" "* TODO %?")))
+    (list
+     (concat parent-keys key)
+     name
+     'entry
+     (append '(file+olp zanv-gtd) parent `(,(or literal-heading name)))
+     template)))
+
+
 (setq zanv-org-capture-templates-static
-      '())
+      `(("t" "Task Lists")
+	,(zanf-gen-org-capture-template "a" "Anytime" "t")
+	,(zanf-gen-org-capture-template "d" "Daytime" "t")
+	,(zanf-gen-org-capture-template "e" "Evening" "t")
+	,(zanf-gen-org-capture-template "w" "Weekend" "t")
+	,(zanf-gen-org-capture-template "t" "Waiting" "t" nil t)
 
-(defun zanf-gen-org-capture-template (parent parent-keys name key)
-  (list
-   (concat parent-keys key)
-   name
-   entry
-   (file+olp zanv-gtd )))
-
-(defun zanf-set-org-capture-templates ()
-  )
-
-
-(setq org-capture-templates
-      '(("g" "Templates for gtd")
-	
-	("ga"
-	 "Anytime"
-	 entry
-	 (file+headline zanv-gtd "Anytime")
-	 "* TODO %?")
-	
-	("gd"
-	 "Daytime"
-	 entry
-	 (file+headline zanv-gtd "Daytime")
-	 "* TODO %?")
-	
-	("gp"
-	 "Personal"
-	 entry
-	 (file+headline zanv-gtd "Personal")
-	 "* TODO %?")
-	
-	("gw"
-	 "Waiting"
-	 entry
-	 (file+headline zanv-gtd "Waiting")
-	 "* TODO %u %?")
-	
-	("gh"
-	 "Home"
-	 entry
-	 (file+headline zanv-gtd "Home")
-	 "* TODO %?")
-	
-	("ge"
-	 "Errands"
-	 entry
-	 (file+headline zanv-gtd "Errands")
-	 "* Todo %?")
-	
-	("gc"
-	 "Casi"
-	 entry
-	 (file+headline zanv-gtd "Casi")
-	 "* TODO %?")
-	
-	("gD"
-	 "Dave"
-	 entry
-	 (file+headline zanv-gtd "Dave")
-	 "* TODO %?")
-
-	("gn"
-	 "Name on Accounts"
-	 entry
-	 (file+headline zanv-gtd "Name on Accounts")
-	 "* TODO %?")
-
-	("gt"
-	 "Tickler"
-	 entry
-	 (file+headline zanv-gtd "Tickler")
+	,(zanf-gen-org-capture-template "s" "Someday")
+	("k" "Tickler" entry (file+olp zanv-gtd "Tickler")
 	 "* TODO %? %^g\nSCHEDULED: %^t")
 
-	("gs"
-	 "Someday"
-	 entry
-	 (file+headline zanv-gtd "Someday")
-	 "* TODO %?")
+	("p" "Projects")
 
-	("gv" "Potential Visits")
-	("gve"
-	 "Edmonton"
-	 entry
-	 (file+olp zanv-gtd "Visits" "Edmonton")
-	 "* TODO %?")
-	("gvc"
-	 "Calgary"
-	 entry
-	 (file+olp zanv-gtd "Visits" "Calgary")
-	 "* TODO %?")
-	("gvv"
-	 "Vancouver"
-	 entry
-	 (file+olp zanv-gtd "Visits" "Vancouver")
-	 "* TODO %?")
-	("gvV"
-	 "Victoria"
-	 entry
-	 (file+olp zanv-gtd "Visits" "Victoria")
-	 "* TODO %?")
-	("gvi"
-	 "Interior"
-	 entry
-	 (file+olp zanv-gtd "Visits" "Interior")
-	 "* TODO %?")
-	("gvs"
-	 "Saskatoon"
-	 entry
-	 (file+olp zanv-gtd "Visits" "Saskatoon")
-	 "* TODO %?")
-	("gvr"
-	 "Regina"
-	 entry
-	 (file+olp zanv-gtd "Visits" "Regina")
-	 "* TODO %?")
-	("gvw"
-	 "Winnipeg"
-	 entry
-	 (file+olp zanv-gtd "Visits" "Winnipeg")
-	 "* TODO %?")
+	("l" "Work Lists")
+	("lv" "Potential Visits")
+	,(zanf-gen-org-capture-template
+	  "e" "Edmonton" "lv" '("Static" "Work Lists" "Visits"))
+	,(zanf-gen-org-capture-template
+	  "c" "Calgary" "lv" '("Static" "Work Lists" "Visits"))
+	,(zanf-gen-org-capture-template
+	  "v" "Vancouver" "lv" '("Static" "Work Lists" "Visits"))
+	,(zanf-gen-org-capture-template
+	  "V" "Victoria" "lv" '("Static" "Work Lists" "Visits"))
+	,(zanf-gen-org-capture-template
+	  "i" "Interior" "lv" '("Static" "Work Lists" "Visits"))
+	,(zanf-gen-org-capture-template
+	  "s" "Saskatoon" "lv" '("Static" "Work Lists" "Visits"))
+	,(zanf-gen-org-capture-template
+	  "r" "Regina" "lv" '("Static" "Work Lists" "Visits"))
+	,(zanf-gen-org-capture-template
+	  "w" "Winnipeg" "lv" '("Static" "Work Lists" "Visits"))
 
-	("gP" "Prospects")
-	("gPe"
-	 "Edmonton"
-	 entry
-	 (file+olp zanv-gtd "Prospects" "Edmonton")
-	 "* TODO %?")
-	("gPc"
-	 "Calgary"
-	 entry
-	 (file+olp zanv-gtd "Prospects" "Calgary")
-	 "* TODO %?")
-	("gPv"
-	 "Vancouver"
-	 entry
-	 (file+olp zanv-gtd "Prospects" "Vancouver")
-	 "* TODO %?")
-	("gPV"
-	 "Victoria"
-	 entry
-	 (file+olp zanv-gtd "Prospects" "Victoria")
-	 "* TODO %?")
-	("gPi"
-	 "Interior"
-	 entry
-	 (file+olp zanv-gtd "Prospects" "Interior")
-	 "* TODO %?")
-	("gPs"
-	 "Saskatoon"
-	 entry
-	 (file+olp zanv-gtd "Prospects" "Saskatoon")
-	 "* TODO %?")
-	("gPr"
-	 "Regina"
-	 entry
-	 (file+olp zanv-gtd "Prospects" "Regina")
-	 "* TODO %?")
-	("gPw"
-	 "Winnipeg"
-	 entry
-	 (file+olp zanv-gtd "Prospects" "Winnipeg")
-	 "* TODO %?")
+	("lp" "Prospects")
+	,(zanf-gen-org-capture-template
+	  "e" "Edmonton" "lp" '("Static" "Work Lists" "Prospects"))
+	,(zanf-gen-org-capture-template
+	  "c" "Calgary" "lp" '("Static" "Work Lists" "Prospects"))
+	,(zanf-gen-org-capture-template
+	  "v" "Vancouver" "lp" '("Static" "Work Lists" "Prospects"))
+	,(zanf-gen-org-capture-template
+	  "V" "Victoria" "lp" '("Static" "Work Lists" "Prospects"))
+	,(zanf-gen-org-capture-template
+	  "i" "Interior" "lp" '("Static" "Work Lists" "Prospects"))
+	,(zanf-gen-org-capture-template
+	  "s" "Saskatoon" "lp" '("Static" "Work Lists" "Prospects"))
+	,(zanf-gen-org-capture-template
+	  "r" "Regina" "lp" '("Static" "Work Lists" "Prospects"))
+	,(zanf-gen-org-capture-template
+	  "w" "Winnipeg" "lp" '("Static" "Work Lists" "Prospects"))
 
-	("gE"
-	 "Expense Reminders"
-	 entry
-	 (file+headline zanv-gtd "Expense Reminders")
-	 "* TODO %u %?")))
+	,(zanf-gen-org-capture-template
+	  "e" "Expense Reminders" "l" '("Static" "Work Lists") t)
+	,(zanf-gen-org-capture-template
+	  "n" "Name on Accounts" "l" '("Static" "Work Lists"))
+
+	("L" "Other Lists")
+
+	("n" "New Project or List")
+	("np" "Project" entry (file+olp zanv-gtd "Projects")
+	 "* %^{Project name}^p%^{Capture keys} :%^{tags}:")
+	("nl" "Work List" entry (file+olp zanv-gtd "Dynamic")
+	 "* %^{List name}^l%^{Capture keys} :%^{tags}:")
+	("nL" "Other List" entry (file+olp zanv-gtd "Dynamic")
+	 "* %^{List name}^L%^{Capture keys} :%^{tags}:")))
+
+
+(defun zanf-add-dynamic-capture-templates--get-subheadings (heading)
+  (let (subheadings)
+    (org-map-entries
+     (lambda ()
+       (when (string= (org-get-heading t t t t) heading)
+	 (org-map-entries
+	  (lambda ()
+	    (push (substring-no-properties (org-get-heading t t t t))
+		  subheadings))
+	  "LEVEL=2"
+	  'tree)))
+     "LEVEL=1" 'agenda)
+    (nreverse subheadings)))
+
+(defun zanf-add-dynamic-capture-templates (parent-heading)
+  (let ((headings (zanf-add-dynamic-capture-templates--get-subheadings
+		   parent-heading))
+	templates)
+    (dolist (heading headings)
+      (let* ((parsed-heading (split-string heading "\\^"))
+	     (name (nth 0 parsed-heading))
+	     (keys (nth 1 parsed-heading)))
+	(push (zanf-gen-org-capture-template
+	       keys name nil `(,parent-heading) nil heading)
+	      templates)))
+    (nreverse templates)
+    (setq org-capture-templates (append org-capture-templates templates))))
+
+
+(defun zanf-set-org-capture-templates ()
+  (setq org-capture-templates zanv-org-capture-templates-static)
+  (zanf-add-dynamic-capture-templates "Projects")
+  (zanf-add-dynamic-capture-templates "Dynamic"))
+
+
+(zanf-set-org-capture-templates)
 
 
 (provide 'zan-org-capture)

@@ -29,7 +29,7 @@
 (keymap-set zan-global-keymap "t" 'zanf-open-text)
 (keymap-set zan-global-keymap "p" 'zanf-open-pricelist)
 (keymap-set zan-global-keymap "m" 'magit-list-repositories)
-(keymap-set zan-global-keymap "k" 'org-capture)
+(keymap-set zan-global-keymap "k" 'zanf-org-capture)
 (keymap-set zan-global-keymap "a" 'org-agenda)
 (keymap-set zan-global-keymap "f" 'zanf-insert-filename)
 (keymap-set zan-global-keymap "d" 'zanf-dired-right-side-window)
@@ -46,6 +46,7 @@
 
 ;; Org-mode changes.
 (with-eval-after-load 'org-agenda
+  (keymap-set org-agenda-mode-map "k" 'zanf-org-capture)
   (keymap-set org-agenda-mode-map "C-k" 'zanf-org-agenda-kill)
   (keymap-set org-agenda-mode-map "C-c C-q" 'zanf-org-agenda-refile)
   (keymap-set org-agenda-mode-map "z" 'zanf-org-agenda-add-note)

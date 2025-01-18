@@ -69,6 +69,15 @@
   (kill-buffer "gtd.org"))
 
 
+;; Make 'org-capture' reload the capture templates after execution. Allows
+;; adding new projects via 'org-capture' that have capture templates dynamically
+;; generated capture templates themselves.
+(defun zanf-org-capture ()
+  (interactive)
+  (org-capture)
+  (zanf-set-org-capture-templates))
+
+
 (setq org-refile-targets '((nil . (:maxlevel . 5))))
 
 

@@ -36,8 +36,8 @@
 
 	("p" "Projects")
 
-	("l" "Work Lists")
-	("lv" "Potential Visits")
+	("w" "Work Lists")
+	("wv" "Potential Visits")
 	,(zanf-gen-org-capture-template
 	  "e" "Edmonton" "lv" '("Static" "Work Lists" "Visits"))
 	,(zanf-gen-org-capture-template
@@ -55,7 +55,7 @@
 	,(zanf-gen-org-capture-template
 	  "w" "Winnipeg" "lv" '("Static" "Work Lists" "Visits"))
 
-	("lp" "Prospects")
+	("wp" "Prospects")
 	,(zanf-gen-org-capture-template
 	  "e" "Edmonton" "lp" '("Static" "Work Lists" "Prospects"))
 	,(zanf-gen-org-capture-template
@@ -74,19 +74,19 @@
 	  "w" "Winnipeg" "lp" '("Static" "Work Lists" "Prospects"))
 
 	,(zanf-gen-org-capture-template
-	  "e" "Expense Reminders" "l" '("Static" "Work Lists") t)
+	  "e" "Expense Reminders" "w" '("Static" "Work Lists") t)
 	,(zanf-gen-org-capture-template
-	  "n" "Name on Accounts" "l" '("Static" "Work Lists"))
+	  "n" "Name on Accounts" "w" '("Static" "Work Lists"))
 
-	("L" "Other Lists")
+	("l" "Other Lists")
 
 	("n" "New Project or List")
 	("np" "Project" entry (file+olp zanv-gtd "Projects")
 	 "* %^{Project name}^p%^{Capture keys} :%^{tags}:")
-	("nl" "Work List" entry (file+olp zanv-gtd "Dynamic")
-	 "* %^{List name}^l%^{Capture keys} :%^{tags}:")
-	("nL" "Other List" entry (file+olp zanv-gtd "Dynamic")
-	 "* %^{List name}^L%^{Capture keys} :%^{tags}:")))
+	("nw" "Work List" entry (file+olp zanv-gtd "Dynamic")
+	 "* %^{List name}^w%^{Capture keys} :%^{tags}:")
+	("nl" "Other List" entry (file+olp zanv-gtd "Dynamic")
+	 "* %^{List name}^l%^{Capture keys} :%^{tags}:")))
 
 
 (defun zanf-add-dynamic-capture-templates--get-subheadings (heading)

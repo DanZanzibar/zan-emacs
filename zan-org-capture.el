@@ -39,44 +39,44 @@
 	("w" "Work Lists")
 	("wv" "Potential Visits")
 	,(zanf-gen-org-capture-template
-	  "e" "Edmonton" "lv" '("Static" "Work Lists" "Visits"))
+	  "e" "Edmonton" "wv" '("Static" "Visits"))
 	,(zanf-gen-org-capture-template
-	  "c" "Calgary" "lv" '("Static" "Work Lists" "Visits"))
+	  "c" "Calgary" "wv" '("Static" "Visits"))
 	,(zanf-gen-org-capture-template
-	  "v" "Vancouver" "lv" '("Static" "Work Lists" "Visits"))
+	  "v" "Vancouver" "wv" '("Static" "Visits"))
 	,(zanf-gen-org-capture-template
-	  "V" "Victoria" "lv" '("Static" "Work Lists" "Visits"))
+	  "V" "Victoria" "wv" '("Static" "Visits"))
 	,(zanf-gen-org-capture-template
-	  "i" "Interior" "lv" '("Static" "Work Lists" "Visits"))
+	  "i" "Interior" "wv" '("Static" "Visits"))
 	,(zanf-gen-org-capture-template
-	  "s" "Saskatoon" "lv" '("Static" "Work Lists" "Visits"))
+	  "s" "Saskatoon" "wv" '("Static" "Visits"))
 	,(zanf-gen-org-capture-template
-	  "r" "Regina" "lv" '("Static" "Work Lists" "Visits"))
+	  "r" "Regina" "wv" '("Static" "Visits"))
 	,(zanf-gen-org-capture-template
-	  "w" "Winnipeg" "lv" '("Static" "Work Lists" "Visits"))
+	  "w" "Winnipeg" "wv" '("Static" "Visits"))
 
 	("wp" "Prospects")
 	,(zanf-gen-org-capture-template
-	  "e" "Edmonton" "lp" '("Static" "Work Lists" "Prospects"))
+	  "e" "Edmonton" "wp" '("Static" "Prospects"))
 	,(zanf-gen-org-capture-template
-	  "c" "Calgary" "lp" '("Static" "Work Lists" "Prospects"))
+	  "c" "Calgary" "wp" '("Static" "Prospects"))
 	,(zanf-gen-org-capture-template
-	  "v" "Vancouver" "lp" '("Static" "Work Lists" "Prospects"))
+	  "v" "Vancouver" "wp" '("Static" "Prospects"))
 	,(zanf-gen-org-capture-template
-	  "V" "Victoria" "lp" '("Static" "Work Lists" "Prospects"))
+	  "V" "Victoria" "wp" '("Static" "Prospects"))
 	,(zanf-gen-org-capture-template
-	  "i" "Interior" "lp" '("Static" "Work Lists" "Prospects"))
+	  "i" "Interior" "wp" '("Static" "Prospects"))
 	,(zanf-gen-org-capture-template
-	  "s" "Saskatoon" "lp" '("Static" "Work Lists" "Prospects"))
+	  "s" "Saskatoon" "wp" '("Static" "Prospects"))
 	,(zanf-gen-org-capture-template
-	  "r" "Regina" "lp" '("Static" "Work Lists" "Prospects"))
+	  "r" "Regina" "wp" '("Static" "Prospects"))
 	,(zanf-gen-org-capture-template
-	  "w" "Winnipeg" "lp" '("Static" "Work Lists" "Prospects"))
+	  "w" "Winnipeg" "wp" '("Static" "Prospects"))
 
 	,(zanf-gen-org-capture-template
-	  "e" "Expense Reminders" "w" '("Static" "Work Lists") t)
+	  "e" "Expense Reminders" "w" '("Static") t)
 	,(zanf-gen-org-capture-template
-	  "n" "Name on Accounts" "w" '("Static" "Work Lists"))
+	  "n" "Name on Accounts" "w" '("Static"))
 
 	("l" "Other Lists")
 

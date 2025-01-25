@@ -114,7 +114,7 @@
 	(push (zanf-gen-org-capture-template
 	       keys name nil `(,parent-heading) nil heading)
 	      templates)))
-    (nreverse templates)
+    (setq templates (reverse templates))
     (setq org-capture-templates (append org-capture-templates templates))))
 
 
@@ -122,9 +122,6 @@
   (setq org-capture-templates zanv-org-capture-templates-static)
   (zanf-add-dynamic-capture-templates "Projects")
   (zanf-add-dynamic-capture-templates "Dynamic"))
-
-
-(zanf-set-org-capture-templates)
 
 
 (provide 'zan-org-capture)

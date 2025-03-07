@@ -15,10 +15,24 @@
 ;;;; bindings should utlize many 'C-c letter' bindings.
 
 
-;;; A macro for combining 'with-eval-after-load' and 'keymap-set'.
-(defmacro zanm-with-eval-keymap-set (mode keymap kbd command)
-  `(with-eval-after-load ',mode
-     (keymap-set ,keymap ,kbd ',command)))
+;;; A macro for adding keybindings to modes via mode hooks.
+(defmacro zanm-keybindings-for-mode (mode mode-map kbd-commands)
+  "Define a function to set keybindings for a major mode and add it to the mode's hook.
+
+MODE is the mode symbol (e.g., 'java-mode).
+MODE-MAP is the keymap variable (e.g., `java-mode-map`).
+KBD-COMMANDS is a list of keybinding-command pairs. (e.g. ((\"C-c c\" 'some-function)))
+
+Each keybinding is applied using `keymap-set` when the major mode is activated.
+The generated function is named `zanf-keybindings-MODE` and is automatically
+added to `MODE-hook`."
+  (let ((function-symbol (intern (format "zanf-keybindings-%s" mode)))
+	(hook-symbol (intern (format "%s-hook" mode))))
+    `(progn
+       (defun ,function-symbol ()
+	 (dolist (kbd-command ',kbd-commands)
+	   (keymap-set ,mode-map (car kbd-command) (cadr kbd-command))))
+       (add-hook ',hook-symbol #',function-symbol))))
 
 
 ;;; Zan's globals: begin with 'C-c k'. 'k' for global KEYS.
@@ -41,16 +55,14 @@
 ;;; Emacs commands that I have redefined and shadowed with my own functions.
 (keymap-global-set "C-x C-c" 'save-buffers-kill-emacs)  ; ends daemon
 (keymap-global-set "C-x r m" 'zanf-bookmark-set) ; saves bookmark file
-(zanm-with-eval-keymap-set
- pdf-view-mode pdf-view-mode-map "q" zanf-pdf-view-quit) ; prompts for bookmark
 
 ;; Org-mode changes.
-(with-eval-after-load 'org-agenda
-  (keymap-set org-agenda-mode-map "k" 'zanf-org-capture)
-  (keymap-set org-agenda-mode-map "C-k" 'zanf-org-agenda-kill)
-  (keymap-set org-agenda-mode-map "C-c C-q" 'zanf-org-agenda-refile)
-  (keymap-set org-agenda-mode-map "z" 'zanf-org-agenda-add-note)
-  (keymap-set org-agenda-mode-map "q" 'zanf-org-agenda-quit))
+(zanm-keybindings-for-mode org-agenda-mode org-agenda-mode-map
+			   (("k" zanf-org-capture)
+			    ("C-k" zanf-org-agenda-kill)
+			    ("C-c C-q" zanf-org-agenda-refile)
+			    ("z" zanf-org-agenda-add-note)
+			    ("q" zanf-org-agenda-quit)))
 
 
 ;;; Prog-mode.
@@ -71,27 +83,29 @@
 
 
 ;; C
-(with-eval-after-load 'c-mode
-  (keymap-set c-mode-map "C-c c" 'zanf-compile-c)
-  (keymap-set c-mode-map "C-c r" 'zanf-compile-and-run-c))
+(zanm-keybindings-for-mode c-mode c-mode-map
+  (("C-c c" zanf-compile-c)
+   ("C-c r" zanf-compile-and-run-c)))
 
 
 ;; Java
-(with-eval-after-load 'java-mode
-  (keymap-set eglot-java-mode-map "C-c c" 'zanf-java-compile-all)
-  (keymap-set eglot-java-mode-map "C-c r" 'zanf-java-run))
+(zanm-keybindings-for-mode java-mode java-mode-map
+			   (("C-c c" zanf-java-compile-all)
+			    ("C-c r" zanf-java-run)))
 
 
 ;; Python
-(with-eval-after-load 'python
-  (keymap-set python-mode-map "C-c v" 'pyvenv-workon)
-  (keymap-set python-mode-map "C-c p" 'zanf-run-python))
+(zanm-keybindings-for-mode python-mode python-mode-map
+  (("C-c v" pyvenv-workon)
+   ("C-c p" zanf-run-python)))
 
 
 ;;; Other modes.
 
 ;; PDF-View
-(keymap-set pdf-view-mode-map "C-c x" 'doc-toc-extract-pages)
+(zanm-keybindings-for-mode pdf-view-mode pdf-view-mode-map
+			   (("q" zanf-pdf-view-quit) ; prompts for bookmark
+			    ("C-c x" doc-toc-extract-pages)))
 
 
 (provide 'zan-keybindings)

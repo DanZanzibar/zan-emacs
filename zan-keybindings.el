@@ -61,14 +61,13 @@
 
 ;; Eglot 'C-c e'.
 (define-prefix-command 'zan-eglot-keymap)
-(with-eval-after-load 'eglot
-  (keymap-set prog-mode-map "C-c e" 'zan-eglot-keymap)
-  (keymap-set zan-eglot-keymap "e" 'eglot)
-  (keymap-set zan-eglot-keymap "C-e" 'eglot-reconnect)
-  (keymap-set zan-eglot-keymap "r" 'eglot-rename)
-  (keymap-set zan-eglot-keymap "f" 'eglot-format-buffer)
-  (keymap-set zan-eglot-keymap "c" 'eglot-code-actions)
-  (keymap-set zan-eglot-keymap "x" 'eglot-code-action-extract))
+(keymap-set prog-mode-map "C-c e" 'zan-eglot-keymap)
+(keymap-set zan-eglot-keymap "e" 'eglot)
+(keymap-set zan-eglot-keymap "C-e" 'eglot-reconnect)
+(keymap-set zan-eglot-keymap "r" 'eglot-rename)
+(keymap-set zan-eglot-keymap "f" 'eglot-format-buffer)
+(keymap-set zan-eglot-keymap "c" 'eglot-code-actions)
+(keymap-set zan-eglot-keymap "x" 'eglot-code-action-extract)
 
 
 ;; C
@@ -78,16 +77,9 @@
 
 
 ;; Java
-
-(with-eval-after-load 'eglot-java-mode
+(with-eval-after-load 'java-mode
   (keymap-set eglot-java-mode-map "C-c c" 'zanf-java-compile-all)
-  (keymap-set eglot-java-mode-map "C-c r" 'zanf-java-run)
-  (keymap-set eglot-java-mode-map "C-c l n" #'eglot-java-file-new)
-  (keymap-set eglot-java-mode-map "C-c l x" #'eglot-java-run-main)
-  (keymap-set eglot-java-mode-map "C-c l t" #'eglot-java-run-test)
-  (keymap-set eglot-java-mode-map "C-c l N" #'eglot-java-project-new)
-  (keymap-set eglot-java-mode-map "C-c l T" #'eglot-java-project-build-task)
-  (keymap-set eglot-java-mode-map "C-c l R" #'eglot-java-project-build-refresh))
+  (keymap-set eglot-java-mode-map "C-c r" 'zanf-java-run))
 
 
 ;; Python

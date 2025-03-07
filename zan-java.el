@@ -1,11 +1,4 @@
-;; All things Java.
-
-
-;; I'm using the eglot-java package for additional Java functionality.
-(use-package eglot-java
-  :ensure t)
-(add-hook 'java-mode-hook 'eglot-java-mode)
-
+;;;; All things Java.
 
 
 ;; Compiling and running functions.

@@ -17,9 +17,12 @@
 (setq vc-follow-symlinks t)
 
 
-;;; Set Treesitter grammer load path.
+;;; Tree Sitter stuff.
 (setq treesit-extra-load-path `(,(concat zanv-sync-dir "dat/tree-sitter-grammers/")))
 (setq treesit-font-lock-level 4)
+(setq major-mode-remap-alist '((java-mode . java-ts-mode)
+			       (c-mode . c-ts-mode)
+			       (python-mode . python-ts-mode)))
 
 
 ;;; Dired customizations.

@@ -35,6 +35,19 @@ added to `MODE-hook`."
        (add-hook ',hook-symbol #',function-symbol))))
 
 
+(defmacro zanm-keybindings-for-multiple-modes (modes-and-maps kbd-commands)
+  "Apply the same keybindings to multiple major modes using `zanm-keybindings-for-mode`.
+
+MODES-AND-MAPS is an alist mapping the mode to the mode-map.
+  e.g. ((java-mode . java-mode-map) (java-ts-mode . java-ts-mode-map))
+KBD-COMMANDS is a list of keybinding-command pairs. (e.g. ((\"C-c c\" 'some-function)))"
+  `(progn
+     ,@(mapcar (lambda (mode-and-map)
+		 `(zanm-keybindings-for-mode
+		   ,(car mode-and-map) ,(cdr mode-and-map) ,kbd-commands))
+		 modes-and-maps)))
+
+
 ;;; Zan's globals: begin with 'C-c k'. 'k' for global KEYS.
 (define-prefix-command 'zan-global-keymap)
 (keymap-global-set "C-c k" 'zan-global-keymap)
@@ -83,21 +96,27 @@ added to `MODE-hook`."
 
 
 ;; C
-(zanm-keybindings-for-mode c-mode c-mode-map
-  (("C-c c" zanf-compile-c)
-   ("C-c r" zanf-compile-and-run-c)))
+(zanm-keybindings-for-multiple-modes
+ ((c-mode . c-mode-map)
+  (c-ts-mode . c-ts-mode-map))
+ (("C-c c" zanf-compile-c)
+  ("C-c r" zanf-compile-and-run-c)))
 
 
 ;; Java
-(zanm-keybindings-for-mode java-mode java-mode-map
-			   (("C-c c" zanf-java-compile-all)
-			    ("C-c r" zanf-java-run)))
+(zanm-keybindings-for-multiple-modes
+ ((java-mode . java-mode-map)
+  (java-ts-mode . java-ts-mode-map))
+ (("C-c c" zanf-java-compile-all)
+  ("C-c r" zanf-java-run)))
 
 
 ;; Python
-(zanm-keybindings-for-mode python-mode python-mode-map
-  (("C-c v" pyvenv-workon)
-   ("C-c p" zanf-run-python)))
+(zanm-keybindings-for-multiple-modes
+ ((python-mode . python-mode-map)
+  (python-ts-mode . python-ts-mode-map))
+ (("C-c v" pyvenv-workon)
+  ("C-c p" zanf-run-python)))
 
 
 ;;; Other modes.

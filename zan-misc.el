@@ -57,4 +57,8 @@
 (setq persist--directory-location (concat zanv-emacs-dat-dir "persist"))
 
 
+;;; Add new project root markers.
+(setq project-vc-extra-root-markers '(".project.el"))
+
+
 (provide 'zan-misc)

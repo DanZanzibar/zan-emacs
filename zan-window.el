@@ -60,7 +60,7 @@
 	 (display-buffer-in-side-window)
 	 (side . bottom)
 	 (slot . 0)
-	 (window-height . 0.15)
+	 (window-height . 0.3)
 	 (window-parameters . ((no-delete-other-windows . t))))))
 
 ;; Load 'zanv-user-display-buffer-alist' when starting emacs.

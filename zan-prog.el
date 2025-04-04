@@ -4,8 +4,11 @@
 ;; Electric pair mode hooks
 (defvar zanv-epair-mode-hooks
   '(python-mode-hook
+    python-ts-mode-hook
     java-mode-hook
+    java-ts-mode-hook
     c-mode-hook
+    c-ts-mode-hook
     shell-mode-hook
     sh-mode-hook
     emacs-lisp-mode-hook

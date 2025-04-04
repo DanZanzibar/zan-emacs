@@ -49,13 +49,6 @@
 	 (window-width . 80)
 	 (window-height . 0.3)
 	 (window-parameters . ((no-delete-other-windows . t))))
-	((major-mode . dired-mode)
-	 (display-buffer-in-side-window)
-	 (side . right)
-	 (slot . -2)
-	 (window-width . 80)
-	 (window-height . 0.3)
-	 (window-parameters . ((no-delete-other-windows . t))))
 	("\\*eshell\\*"
 	 (display-buffer-in-side-window)
 	 (side . bottom)

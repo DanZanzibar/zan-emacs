@@ -108,7 +108,7 @@ KBD-COMMANDS is a list of keybinding-command pairs. (e.g. ((\"C-c c\" 'some-func
  ((java-mode . java-mode-map)
   (java-ts-mode . java-ts-mode-map))
  (("C-c c" zanf-java-compile-all)
-  ("C-c r" zanf-java-run)))
+  ("C-c r" zanf-java-run-project-file)))
 
 
 ;; Python

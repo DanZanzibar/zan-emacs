@@ -18,7 +18,7 @@
     (push (file-name-sans-extension file) zanv-java-files))
   (completing-read "Which file: " zanv-java-files nil nil zanv-java--last-run))
 
-;;; TODO - make java-run run a .class file from /bin instead.
+
 (defun zanf-java-run ()
   (interactive)
   (let ((java-file (zanf-java-run--completing-read)))
@@ -28,19 +28,21 @@
   (goto-char (point-max)))
 
 
-;;; Creates the .dir-locals.el file for a java project.
-(setq zanv-java-dir-locals
-      ";;; Directory Local Variables            -*- no-byte-compile: t -*-
-;;; For more information see (info \"(emacs) Directory Variables\")
-
-((nil . ((compile-command . \"javac -d bin $(find src -name \\\"*.java\\\")\")))
- (java-ts-mode . ((eglot-workspace-configuration . (:java (:project (:sourcePaths [\"src\"] :outputPath \"bin\")))))))
-")
-
-(defun zanf-java-create-dir-locals ()
+(defun zanf-java-run-project-file ()
+  "Prompts the user the select a '.class' file from the 'bin' directory at the
+project root directory and runs it"
   (interactive)
-  (with-temp-file ".dir-locals.el"
-    (insert zanv-java-dir-locals)))
+  (let* ((default-directory (project-root (project-current)))
+	 (bin-dir (concat default-directory "bin/"))
+	 (file-path (read-file-name "Run: " bin-dir nil t "Main.class"))
+	 (class-name
+	  (file-name-sans-extension
+	   (replace-regexp-in-string
+	    "/" "." (file-relative-name file-path bin-dir)))))
+    (async-shell-command (format "java -cp %s %s" bin-dir class-name))))
+
+(setq completion-ignored-extensions
+      (remove ".class" completion-ignored-extensions))
 
 
 (provide 'zan-java)

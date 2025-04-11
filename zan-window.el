@@ -31,7 +31,7 @@
       '(("\\*info\\*"
 	 (display-buffer-in-side-window)
 	 (side . right)
-	 (slot . -1)
+	 (slot . 0)
 	 (window-width . 80)
 	 (window-height . 0.7)
 	 (window-parameters . ((no-delete-other-windows . t))))
@@ -45,7 +45,7 @@
 	("\\*Outline.*\\.pdf\\*"
 	 (display-buffer-in-side-window)
 	 (side . right)
-	 (slot . -2)
+	 (slot . -1)
 	 (window-width . 80)
 	 (window-height . 0.3)
 	 (window-parameters . ((no-delete-other-windows . t))))
@@ -54,6 +54,13 @@
 	 (side . bottom)
 	 (slot . 0)
 	 (window-height . 0.3)
+	 (window-parameters . ((no-delete-other-windows . t))))
+	("\\*Async Shell Command\\*"
+	 (display-buffer-in-side-window)
+	 (side . right)
+	 (slot . -1)
+	 (window-width . 80)
+	 (window-height . 0.7)
 	 (window-parameters . ((no-delete-other-windows . t))))))
 
 ;; Load 'zanv-user-display-buffer-alist' when starting emacs.

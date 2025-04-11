@@ -32,7 +32,8 @@
   "Prompts the user the select a '.class' file from the 'bin' directory at the
 project root directory and runs it"
   (interactive)
-  (let* ((default-directory (project-root (project-current)))
+  (let* ((completion-ignored-extensions nil)
+	 (default-directory (project-root (project-current)))
 	 (bin-dir (concat default-directory "bin/"))
 	 (file-path (read-file-name "Run: " bin-dir nil t "Main.class"))
 	 (class-name
@@ -40,9 +41,6 @@ project root directory and runs it"
 	   (replace-regexp-in-string
 	    "/" "." (file-relative-name file-path bin-dir)))))
     (async-shell-command (format "java -cp %s %s" bin-dir class-name))))
-
-(setq completion-ignored-extensions
-      (remove ".class" completion-ignored-extensions))
 
 
 (provide 'zan-java)

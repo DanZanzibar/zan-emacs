@@ -28,6 +28,11 @@
   (goto-char (point-max)))
 
 
+(defvar zanv-java-run-project-file--last nil
+  "This variable is an alist of projects and their last run file. Does not
+persist over sessions.")
+
+
 (defun zanf-java-run-project-file ()
   "Prompts the user the select a '.class' file from the 'bin' directory at the
 project root directory and runs it"
@@ -35,12 +40,13 @@ project root directory and runs it"
   (let* ((completion-ignored-extensions nil)
 	 (default-directory (project-root (project-current)))
 	 (bin-dir (concat default-directory "bin/"))
-	 (file-path (read-file-name "Run: " bin-dir nil t "Main.class"))
-	 (class-name
-	  (file-name-sans-extension
-	   (replace-regexp-in-string
-	    "/" "." (file-relative-name file-path bin-dir)))))
-    (async-shell-command (format "java -cp %s %s" bin-dir class-name))))
+	 (full-file-path (read-file-name "Run: " bin-dir nil t
+					 zanv-java-run-project-file--last))
+	 (rel-file-path (file-relative-name full-file-path bin-dir))
+	 (class-name (file-name-sans-extension
+		      (replace-regexp-in-string "/" "." rel-file-path))))
+    (async-shell-command (format "java -cp %s %s" bin-dir class-name))
+    (setq zanv-java-run-project-file--last rel-file-path)))
 
 
 (provide 'zan-java)

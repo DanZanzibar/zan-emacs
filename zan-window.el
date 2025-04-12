@@ -1,4 +1,4 @@
-;;;; Window functions.
+;;;; Window functions and customization.
 
 
 ;;; Side window prefix functions.
@@ -35,6 +35,10 @@
      (window-width . 0.15)
      (window-height . 0.7)
      (window-parameters . ((no-delete-other-windows . t))))))
+
+
+;; Make no details the default.
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
 
 
 ;;; 'display-buffer-alist' customization.

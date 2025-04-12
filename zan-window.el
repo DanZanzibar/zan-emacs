@@ -25,6 +25,18 @@
   (dired directory))
 
 
+(defun zanf-project-dired ()
+  "Opens a 'dired' buffer in a left side window at the project root."
+  (interactive)
+  (display-buffer-in-side-window
+   (dired-noselect (project-root (project-current)))
+   '((side . left)
+     (slot . -1)
+     (window-width . 0.15)
+     (window-height . 0.7)
+     (window-parameters . ((no-delete-other-windows . t))))))
+
+
 ;;; 'display-buffer-alist' customization.
 ;; A variable to store my custom version.
 (setq zanv-user-display-buffer-alist

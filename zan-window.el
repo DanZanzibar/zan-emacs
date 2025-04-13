@@ -29,7 +29,7 @@
   "Opens a 'dired' buffer in a left side window at the project root."
   (interactive)
   (display-buffer-in-side-window
-   (dired-noselect (project-root (project-current)))
+   (dired-noselect (project-root (project-current t)))
    '((side . left)
      (slot . -1)
      (window-width . 0.15)

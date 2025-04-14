@@ -68,6 +68,7 @@ KBD-COMMANDS is a list of keybinding-command pairs. (e.g. ((\"C-c c\" 'some-func
 ;;; Emacs commands that I have redefined and shadowed with my own functions.
 (keymap-global-set "C-x C-c" 'save-buffers-kill-emacs)  ; ends daemon
 (keymap-global-set "C-x r m" 'zanf-bookmark-set) ; saves bookmark file
+(keymap-global-set "C-x p d" 'zanf-project-dired)
 
 ;; Org-mode changes.
 (zanm-keybindings-for-mode org-agenda-mode org-agenda-mode-map

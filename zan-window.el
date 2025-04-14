@@ -28,6 +28,7 @@
 (defun zanf-project-dired ()
   "Opens a 'dired' buffer in a left side window at the project root."
   (interactive)
+  (require 'project)
   (display-buffer-in-side-window
    (dired-noselect (project-root (project-current t)))
    '((side . left)

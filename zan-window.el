@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;;; Window functions and customization.
 
 

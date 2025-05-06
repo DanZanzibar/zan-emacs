@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;;; A place for oddball init calls without a home. Should be kept short.
 
 

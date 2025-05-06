@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; All things org-mode. Note that org-capture-templates are stored in their own
 ;; file.
 

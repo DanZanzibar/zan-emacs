@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; All things Python.
 
 

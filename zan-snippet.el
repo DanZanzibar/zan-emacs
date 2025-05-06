@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; The snippet inserting function, helpers, and variables. It uses a directory
 ;; of text files where each file contains an insertable snippet. They may
 ;; contain fields to be replaced at the time of insertion. In the text file,

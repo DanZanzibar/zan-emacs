@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; Email configuration. Not currently being used.
 
 

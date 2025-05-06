@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; A place for packages to be 'require'd and customized. May need to move some
 ;; stuff out of here if it gets too busy.
 

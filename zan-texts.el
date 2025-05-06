@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; A place just for this function. Perhaps overkill...
 
 

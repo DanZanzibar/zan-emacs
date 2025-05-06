@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; A place for storing keyboard macro definitions.
 
 

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; Org-mode-capture-templates
 
 (require 'org-capture)

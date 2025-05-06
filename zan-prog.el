@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; A place for general prog-mode customization and keybindings.
 
 

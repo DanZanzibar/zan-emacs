@@ -79,6 +79,7 @@
 
 
 (setq org-refile-targets '((nil . (:maxlevel . 5))))
+(add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
 
 
 (provide 'zan-org-mode)

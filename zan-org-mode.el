@@ -61,13 +61,39 @@
   (org-save-all-org-buffers))
 
 
-;; Make 'org-agenda-quit' close the gtd.org buffer.
+;; Make 'org-agenda-quit' close all org-agenda files.
 (defun zanf-org-agenda-quit ()
   (interactive)
   (org-agenda-quit)
   (org-save-all-org-buffers)
-  (kill-buffer "gtd.org"))
+  (dolist (filename (org-files-list))
+    (let ((buffer (find-buffer-visiting filename)))
+      (when buffer
+	(kill-buffer buffer)))))
 
+
+;;; Functions for using project-specific org-agenda files.
+
+;; Specifies default agenda file name.
+(setq zanv-project-agenda-file-name "tasks.org")
+
+;; A list of all possible directories containing the agenda file relative
+;; to the root directory of the project.
+(setq zanv-project-agenda-file-locations '("doc"))
+
+;; For use in the project opening functions, like 'project-find-file':
+(defun zanf-project-agenda ()
+  "Prompts the user to select a project if none is active and opens
+the project org-agenda."
+  (interactive)
+  (let* ((project (project-current t))
+	 (root (project-root))
+	 )))
+
+(defun zanf-project-agenda--find-agenda (project)
+  "Return the agenda file for the project.
+
+If the file does not exist, offer to create it in the root directory.")
 
 ;; Make 'org-capture' reload the capture templates before execution. Allows
 ;; adding new projects via 'org-capture' that have capture templates dynamically

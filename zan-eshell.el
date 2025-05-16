@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;;; All my eshell stuff.
 
 ;;; Require eshell so the modules can load properly.

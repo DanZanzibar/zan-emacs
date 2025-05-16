@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;;; The first init file loaded. 
 
 

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;;; File setting configurations.
 
 

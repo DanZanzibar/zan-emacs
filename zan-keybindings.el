@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;;; Storing all key bindings here. Makes it easier to see if there are any
 ;;;; conflicts.
 ;;;;

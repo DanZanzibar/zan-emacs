@@ -75,26 +75,47 @@
 
 ;;; Functions for using project-specific org-agenda files.
 
-;; Specifies default agenda file name.
-(setq zanv-project-agenda-file-name "tasks.org")
+(defvar zanv-project-agenda-file-names '("tasks.org")
+  "A list containing possible project agenda file names.")
 
-;; A list of all possible directories containing the agenda file relative
-;; to the root directory of the project.
-(setq zanv-project-agenda-file-locations '("doc"))
+(defvar zanv-project-agenda-file-locations '("doc")
+  "A list containing possible agenda file locations.
+
+These must be either absolute paths or relative to the project root.")
 
 ;; For use in the project opening functions, like 'project-find-file':
 (defun zanf-project-agenda ()
-  "Prompts the user to select a project if none is active and opens
-the project org-agenda."
+  "Opens org-agenda using the project agenda file.
+
+Like other project.el functions, prompts the user if no project is active.
+Checks for a file named in 'zanv-project-agenda-file-names' located in
+'zanv-project-agenda-file-locations'. If no matching files exist, it
+offers to create one using the first name in
+'zanv-project-agenda-file-names' located in the project root directory."
   (interactive)
   (let* ((project (project-current t))
-	 (root (project-root))
-	 )))
+	 (agenda-file (zanf-project-agenda--find-agenda project)))
+    (unless agenda-file)))
+
+(defun zanf-porject-agenda--create-agenda (project)
+  "Create a project agenda file in the root directory.
+
+Uses the first name in 'zanv-project-agenda-file-names'."
+  )
 
 (defun zanf-project-agenda--find-agenda (project)
-  "Return the agenda file for the project.
-
-If the file does not exist, offer to create it in the root directory.")
+  "Return the agenda file for the project."
+  (let* ((root (project-root project))
+	 (dirs (cons root zanv-project-agenda-file-locations))
+	 (dirs-abs (mapcar
+		    (lambda (dir) (expand-file-name dir root)) dirs)))
+    (catch 'found
+      (dolist (file-name zanv-project-agenda-file-names)
+	(dolist (dir dirs-abs)
+	  (let ((path (expand-file-name file-name dir)))
+	    (when (file-exists-p path)
+	      (throw 'found path))))))))
+    
 
 ;; Make 'org-capture' reload the capture templates before execution. Allows
 ;; adding new projects via 'org-capture' that have capture templates dynamically

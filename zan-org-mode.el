@@ -83,21 +83,7 @@
 
 These must be either absolute paths or relative to the project root.")
 
-;; For use in the project opening functions, like 'project-find-file':
-(defun zanf-project-agenda ()
-  "Opens org-agenda using the project agenda file.
-
-Like other project.el functions, prompts the user if no project is active.
-Checks for a file named in 'zanv-project-agenda-file-names' located in
-'zanv-project-agenda-file-locations'. If no matching files exist, it
-offers to create one using the first name in
-'zanv-project-agenda-file-names' located in the project root directory."
-  (interactive)
-  (let* ((project (project-current t))
-	 (agenda-file (zanf-project-agenda--find-agenda project)))
-    (unless agenda-file)))
-
-(defun zanf-porject-agenda--create-agenda (project)
+(defun zanf-project-agenda--create-agenda (project)
   "Create a project agenda file in the root directory.
 
 Uses the first name in 'zanv-project-agenda-file-names'."
@@ -115,16 +101,77 @@ Uses the first name in 'zanv-project-agenda-file-names'."
 	  (let ((path (expand-file-name file-name dir)))
 	    (when (file-exists-p path)
 	      (throw 'found path))))))))
-    
 
-;; Make 'org-capture' reload the capture templates before execution. Allows
-;; adding new projects via 'org-capture' that have capture templates dynamically
-;; generated capture templates themselves.
+(defun zanf-project-agenda--create (project)
+  "Creates an agenda file for the project and returns the file path.
+
+Uses the first element from 'zanv-project-agenda-file-name' for the file name 
+and creates it in the project root."
+  (let ((filename (expand-file-name (car zanv-project-agenda-file-names)
+					 (project-root project))))
+    (write-region "" nil filename nil nil nil 'excl)
+    filename))
+
+(defun zanf-set-gtd-capture-templates ()
+  "Set 'org-capture-templates' for the gtd file.
+
+Adds all the dynamically generated templates."
+  (setq org-capture-templates
+	(append
+	 zanv-org-capture-templates-static
+	 (zanf-dynamic-capture-templates zanv-gtd "Projects")
+	 (zanf-dynamic-capture-templates zanv-gtd "Dynamic"))))
+
+
+(defun zanf-set-project-capture-templates (project)
+  "Set 'org-capture-templates' for the given project.
+
+All the headings in the project agenda file will generate templates."
+  (let ((agenda (zanf-project-agenda--find-agenda project)))
+    (setq org-capture-templates
+	  (append
+	   (zanf-org-capture-templates--project-default agenda)
+	   (zanf-dynamic-capture-templates agenda)))))
+
 (defun zanf-org-capture ()
-  (interactive)
-  (zanf-set-org-capture-templates)
-  (org-capture))
+  "A replacement for 'org-capture' that allows choosing the agenda file.
 
+It prompts the user to choose getween the GTD agenda or the project's."
+  (interactive)
+  (let* ((project (when (string= "project"
+				 (completing-read
+				  "Which agenda" '("gtd" "project")))
+		    (project-current t)))
+	 (agenda (if project
+		     (zanf-project-agenda--find-agenda project)
+		   zanv-gtd)))
+    (setq org-agenda-files (list agenda))
+    (if project
+	(zanf-set-project-capture-templates project)
+      (zanf-set-gtd-capture-templates))
+    (org-capture)))
+
+(defun zanf-org-capture--from-agenda ()
+  "Call 'org-capture' for the current 'org-agenda-files'.
+
+Still rebuilds all the dynamic capture templates for the given file."
+  (interactive)
+  (let ((agenda (car org-agenda-files)))
+    (if (file-equal-p agenda zanv-gtd)
+	(zanf-set-gtd-capture-templates)
+      (zanf-set-project-capture-templates (project-current t)))
+    (org-capture)))
+
+
+(setq org-agenda-custom-commands
+      '(("p" "Project Agenda" tags-todo ""
+	 ((org-agenda-files
+	   (list (let ((project (project-current t)))
+		   (or (zanf-project-agenda--find-agenda project)
+		       (zanf-project-agenda--create project)))))))
+	("g" "GTD" tags-todo ""
+	 ((org-agenda-files (list zanv-gtd))))))
+	  
 
 (setq org-refile-targets '((nil . (:maxlevel . 5))))
 (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))

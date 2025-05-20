@@ -90,8 +90,19 @@
 	 "* %^{List name}^l%^{Capture keys} :%^{tags}:")))
 
 
-(defvar zanv-org-capture-templates-project
-  '(("q" "Quick Tasks" entry ())))
+(defun zanf-org-capture-templates--project-default (agenda-file)
+  "Returns the base project org-capture-template.
+
+This contains just one template - the one that lets you add other list
+templates."
+  `(("n" "New List" entry (file ,agenda-file)
+     "* %^{List name}^%^{Capture key} :%^{tags}:")))
+
+(defun zanf-org-capture-templates--project-templates (agenda-file)
+  "Returns the templates for org-capture for the given AGENDA-FILE."
+  (let ((templates (zanf-dynamic-capture-templates agenda-file)))
+    (cons (zanf-org-capture-templates-project-default agenda-file)
+	  templates)))
 
 
 (defun zanf-add-dynamic-capture-templates--get-gtd-headings (heading)
@@ -118,7 +129,7 @@
      "LEVEL=1" `(,file))
     (nreverse headings)))
 
-(defun zanf-add-dynamic-capture-templates (agenda-file &optional parent-heading)
+(defun zanf-dynamic-capture-templates (agenda-file &optional parent-heading)
   (let ((headings (if (string= agenda-file zanv-gtd)
 		      (zanf-add-dynamic-capture-templates--get-gtd-headings
 		       parent-heading)
@@ -131,14 +142,7 @@
 	(push (zanf-gen-org-capture-template
 	       keys name agenda-file nil `(,parent-heading) nil heading)
 	      templates)))
-    (setq templates (reverse templates))
-    (setq org-capture-templates (append org-capture-templates templates))))
-
-
-(defun zanf-set-org-capture-templates ()
-  (setq org-capture-templates zanv-org-capture-templates-static)
-  (zanf-add-dynamic-capture-templates zanv-gtd "Projects")
-  (zanf-add-dynamic-capture-templates zanv-gtd "Dynamic"))
+    (reverse templates)))
 
 
 (provide 'zan-org-capture)

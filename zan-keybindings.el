@@ -73,7 +73,7 @@ KBD-COMMANDS is a list of keybinding-command pairs. (e.g. ((\"C-c c\" 'some-func
 
 ;; Org-mode changes.
 (zanm-keybindings-for-mode org-agenda-mode org-agenda-mode-map
-			   (("k" zanf-org-capture)
+			   (("k" zanf-org-capture--from-agenda)
 			    ("C-k" zanf-org-agenda-kill)
 			    ("C-c C-q" zanf-org-agenda-refile)
 			    ("z" zanf-org-agenda-add-note)

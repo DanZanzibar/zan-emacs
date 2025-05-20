@@ -10,18 +10,6 @@
 (setq org-agenda-files `(,zanv-gtd))
 
 
-;; (defun zanf-gen-org-capture-template
-;;     (key name &optional file parent-keys parent timestamp literal-heading)
-;;   (let ((parent-keys (or parent-keys ""))
-;; 	(parent (or parent '()))
-;; 	(template (if timestamp "* TODO %u %?" "* TODO %?")))
-;;     (list
-;;      (concat parent-keys key)
-;;      name
-;;      'entry
-;;      (append `(file+olp ,file) parent `(,(or literal-heading name)))
-;;      template)))
-
 (defun zanf-gen-org-capture-template
     (key name file &optional parent-keys parent-heading timestamp literal-heading)
   (let* ((keys (concat parent-keys key))

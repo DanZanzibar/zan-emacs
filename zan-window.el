@@ -71,14 +71,14 @@
 	 (display-buffer-in-side-window)
 	 (side . bottom)
 	 (slot . 0)
-	 (window-width . 0.6)
+	 (window-width . 0.5)
 	 (window-height . 0.3)
 	 (window-parameters . ((no-delete-other-windows . t))))
 	("\\*Org Agenda\\*"
 	 (display-buffer-in-side-window)
 	 (side . bottom)
 	 (slot . 1)
-	 (window-width . 0.4)
+	 (window-width . 0.5)
 	 (window-height . 0.3)
 	 (window-parameters . ((no-delete-other-windows . t))))
 	("\\*Async Shell Command\\*"

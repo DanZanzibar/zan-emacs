@@ -10,17 +10,25 @@
 (setq org-agenda-files `(,zanv-gtd))
 
 
+;; (defun zanf-gen-org-capture-template
+;;     (key name &optional file parent-keys parent timestamp literal-heading)
+;;   (let ((parent-keys (or parent-keys ""))
+;; 	(parent (or parent '()))
+;; 	(template (if timestamp "* TODO %u %?" "* TODO %?")))
+;;     (list
+;;      (concat parent-keys key)
+;;      name
+;;      'entry
+;;      (append `(file+olp ,file) parent `(,(or literal-heading name)))
+;;      template)))
+
 (defun zanf-gen-org-capture-template
-    (key name &optional file parent-keys parent timestamp literal-heading)
-  (let ((parent-keys (or parent-keys ""))
-	(parent (or parent '()))
-	(template (if timestamp "* TODO %u %?" "* TODO %?")))
-    (list
-     (concat parent-keys key)
-     name
-     'entry
-     (append `(file+olp ,file) parent `(,(or literal-heading name)))
-     template)))
+    (key name file &optional parent-keys parent-heading timestamp literal-heading)
+  (let* ((keys (concat parent-keys key))
+	 (heading (or literal-heading name))
+	 (olp (if parent-heading (list parent-heading heading) (list heading)))
+	 (template (if timestamp "* TODO %u %?" "* TODO %?")))
+    (list keys name 'entry (append `(file+olp ,file) olp) template)))
 
 
 (setq zanv-org-capture-templates-static
@@ -101,11 +109,11 @@ templates."
 (defun zanf-org-capture-templates--project-templates (agenda-file)
   "Returns the templates for org-capture for the given AGENDA-FILE."
   (let ((templates (zanf-dynamic-capture-templates agenda-file)))
-    (cons (zanf-org-capture-templates-project-default agenda-file)
+    (cons (zanf-org-capture-templates--project-default agenda-file)
 	  templates)))
 
 
-(defun zanf-add-dynamic-capture-templates--get-gtd-headings (heading)
+(defun zanf-dynamic-capture-templates--get-gtd-headings (heading)
   (let (subheadings)
     (org-map-entries
      (lambda ()
@@ -121,7 +129,7 @@ templates."
 
 ;; A more general function for files that are composed entirely of dynamically
 ;; generated heading through org-capture.
-(defun zanf-add-dynamic-capture-templates--get-headings (file)
+(defun zanf-dynamic-capture-templates--get-headings (file)
   (let (headings)
     (org-map-entries
      (lambda ()
@@ -131,16 +139,16 @@ templates."
 
 (defun zanf-dynamic-capture-templates (agenda-file &optional parent-heading)
   (let ((headings (if (string= agenda-file zanv-gtd)
-		      (zanf-add-dynamic-capture-templates--get-gtd-headings
+		      (zanf-dynamic-capture-templates--get-gtd-headings
 		       parent-heading)
-		    (zanf-add-dynamic-capture-templates--get-headings agenda-file)))
+		    (zanf-dynamic-capture-templates--get-headings agenda-file)))
 	templates)
     (dolist (heading headings)
       (let* ((parsed-heading (split-string heading "\\^"))
 	     (name (nth 0 parsed-heading))
 	     (keys (nth 1 parsed-heading)))
 	(push (zanf-gen-org-capture-template
-	       keys name agenda-file nil `(,parent-heading) nil heading)
+	       keys name agenda-file nil parent-heading nil heading)
 	      templates)))
     (reverse templates)))
 

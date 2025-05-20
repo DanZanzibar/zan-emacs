@@ -166,11 +166,12 @@ Still rebuilds all the dynamic capture templates for the given file."
 (setq org-agenda-custom-commands
       '(("p" "Project Agenda" tags-todo ""
 	 ((org-agenda-files
-	   (list (let ((project (project-current t)))
-		   (or (zanf-project-agenda--find-agenda project)
-		       (zanf-project-agenda--create project)))))))
+	   (setq org-agenda-files
+		 (list (let ((project (project-current t)))
+			 (or (zanf-project-agenda--find-agenda project)
+			     (zanf-project-agenda--create project))))))))
 	("g" "GTD" tags-todo ""
-	 ((org-agenda-files (list zanv-gtd))))))
+	 ((org-agenda-files (setq org-agenda-files (list zanv-gtd)))))))
 	  
 
 (setq org-refile-targets '((nil . (:maxlevel . 5))))

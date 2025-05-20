@@ -140,7 +140,7 @@ It prompts the user to choose getween the GTD agenda or the project's."
   (interactive)
   (let* ((project (when (string= "project"
 				 (completing-read
-				  "Which agenda" '("gtd" "project")))
+				  "Which agenda: " '("gtd" "project")))
 		    (project-current t)))
 	 (agenda (if project
 		     (zanf-project-agenda--find-agenda project)

@@ -23,7 +23,8 @@
 (setq treesit-font-lock-level 4)
 (setq major-mode-remap-alist '((java-mode . java-ts-mode)
 			       (c-mode . c-ts-mode)
-			       (python-mode . python-ts-mode)))
+			       (python-mode . python-ts-mode)
+			       (gdscript-mode . gdscript-ts-mode)))
 
 
 ;;; Dired customizations.

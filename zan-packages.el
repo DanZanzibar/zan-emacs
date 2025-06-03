@@ -120,5 +120,10 @@
 (use-package embark-consult
   :ensure t)
 
+(use-package gdscript-mode
+  :ensure t
+  :hook ((gdscript-mode . eglot-ensure)
+	 (gdscript-ts-mode . eglot-ensure)))
+
 
 (provide 'zan-packages)

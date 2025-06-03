@@ -13,9 +13,16 @@
     shell-mode-hook
     sh-mode-hook
     emacs-lisp-mode-hook
-    LaTeX-mode-hook))
+    LaTeX-mode-hook
+    gdscript-mode-hook
+    gdscript-ts-mode-hook))
 
 (dolist (mode zanv-epair-mode-hooks) (add-hook mode 'electric-pair-local-mode))
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+	       '((gdscript-mode gdscript-ts-mode) . ("localhost" 6005))))
+
 
 
 (provide 'zan-prog)

@@ -119,7 +119,7 @@ Adds all the dynamically generated templates."
   (setq org-capture-templates
 	(append
 	 zanv-org-capture-templates-static
-	 (zanf-dynamic-capture-templates zanv-gtd "Projects")
+	 (zanf-dynamic-capture-templates zanv-gtd "Static")
 	 (zanf-dynamic-capture-templates zanv-gtd "Dynamic"))))
 
 

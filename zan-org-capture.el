@@ -14,7 +14,11 @@
     (key name file &optional parent-keys parent-heading timestamp literal-heading)
   (let* ((keys (concat parent-keys key))
 	 (heading (or literal-heading name))
-	 (olp (if parent-heading (list parent-heading heading) (list heading)))
+	 (olp (if parent-heading
+		  (if (listp parent-heading)
+		      (append parent-heading (list heading))
+		    (list parent-heading heading))
+		(list heading)))
 	 (template (if timestamp "* TODO %u %?" "* TODO %?")))
     (list keys name 'entry (append `(file+olp ,file) olp) template)))
 

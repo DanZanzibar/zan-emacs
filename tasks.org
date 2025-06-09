@@ -1,1 +1,4 @@
 * Quick Tasks^q :quick:
+** TODO something
+* To Fix^f :fix:
+** TODO Reduce complexity of org-capture functions. Maybe use a config file (or single heading?) for each agenda file.

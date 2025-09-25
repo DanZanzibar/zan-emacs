@@ -128,5 +128,9 @@
 (use-package org-roam
   :ensure t)
 
+(use-package org-pdftools
+  :ensure t
+  :hook (org-mode . org-pdftools-setup-link))
+
 
 (provide 'zan-packages)

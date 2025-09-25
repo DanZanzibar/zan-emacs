@@ -94,6 +94,13 @@
 	 (slot . -1)
 	 (window-width . 80)
 	 (window-height . 0.7)
+	 (window-parameters . ((no-delete-other-windows . t))))
+	("\\*org-roam\\*"
+	 (display-buffer-in-side-window)
+	 (side . right)
+	 (slot . -1)
+	 (window-width . 80)
+	 (window-height . 0.3)
 	 (window-parameters . ((no-delete-other-windows . t))))))
 
 ;; Load 'zanv-user-display-buffer-alist' when starting emacs.

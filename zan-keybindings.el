@@ -96,6 +96,12 @@ KBD-COMMANDS is a list of keybinding-command pairs. (e.g. ((\"C-c c\" 'some-func
 (keymap-set zan-eglot-keymap "c" 'eglot-code-actions)
 (keymap-set zan-eglot-keymap "x" 'eglot-code-action-extract)
 
+;; Org-roam keys.
+(define-prefix-command 'zan-org-roam-keymap)
+(keymap-global-set "C-c r" 'zan-org-roam-keymap)
+(keymap-set zan-org-roam-keymap "f" 'org-roam-node-find)
+(keymap-set zan-org-roam-keymap "b" 'org-roam-buffer-toggle)
+(keymap-set zan-org-roam-keymap "i" 'org-roam-node-insert)
 
 ;; C
 (zanm-keybindings-for-multiple-modes

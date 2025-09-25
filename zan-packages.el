@@ -125,5 +125,8 @@
   :hook ((gdscript-mode . eglot-ensure)
 	 (gdscript-ts-mode . eglot-ensure)))
 
+(use-package org-roam
+  :ensure t)
+
 
 (provide 'zan-packages)

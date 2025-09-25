@@ -178,4 +178,9 @@ Still rebuilds all the dynamic capture templates for the given file."
 (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
 
 
+;;; Org-roam configs
+(setq org-roam-directory "/home/zan/sync/dat/org-roam/")
+(org-roam-db-autosync-mode)
+
+
 (provide 'zan-org-mode)

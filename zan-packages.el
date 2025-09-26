@@ -132,5 +132,8 @@
   :ensure t
   :hook (org-mode . org-pdftools-setup-link))
 
+(use-package org-journal
+  :ensure t)
+
 
 (provide 'zan-packages)

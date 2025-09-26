@@ -64,6 +64,7 @@ KBD-COMMANDS is a list of keybinding-command pairs. (e.g. ((\"C-c c\" 'some-func
 (keymap-set zan-global-keymap "w" 'window-toggle-side-windows)
 (keymap-set zan-global-keymap "b" 'zanf-toggle-user-display-buffer-alist)
 (keymap-set zan-global-keymap "e" 'eshell)
+(keymap-set zan-global-keymap "j" 'org-journal-new-entry)
 
 
 ;;; Emacs commands that I have redefined and shadowed with my own functions.

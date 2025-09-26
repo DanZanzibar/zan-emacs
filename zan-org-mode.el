@@ -179,8 +179,12 @@ Still rebuilds all the dynamic capture templates for the given file."
 
 
 ;;; Org-roam configs
-(setq org-roam-directory "/home/zan/sync/dat/org-roam/")
+(setq org-roam-directory "~/sync/dat/org-roam/")
 (org-roam-db-autosync-mode)
+
+;;; Org-journal
+(setq org-journal-dir "~/sync/dat/org-journal/")
+(setq org-journal-file-type 'monthly)
 
 
 (provide 'zan-org-mode)

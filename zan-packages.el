@@ -110,7 +110,8 @@
   :bind
   ("M-o" . ace-window)
   :custom
-  (aw-keys '(?a ?s ?d ?f ?h ?j ?k ?l)))
+  (aw-keys '(?a ?s ?d ?f ?h ?j ?k ?l))
+  (aw-scope 'frame))
 
 (use-package embark
   :ensure t

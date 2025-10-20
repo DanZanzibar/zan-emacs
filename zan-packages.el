@@ -136,5 +136,8 @@
 (use-package org-journal
   :ensure t)
 
+(use-package gptel
+  :ensure t)
+
 
 (provide 'zan-packages)

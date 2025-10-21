@@ -104,6 +104,12 @@ KBD-COMMANDS is a list of keybinding-command pairs. (e.g. ((\"C-c c\" 'some-func
 (keymap-set zan-org-roam-keymap "b" 'org-roam-buffer-toggle)
 (keymap-set zan-org-roam-keymap "i" 'org-roam-node-insert)
 
+;; 'gptel' keys.
+(define-prefix-command 'zan-gptel-keymap)
+(keymap-global-set "C-c g" 'zan-gptel-keymap)
+(keymap-set zan-gptel-keymap "g" 'gptel)
+(keymap-set zan-gptel-keymap "s" 'gptel-send)
+
 ;; C
 (zanm-keybindings-for-multiple-modes
  ((c-mode . c-mode-map)

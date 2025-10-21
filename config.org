@@ -1,0 +1,85 @@
+#+TITLE: Literate Emacs Configuration
+#+AUTHOR: Zan Owsley
+
+* Init Setup
+** Set lexical-binding for the init file.
+#+begin_src emacs-lisp
+  ;; -*- lexical-binding: t -*-
+#+end_src
+** Determine the configuration level based on the environment variable 'EMACS_CONFIG_LEVEL'.
+The notion here is that my core computers will have a synchronized drive with files that Emacs manages (agenda, textbooks, work docs, etc.). When I'm on a machine like my mom's, or some server, or a VM on some cloud server that I could temporarily use Emacs in, I may still want some of my configuration but without all the personal data management (which will certainly make the init.el file fail to execute anyway with everything missing). The solution is the have an environment variable 'EMACS_CONFIG_LEVEL' set by the system and default to a minimal setup.
+#+begin_src emacs-lisp
+  (defconst zanc-config-level
+    (let ((config-level (getenv "EMACS_CONFIG_LEVEL")))
+      (cond ((string= config-level "full") :full-config)
+  	  ((string= config-level "minimal") :min-config)
+  	  (t :min-config)))
+    "This constant is set when loading Emacs based on the value of the
+  environment variable 'EMACS_CONFIG_LEVEL'. It is used to conditionally
+  execute some of the init file.")
+#+end_src
+** Set the custom file.
+#+begin_src emacs-lisp
+  ;;; Seperate out custom file
+  (setq custom-file (locate-user-emacs-file "custom.el"))
+  (load custom-file :no-error)
+#+end_src
+** Set the package repos and refresh if needed.
+#+begin_src emacs-lisp
+  ;;; Initialize package sources
+  (require 'package)
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+  			 ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+  			 ("melpa" . "https://melpa.org/packages/")
+  			 ("melpa-stable" . "https://stable.melpa.org/packages/")
+  			 ("org" . "https://orgmode.org/elpa/")))
+  (package-initialize)
+  (package-refresh-contents)
+#+end_src
+* User Variable Definitions
+** Set the 'sync' directory and subdirectories (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq zanv-sync-dir "~/sync/")
+    (setq zanv-emacs-dat-dir (concat zanv-sync-dir "dat/emacs/"))
+    (setq zanv-texts-dir (concat zanv-sync-dir "texts/"))
+    (setq zanv-pricelists-dir (concat zanv-sync-dir "dat/price-lists/")))
+#+end_src
+** Set the synced bookmarks file (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq bookmark-default-file (concat zanv-emacs-dat-dir "bookmarks")))
+#+end_src
+* Built-in Configurations
+** Autosave and backup file behaviour.
+#+begin_src emacs-lisp
+  (setq kill-buffer-delete-auto-save-files t)
+  (setq make-backup-files nil)
+#+end_src
+** Extending authinfo character hiding to more fields.
+#+begin_src emacs-lisp
+  (setq authinfo-hidden (rx (or "password"
+  			      "client-id"
+  			      "client-secret"
+  			      "refresh-token")))
+#+end_src
+** Follow symlinks to the real files under version control.
+#+begin_src emacs-lisp
+  (setq vc-follow-symlinks t)
+#+end_src
+** Tree-sitter configuration (full-config only due to grammers being stored in 'sync' directory).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    ;; Set the load-path to the grammers directory.
+    (setq treesit-extra-load-path `(,(concat zanv-sync-dir "dat/tree-sitter-grammers/")))
+    (setq treesit-font-lock-level 4)
+    (setq major-mode-remap-alist '((java-mode . java-ts-mode)
+  				 (c-mode . c-ts-mode)
+  				 (python-mode . python-ts-mode)
+  				 (gdscript-mode . gdscript-ts-mode))))
+#+end_src
+** Dired configurations.
+#+begin_src emacs-lisp
+  (setq dired-maybe-use-globstar t)
+  (setq dired-kill-when-opening-new-dired-buffer t)
+#+end_src

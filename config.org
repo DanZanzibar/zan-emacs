@@ -83,3 +83,31 @@ The notion here is that my core computers will have a synchronized drive with fi
   (setq dired-maybe-use-globstar t)
   (setq dired-kill-when-opening-new-dired-buffer t)
 #+end_src
+** Set dictionary (full-config).
+Plain text word lists to be used with the variable below can be generated at http://app.aspell.net/create/. NOTE: Lines with apostrophes need to be removed from generated word list. Note that this variable needs the path set without using the tilde.
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq ispell-alternate-dictionary "/home/zan/sync/dat/emacs/word-list/en_CA.txt"))
+#+end_src
+** Add example to shortdoc for functions.
+#+begin_src emacs-lisp
+  (add-hook 'help-fns-describe-function-functions
+  	  #'shortdoc-help-fns-examples-function)
+#+end_src
+** Abbrev-mode configurations (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq abbrev-suggest t)
+    (setq abbrev-file-name (concat zanv-emacs-dat-dir "abbrevs_defs"))
+    (setq-default abbrev-mode t))
+#+end_src
+** Set default printer (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq lpr-command "lp")
+    (setq lpr-add-switches nil))
+#+end_src
+** Add new project.el root directory markers.
+#+begin_src emacs-lisp
+  (setq project-vc-extra-root-markers '(".project.el"))
+#+end_src

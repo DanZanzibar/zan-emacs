@@ -85,6 +85,7 @@
 (setq TeX-electric-math '("$" . "$"))
 
 
+;; Not using anymore.
 (use-package activities
   :ensure t
   :init

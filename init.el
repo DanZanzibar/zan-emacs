@@ -17,7 +17,7 @@
 
 (require 'zan-eshell);
 
-(require 'zan-packages)
+(require 'zan-packages);
 
 ;; (require 'zan-email)
 
@@ -29,11 +29,11 @@
 
 (require 'zan-python);
 
-(require 'zan-java)
+(require 'zan-java);
 
-(require 'zan-c)
+(require 'zan-c);
 
-(require 'zan-snippet)
+(require 'zan-snippet);
 
 (require 'zan-keyboard-macros)
 

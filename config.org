@@ -1,6 +1,20 @@
 #+TITLE: Literate Emacs Configuration
 #+AUTHOR: Zan Owsley
 
+* README
+** Keybinding scheme.
+My conventions for key bindings:
+1. Unless redefining an existing command, only use 'C-c letter ...' for
+   new key bindings.
+2. Global keybinding should use 'C-c k' prefix followed by an
+   mnemonically appropriate letter.
+3. Once the final letter is chosen (ex. 'a'), use 'a', 'A', or
+   'C-a' (do not use 'C-A') in that order of preference. The most
+   popular command should use the most preferential choice.
+4. Try to use other 'C-c letter' prefix keys for groups of
+   commands to keep many 'C-c letter' key bindings available for
+   major-mode bindings. In general, only major-mode specific key
+   bindings should utlize many 'C-c letter' bindings.
 * Init Setup
 ** Set lexical-binding for the init file.
 #+begin_src emacs-lisp
@@ -177,6 +191,11 @@ The notion here is that my core computers will have a synchronized drive with fi
   	 (file-name (completing-read prompt files nil t))
   	 (file-path (concat dir-path file-name)))
       (find-file file-path)))
+
+  (defun zanf-pdf-view-quit ()
+    (interactive)
+    (zanf-prompt-for-bookmark)
+    (quit-window))
 
   ;; Need full-config for these functions.
   (when (eq zanc-config-level :full-config)
@@ -434,6 +453,194 @@ The notion here is that my core computers will have a synchronized drive with fi
     (interactive)
     (run-python (zanf-run-python--get-interpreter) nil t))
 #+end_src
+** Java-mode functions.
+#+begin_src emacs-lisp
+  ;; Compiling and running functions.
+
+  (defun zanf-java-compile-all ()
+    (interactive)
+    (compile "javac *.java" t))
+
+  (setq zanv-java--last-run "")
+
+  (defun zanf-java-run--completing-read ()
+    (interactive)
+    (setq zanv-java-files '())
+    (dolist (file
+  	   (directory-files
+  	    (file-name-directory (buffer-file-name)) nil ".+\\.java"))
+      (push (file-name-sans-extension file) zanv-java-files))
+    (completing-read "Which file: " zanv-java-files nil nil zanv-java--last-run))
+
+
+  (defun zanf-java-run ()
+    (interactive)
+    (let ((java-file (zanf-java-run--completing-read)))
+      (setq zanv-java--last-run java-file)
+      (compile (concat "java " java-file) t))
+    (other-window 1)
+    (goto-char (point-max)))
+
+
+  (defvar zanv-java-run-project-file--last nil
+    "This variable is an alist of projects and their last run file. Does not
+  persist over sessions.")
+
+
+  (defun zanf-java-run-project-file ()
+    "Prompts the user the select a '.class' file from the 'bin' directory at the
+  project root directory and runs it"
+    (interactive)
+    (let* ((completion-ignored-extensions nil)
+  	 (default-directory (project-root (project-current)))
+  	 (bin-dir (concat default-directory "bin/"))
+  	 (full-file-path (read-file-name "Run: " bin-dir nil t
+  					 zanv-java-run-project-file--last))
+  	 (rel-file-path (file-relative-name full-file-path bin-dir))
+  	 (class-name (file-name-sans-extension
+  		      (replace-regexp-in-string "/" "." rel-file-path))))
+      (async-shell-command (format "java -cp %s %s" bin-dir class-name))
+      (setq zanv-java-run-project-file--last rel-file-path)))
+#+end_src
+** C-mode functions.
+#+begin_src emacs-lisp
+  ;; Custom compiling and running functions.
+  (defun zanf-compile-c ()
+    "Compile the current C file."
+    (interactive)
+    (let ((file (file-name-nondirectory buffer-file-name)))
+      (compile (concat "gcc " file " -o " (file-name-sans-extension file)))))
+
+  (defun zanf-compile-and-run-c ()
+    "Runs the output of the current buffer. Compiles if necessary."
+    (interactive)
+    (let* ((file (file-name-nondirectory buffer-file-name))
+  	 (exe (file-name-sans-extension file)))
+      (compile (concat "gcc " file " -o " exe " && ./" exe))))
+#+end_src
+** Zan-snippet functions.
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    ;; The snippet inserting function, helpers, and variables. It uses a directory
+    ;; of text files where each file contains an insertable snippet. They may
+    ;; contain fields to be replaced at the time of insertion. In the text file,
+    ;; these fields should begin and end with 'zanv-snippet-placeholder-delimiter'
+    ;; and are grouped by the name within these delimiters. Each group of fields
+    ;; with the same name will be replaced by the same string which the user is
+    ;; prompted to give at time of insertion. Thus the user will be prompted once to
+    ;; supply a new string for "~NAME~" (supposing the delimiter is "~") and all
+    ;; instances of "~NAME~" will become the new string.
+
+    ;; TODO - I would like to add a 'capture-snippet' function that takes a region or
+    ;; the whole buffer and make a new snippet file. Also a function that changes the
+    ;; delimiter and replaces it properly in all snippet files.
+    ;;
+    ;; TODO - Make 'zanf-snippet' and the system-wide snippet system use the same
+    ;; files.
+
+
+    (setq zanv-snippet-dir (concat zanv-emacs-dat-dir "snippets/"))
+    (setq zanv-snippet-placeholder-delimiter "~")
+
+    (defun zanf-snippet--indent-line ()
+      (interactive)
+      (let ((pstart (point)))
+        (indent-according-to-mode t)
+        (- (point) pstart)))
+
+    (defun zanf-snippet--indent-all ()
+      (interactive)
+      (goto-char zanv-snippet--start)
+      (while (<= (point) zanv-snippet--end)
+        (let ((shift (zanf-snippet--indent-line)))
+  	(setq zanv-snippet--end (+ zanv-snippet--end shift))
+  	(setq zanv-snippet--start (+ zanv-snippet--start shift)))
+        (next-line 1)))
+
+    (defun zanf-snippet--choose-snippet ()
+      (concat
+       zanv-snippet-dir
+       (completing-read
+        "Which snippet? "
+        (remove
+         "." (remove
+  	    ".."
+  	    (directory-files zanv-snippet-dir))))))
+
+    (defun zanf-snippet--replace-placeholder-get-input (placeholder)
+      (let ((affix-length (length zanv-snippet-placeholder-delimiter)))
+        (read-string
+         (concat
+  	(substring placeholder affix-length (* affix-length -1))
+        ": "))))
+
+  (defun zanf-snippet--replace-placeholder (placeholder input)
+    (goto-char zanv-snippet--start)
+    (when (search-forward placeholder zanv-snippet--end t)
+      (replace-match input)
+      (setq zanv-snippet--end (+ zanv-snippet--end (- (length input) (length placeholder))))
+      (zanf-snippet--replace-placeholder
+       placeholder
+       input)))
+
+  (defun zanf-snippet--has-next-placeholder ()
+    (goto-char zanv-snippet--start)
+    (if (re-search-forward
+         (concat zanv-snippet-placeholder-delimiter
+  	       "[^" zanv-snippet-placeholder-delimiter "]*" zanv-snippet-placeholder-delimiter)
+         zanv-snippet--end t) t nil))
+
+  (defun zanf-snippet-insert-at-point ()
+    (interactive)
+    (setq zanv-snippet--start (point))
+    (when (= (point) (+ 1 (buffer-size)))
+      (insert "\n")
+      (goto-char zanv-snippet--start))
+    (let* ((snip (zanf-snippet--choose-snippet))
+  	 (length (nth 1 (insert-file-contents snip))))
+      (setq zanv-snippet--end (+ zanv-snippet--start length))
+      (zanf-snippet--indent-all)
+      (while (zanf-snippet--has-next-placeholder)
+        (let* ((placeholder (match-string 0))
+  	     (input (zanf-snippet--replace-placeholder-get-input placeholder)))
+  	(zanf-snippet--replace-placeholder placeholder input))))
+    (goto-char zanv-snippet--end)))
+#+end_src
+** Macros for keybindings.
+No longer used as use-package fulfills this need. But still interesting.
+#+begin_src emacs-lisp
+  ;;; A macro for adding keybindings to modes via mode hooks.
+  (defmacro zanm-keybindings-for-mode (mode mode-map kbd-commands)
+    "Define a function to set keybindings for a major mode and add it to the mode's hook.
+
+  MODE is the mode symbol (e.g., 'java-mode).
+  MODE-MAP is the keymap variable (e.g., `java-mode-map`).
+  KBD-COMMANDS is a list of keybinding-command pairs. (e.g. ((\"C-c c\" 'some-function)))
+
+  Each keybinding is applied using `keymap-set` when the major mode is activated.
+  The generated function is named `zanf-keybindings-MODE` and is automatically
+  added to `MODE-hook`."
+    (let ((function-symbol (intern (format "zanf-keybindings-%s" mode)))
+  	(hook-symbol (intern (format "%s-hook" mode))))
+      `(progn
+         (defun ,function-symbol ()
+  	 (dolist (kbd-command ',kbd-commands)
+  	   (keymap-set ,mode-map (car kbd-command) (cadr kbd-command))))
+         (add-hook ',hook-symbol #',function-symbol))))
+
+
+  (defmacro zanm-keybindings-for-multiple-modes (modes-and-maps kbd-commands)
+    "Apply the same keybindings to multiple major modes using `zanm-keybindings-for-mode`.
+
+  MODES-AND-MAPS is an alist mapping the mode to the mode-map.
+    e.g. ((java-mode . java-mode-map) (java-ts-mode . java-ts-mode-map))
+  KBD-COMMANDS is a list of keybinding-command pairs. (e.g. ((\"C-c c\" 'some-function)))"
+    `(progn
+       ,@(mapcar (lambda (mode-and-map)
+  		 `(zanm-keybindings-for-mode
+  		   ,(car mode-and-map) ,(cdr mode-and-map) ,kbd-commands))
+  		 modes-and-maps)))
+#+end_src
 * User Variable Definitions
 ** Set the 'sync' directory and subdirectories (full-config).
 #+begin_src emacs-lisp
@@ -641,6 +848,35 @@ The notion here is that my core computers will have a synchronized drive with fi
   				 (python-mode . python-ts-mode)
   				 (gdscript-mode . gdscript-ts-mode))))
 #+end_src
+** Set dictionary (full-config).
+Plain text word lists to be used with the variable below can be generated at http://app.aspell.net/create/. NOTE: Lines with apostrophes need to be removed from generated word list. Note that this variable needs the path set without using the tilde.
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq ispell-alternate-dictionary "/home/zan/sync/dat/emacs/word-list/en_CA.txt"))
+#+end_src
+** Add example to shortdoc for functions.
+#+begin_src emacs-lisp
+  (add-hook 'help-fns-describe-function-functions
+  	  #'shortdoc-help-fns-examples-function)
+#+end_src
+** Abbrev-mode configurations (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq abbrev-suggest t)
+    (setq abbrev-file-name (concat zanv-emacs-dat-dir "abbrevs_defs"))
+    (setq-default abbrev-mode t))
+#+end_src
+** Set default printer (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq lpr-command "lp")
+    (setq lpr-add-switches nil))
+#+end_src
+** Add new project.el root directory markers.
+#+begin_src emacs-lisp
+  (setq project-vc-extra-root-markers '(".project.el"))
+#+end_src
+
 ** Dired configurations.
 #+begin_src emacs-lisp
   (setq dired-maybe-use-globstar t)
@@ -727,38 +963,154 @@ The notion here is that my core computers will have a synchronized drive with fi
   	       '((gdscript-mode gdscript-ts-mode) . ("localhost" 6005))))
 #+end_src
 * 3rd Party Package Configurations
-** Themes
+** ef-themes
 #+begin_src emacs-lisp
   (use-package ef-themes
     :ensure t
     :config
     (load-theme 'ef-trio-dark :no-confirm))
 #+end_src
-** Set dictionary (full-config).
-Plain text word lists to be used with the variable below can be generated at http://app.aspell.net/create/. NOTE: Lines with apostrophes need to be removed from generated word list. Note that this variable needs the path set without using the tilde.
+** diminish
 #+begin_src emacs-lisp
-  (when (eq zanc-config-level :full-config)
-    (setq ispell-alternate-dictionary "/home/zan/sync/dat/emacs/word-list/en_CA.txt"))
+  (use-package diminish
+    :ensure t)
 #+end_src
-** Add example to shortdoc for functions.
+** vertico
 #+begin_src emacs-lisp
-  (add-hook 'help-fns-describe-function-functions
-  	  #'shortdoc-help-fns-examples-function)
+  (use-package vertico
+    :ensure t
+    :init
+    (vertico-mode)
+    :custom
+    (vertico-count 10)
+    (vertico-resize nil))
 #+end_src
-** Abbrev-mode configurations (full-config).
+** marginalia
 #+begin_src emacs-lisp
-  (when (eq zanc-config-level :full-config)
-    (setq abbrev-suggest t)
-    (setq abbrev-file-name (concat zanv-emacs-dat-dir "abbrevs_defs"))
-    (setq-default abbrev-mode t))
+  (use-package marginalia
+    :ensure t
+    :init
+    (marginalia-mode))
 #+end_src
-** Set default printer (full-config).
+** consult
 #+begin_src emacs-lisp
-  (when (eq zanc-config-level :full-config)
-    (setq lpr-command "lp")
-    (setq lpr-add-switches nil))
+  (use-package consult
+    :ensure t)
 #+end_src
-** Add new project.el root directory markers.
+** which-key
 #+begin_src emacs-lisp
-  (setq project-vc-extra-root-markers '(".project.el"))
+  (use-package which-key
+    :ensure t
+    :init
+    (which-key-mode)
+    (diminish 'which-key-mode)
+    (which-key-setup-minibuffer)) ; to help with echo area covering which-key
+#+end_src
+** corfu
+#+begin_src emacs-lisp
+  (use-package corfu
+    :ensure t
+    :init
+    (global-corfu-mode)
+    (setq corfu-auto t))
+#+end_src
+** git-gutter
+#+begin_src emacs-lisp
+  (use-package git-gutter
+    :ensure t
+    :hook prog-mode
+    :config
+    (diminish 'git-gutter)
+    (setq git-gutter:update-interval 0.02))
+
+  (use-package git-gutter-fringe
+    :ensure t
+    :config
+    (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+    (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+    (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+#+end_src
+** magit
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t
+    :config
+    (setq magit-repository-directories
+  	'(("~/" . 1)
+  	  ("~/.emacs.d/" . 1)
+  	  ("~/sync/" . 4))))
+#+end_src
+** zeal-at-point (full-config)
+#+begin_src emacs-lisp
+  (use-package zeal-at-point
+    :if (eq zanc-config-level :full-config)
+    :ensure t)
+#+end_src
+** pdf-tools
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :config (pdf-loader-install))
+#+end_src
+** doc-toc
+#+begin_src emacs-lisp
+  (use-package doc-toc
+    :ensure t)
+#+end_src
+** auctex
+#+begin_src emacs-lisp
+  (use-package auctex
+    :ensure t
+    :config
+    (setq TeX-auto-save t)
+    (setq TeX-parse-self t)
+    (setq TeX-electric-math '("$" . "$")))
+#+end_src
+** ace-window
+#+begin_src emacs-lisp
+  (use-package ace-window
+    :ensure t
+    :bind
+    ("M-o" . ace-window)
+    :custom
+    (aw-keys '(?a ?s ?d ?f ?h ?j ?k ?l))
+    (aw-scope 'frame))
+#+end_src
+** embark
+#+begin_src emacs-lisp
+  (use-package embark
+    :ensure t
+    :bind
+    (("C-." . embark-act)))
+
+  (use-package embark-consult
+    :ensure t)
+#+end_src
+** gdscript-mode
+#+begin_src emacs-lisp
+  (use-package gdscript-mode
+    :ensure t
+    :hook ((gdscript-mode . eglot-ensure)
+  	 (gdscript-ts-mode . eglot-ensure)))
+#+end_src
+** org-roam
+#+begin_src emacs-lisp
+  (use-package org-roam
+    :ensure t)
+#+end_src
+** org-pdf-tools
+#+begin_src emacs-lisp
+  (use-package org-pdftools
+    :ensure t
+    :hook (org-mode . org-pdftools-setup-link))
+#+end_src
+** org-journal
+#+begin_src emacs-lisp
+  (use-package org-journal
+    :ensure t)
+#+end_src
+** gptel
+#+begin_src emacs-lisp
+  (use-package gptel
+    :ensure t)
 #+end_src

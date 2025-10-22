@@ -36,6 +36,404 @@ The notion here is that my core computers will have a synchronized drive with fi
   (package-initialize)
   (package-refresh-contents)
 #+end_src
+* User Function Definitions
+** Window Functions
+#+begin_src emacs-lisp
+  ;;; Side window prefix functions.
+  ;;; TODO - make it interactive and assign keybinding.
+  (defun zanf-side-window-prefix (side &optional slot width)
+    (display-buffer-override-next-command
+     `(lambda (buffer alist)
+        (setq alist (zanf-side-window-prefix--modify-alist
+  		   alist ,side ,slot ,width))
+        (cons (display-buffer-in-side-window buffer alist) nil))
+     nil "[side-window]")
+    (message "Display next command buffer in a side window..."))
+
+  (defun zanf-side-window-prefix--modify-alist (alist side slot width)
+    (let ((window-params '((window-parameters . ((no-delete-other-windows . t)))))
+  	(side `((side . ,(intern side))))
+  	(slot `((slot . ,(or slot 0))))
+  	(width `((window-width . ,(or width 80)))))
+      (append alist window-params side slot width)))
+
+  ;; A command for toggling default vs custom alist.
+  (defun zanf-toggle-user-display-buffer-alist ()
+    (interactive)
+    (if display-buffer-alist
+        (progn
+  	(setq display-buffer-alist nil)
+  	(message "Using default 'display-buffer-alist'"))
+      (setq display-buffer-alist zanv-user-display-buffer-alist)
+      (message "Using user-defined 'display-buffer-alist'")))
+#+end_src
+** Project dired function.
+#+begin_src emacs-lisp
+  (defun zanf-project-dired ()
+    "Opens a 'dired' buffer in a left side window at the project root."
+    (interactive)
+    (require 'project)
+    (display-buffer-in-side-window
+     (dired-noselect (project-root (project-current t)))
+     '((side . left)
+       (slot . -1)
+       (window-width . 0.15)
+       (window-height . 0.7)
+       (window-parameters . ((no-delete-other-windows . t))))))
+#+end_src
+** Others (needs clean up).
+#+begin_src emacs-lisp
+  ;;; Insert filename.
+  (defun zanf-insert-filename ()
+    "Insert filename at point.
+
+  Prompts user to pick a file using the 'find-file' interface. Requires that an
+  existing file is chosen. Inserts the full filename (including path) as currently
+  shown in the minibuffer."
+    (interactive)
+    (insert (read-file-name "Which file: " nil nil t nil nil)))
+
+
+  ;; A function for wiping out the rest of buffer after point.
+
+  (defun zanf-kill-to-end-of-buffer ()
+    (interactive)
+    (kill-region (point) (point-max)))
+
+
+  ;; A function and helpers for creating a scratch buffer with a specified
+  ;; major mode.
+
+  (defvar zanv-derived-majors ())
+
+  (defun zanf-derived-majors--mapatoms-f (symbol)
+    (when (and (apply 'provided-mode-derived-p symbol zanv-derived-majors)
+  	     (not (member symbol zanv-derived-majors)))
+      (setq mode-found t)
+      (add-to-list 'zanv-derived-majors symbol)))
+
+  (defun zanf-derived-majors--get-modes ()
+    (let ((mode-found nil))
+      (mapatoms 'zanf-derived-majors--mapatoms-f)
+      (if mode-found
+  	(zanf-derived-majors--get-modes))))
+
+  (defun zanf-derived-majors (&rest modes)
+    "Search 'obarray' for derived major modes currently loaded in Emacs.
+
+  Parent modes can be specified, or if none are given, defaults to prog-mode
+  and text-mode. Returns a list of found major modes. Also updates variable
+  'zanv-derived-majors' with returned list."
+    (let ((parent-modes (if modes modes '(prog-mode text-mode))))
+      (setq zanv-derived-majors parent-modes)
+      (zanf-derived-majors--get-modes)
+      (dolist (mode parent-modes zanv-derived-majors)
+        (setq zanv-derived-majors (remove mode zanv-derived-majors)))))
+
+  (defun zanf-scratch-buffer--choose-major ()
+    (completing-read "Which major mode? (default: python-mode) "
+  		   (zanf-derived-majors) nil nil nil nil "python-mode"))
+
+  (defun zanf-scratch-buffer ()
+    "Create and switch to a new scratch buffer with the chosen major mode enabled.
+
+  Completion is available for major modes currently loaded in Emacs according to
+  the function 'zanf-derived-majors'. If you wish to use a major mode not yet
+  loaded, you may specify it anyway (without completion)."
+    (interactive)
+    (let* ((mode (zanf-scratch-buffer--choose-major))
+  	 (scratch-name (format "*%s-scratch*"
+  			       (substring mode 0 -5))))
+      (get-buffer-create scratch-name)
+      (switch-to-buffer scratch-name)
+      (funcall (intern-soft mode))))
+
+
+  ;; Make setting bookmark save bookmarks file.
+  (defun zanf-bookmark-set ()
+    (interactive)
+    (bookmark-set)
+    (bookmark-save))
+
+
+  ;; Ask the user if they want to set a bookmark.
+  (defun zanf-prompt-for-bookmark ()
+    (let ((prompt (read-from-minibuffer "Save a bookmark? (y/n default: no): "
+  				      nil nil nil nil "n")))
+      (if (string= prompt "y")
+  	(zanf-bookmark-set))))
+
+
+  ;; File-opening functions.
+  (defun zanf-open-file-in-dir (dir-path &optional prompt file-extension)
+    "Prompt the user to open a file from a specified directory.
+
+  File names will be completed and a file-extension can be specified to filter
+  the results."
+    (unless prompt (defvar prompt "Which file: "))
+    (let* ((files (directory-files dir-path nil (when file-extension (concat ".*\." file-extension))))
+  	 (files (remove "." files))
+  	 (files (remove ".." files))
+  	 (file-name (completing-read prompt files nil t))
+  	 (file-path (concat dir-path file-name)))
+      (find-file file-path)))
+
+  ;; Need full-config for these functions.
+  (when (eq zanc-config-level :full-config)
+    (defun zanf-open-text ()
+      "Prompts the user to open a textbook pdf in 'zanv-texts-dir'.
+
+  Completion is provided for any pdf in the directory."
+      (interactive)
+      (zanf-open-file-in-dir zanv-texts-dir "Which text? " "pdf"))
+
+    (defun zanf-open-pricelist ()
+      "Prompts the user to open a pricelist pdf in 'zanv-pricelists-dir'.
+
+  Completion is provided for any pdf in the directory."
+      (interactive)
+      (zanf-open-file-in-dir zanv-pricelists-dir "Which pricelist? " "pdf")))
+#+end_src
+** Org-capture functions (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (defun zanf-gen-org-capture-template
+        (key name file &optional parent-keys parent-heading timestamp literal-heading)
+      (let* ((keys (concat parent-keys key))
+  	   (heading (or literal-heading name))
+  	   (olp (if parent-heading
+  		    (if (listp parent-heading)
+  			(append parent-heading (list heading))
+  		      (list parent-heading heading))
+  		  (list heading)))
+  	   (template (if timestamp "* TODO %u %?" "* TODO %?")))
+        (list keys name 'entry (append `(file+olp ,file) olp) template)))
+
+    (defun zanf-org-capture-templates--project-default (agenda-file)
+      "Returns the base project org-capture-template.
+
+  This contains just one template - the one that lets you add other list
+  templates."
+      `(("n" "New List" entry (file ,agenda-file)
+         "* %^{List name}^%^{Capture key} :%^{tags}:")))
+
+    (defun zanf-org-capture-templates--project-templates (agenda-file)
+      "Returns the templates for org-capture for the given AGENDA-FILE."
+      (let ((templates (zanf-dynamic-capture-templates agenda-file)))
+        (cons (zanf-org-capture-templates--project-default agenda-file)
+  	    templates)))
+
+
+    (defun zanf-dynamic-capture-templates--get-gtd-headings (heading)
+      (let (subheadings)
+        (org-map-entries
+         (lambda ()
+  	 (when (string= (org-get-heading t t t t) heading)
+  	   (org-map-entries
+  	    (lambda ()
+  	      (push (substring-no-properties (org-get-heading t t t t))
+  		    subheadings))
+  	    "LEVEL=2"
+  	    'tree)))
+         "LEVEL=1" 'agenda)
+        (nreverse subheadings)))
+
+    ;; A more general function for files that are composed entirely of dynamically
+    ;; generated heading through org-capture.
+    (defun zanf-dynamic-capture-templates--get-headings (file)
+      (let (headings)
+        (org-map-entries
+         (lambda ()
+  	 (push (substring-no-properties (org-get-heading t t t t)) headings))
+         "LEVEL=1" `(,file))
+        (nreverse headings)))
+
+    (defun zanf-dynamic-capture-templates (agenda-file &optional parent-heading)
+      (let ((headings (if (string= agenda-file zanv-gtd)
+  			(zanf-dynamic-capture-templates--get-gtd-headings
+  			 parent-heading)
+  		      (zanf-dynamic-capture-templates--get-headings agenda-file)))
+  	  templates)
+        (dolist (heading headings)
+  	(let* ((parsed-heading (split-string heading "\\^"))
+  	       (name (nth 0 parsed-heading))
+  	       (keys (nth 1 parsed-heading)))
+  	  (push (zanf-gen-org-capture-template
+  		 keys name agenda-file nil parent-heading nil heading)
+  		templates)))
+        (reverse templates))))
+
+#+end_src
+** Org-mode functions (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    ;; Start of zanf-org-refile-list-item and helpers
+    ;; Lets you move a list item as-is to another heading within the same file.
+
+    (defvar zanv-org-refile-last-stored-list-item nil)
+
+    (defun zanf-org-refile-store-list-item ()
+      (let ((beg (line-beginning-position))
+            (end (line-end-position)))	
+        (setq zanv-org-refile-last-stored-list-item (buffer-substring-no-properties beg end))
+        (delete-region beg (line-beginning-position 2))))
+
+    (defun zanf-org-refile-choose-heading ()
+      (completing-read "Choose a heading: "
+  		     (org-map-entries
+  		      #'(org-get-heading :no-tags :no-todo :no-cookie :no-comment))))
+
+    (defun zanf-org-refile-find-heading (target-heading)
+      (goto-char (point-min))
+      (re-search-forward (format "^\\*+\\( .*? \\| \\)%s" target-heading) nil nil 1)
+      (goto-char (line-beginning-position))
+      (unwind-protect
+  	(progn
+  	  (org-narrow-to-subtree)
+  	  (goto-char (point-max)))
+        (widen)))
+
+    (defun zanf-org-refile-list-item ()
+      (interactive)
+      (let ((target (zanf-org-refile-choose-heading)))
+        (zanf-org-refile-store-list-item)
+        (zanf-org-refile-find-heading target)
+        (insert "\n")
+        (insert zanv-org-refile-last-stored-list-item)))
+
+
+    ;; Since 'org-agenda-kill' doesn't save the file after, make it do so.
+    (defun zanf-org-agenda-kill ()
+      (interactive)
+      (org-agenda-kill)
+      (org-save-all-org-buffers))
+
+
+    ;; Same for 'org-agenda-refile'.
+    (defun zanf-org-agenda-refile ()
+      (interactive)
+      (org-agenda-refile)
+      (org-save-all-org-buffers))
+
+
+    ;; Same for 'org-agenda-add-note'.
+    (defun zanf-org-agenda-add-note ()
+      (interactive)
+      (org-agenda-add-note)
+      (org-save-all-org-buffers))
+
+
+    ;; Make 'org-agenda-quit' close all org-agenda files.
+    (defun zanf-org-agenda-quit ()
+      (interactive)
+      (org-agenda-quit)
+      (org-save-all-org-buffers)
+      (dolist (filename (org-files-list))
+        (let ((buffer (find-buffer-visiting filename)))
+  	(when buffer
+  	  (kill-buffer buffer)))))
+
+
+  ;;; Functions for using project-specific org-agenda files.
+
+    (defvar zanv-project-agenda-file-names '("tasks.org")
+      "A list containing possible project agenda file names.")
+
+    (defvar zanv-project-agenda-file-locations '("doc")
+      "A list containing possible agenda file locations.
+
+  These must be either absolute paths or relative to the project root.")
+
+    (defun zanf-project-agenda--create-agenda (project)
+      "Create a project agenda file in the root directory.
+
+  Uses the first name in 'zanv-project-agenda-file-names'.")
+
+    (defun zanf-project-agenda--find-agenda (project)
+      "Return the agenda file for the project."
+      (let* ((root (project-root project))
+  	   (dirs (cons root zanv-project-agenda-file-locations))
+  	   (dirs-abs (mapcar
+  		      (lambda (dir) (expand-file-name dir root)) dirs)))
+        (catch 'found
+  	(dolist (file-name zanv-project-agenda-file-names)
+  	  (dolist (dir dirs-abs)
+  	    (let ((path (expand-file-name file-name dir)))
+  	      (when (file-exists-p path)
+  		(throw 'found path))))))))
+
+    (defun zanf-project-agenda--create (project)
+      "Creates an agenda file for the project and returns the file path.
+
+  Uses the first element from 'zanv-project-agenda-file-name' for the file name 
+  and creates it in the project root."
+      (let ((filename (expand-file-name (car zanv-project-agenda-file-names)
+  				      (project-root project))))
+        (write-region "" nil filename nil nil nil 'excl)
+        filename))
+
+    (defun zanf-set-gtd-capture-templates ()
+      "Set 'org-capture-templates' for the gtd file.
+
+  Adds all the dynamically generated templates."
+      (setq org-capture-templates
+  	  (append
+  	   zanv-org-capture-templates-static
+  	   (zanf-dynamic-capture-templates zanv-gtd "Static")
+  	   (zanf-dynamic-capture-templates zanv-gtd "Dynamic"))))
+
+
+    (defun zanf-set-project-capture-templates (project)
+      "Set 'org-capture-templates' for the given project.
+
+  All the headings in the project agenda file will generate templates."
+      (let ((agenda (zanf-project-agenda--find-agenda project)))
+        (setq org-capture-templates
+  	    (append
+  	     (zanf-org-capture-templates--project-default agenda)
+  	     (zanf-dynamic-capture-templates agenda)))))
+
+    (defun zanf-org-capture ()
+      "A replacement for 'org-capture' that allows choosing the agenda file.
+
+  It prompts the user to choose getween the GTD agenda or the project's."
+      (interactive)
+      (let* ((project (when (string= "project"
+  				   (completing-read
+  				    "Which agenda: " '("gtd" "project")))
+  		      (project-current t)))
+  	   (agenda (if project
+  		       (zanf-project-agenda--find-agenda project)
+  		     zanv-gtd)))
+        (setq org-agenda-files (list agenda))
+        (if project
+  	  (zanf-set-project-capture-templates project)
+  	(zanf-set-gtd-capture-templates))
+        (org-capture)))
+
+    (defun zanf-org-capture--from-agenda ()
+      "Call 'org-capture' for the current 'org-agenda-files'.
+
+  Still rebuilds all the dynamic capture templates for the given file."
+      (interactive)
+      (let ((agenda (car org-agenda-files)))
+        (if (file-equal-p agenda zanv-gtd)
+  	  (zanf-set-gtd-capture-templates)
+  	(zanf-set-project-capture-templates (project-current t)))
+        (org-capture))))
+#+end_src
+** Python-mode functions.
+#+begin_src emacs-lisp
+  ;; A run python command that allows specifying the interpreter version.
+  (defun zanf-run-python--get-interpreter ()
+    (completing-read "Which version? (default python3) :"
+  		   (directory-files "/usr/bin/" nil "^python.+")
+  		   nil t "python3" nil "python3"))
+
+  (defun zanf-run-python ()
+    (interactive)
+    (run-python (zanf-run-python--get-interpreter) nil t))
+#+end_src
 * User Variable Definitions
 ** Set the 'sync' directory and subdirectories (full-config).
 #+begin_src emacs-lisp
@@ -50,7 +448,172 @@ The notion here is that my core computers will have a synchronized drive with fi
   (when (eq zanc-config-level :full-config)
     (setq bookmark-default-file (concat zanv-emacs-dat-dir "bookmarks")))
 #+end_src
+** Set custom display-buffer-alist variable.
+#+begin_src emacs-lisp
+  ;; A variable to store my custom version.
+  (setq zanv-user-display-buffer-alist
+        '(("\\*info\\*"
+  	 (display-buffer-in-side-window)
+  	 (side . right)
+  	 (slot . 0)
+  	 (window-width . 80)
+  	 (window-height . 0.7)
+  	 (window-parameters . ((no-delete-other-windows . t))))
+  	("\\*Help\\*"
+  	 (display-buffer-in-side-window)
+  	 (side . right)
+  	 (slot . 1)
+  	 (window-width . 80)
+  	 (window-height . 0.3)
+  	 (window-parameters . ((no-delete-other-windows . t))))
+  	("\\*Outline.*\\.pdf\\*"
+  	 (display-buffer-in-side-window)
+  	 (side . right)
+  	 (slot . -1)
+  	 (window-width . 80)
+  	 (window-height . 0.3)
+  	 (window-parameters . ((no-delete-other-windows . t))))
+  	("\\*eshell\\*"
+  	 (display-buffer-in-side-window)
+  	 (side . bottom)
+  	 (slot . 0)
+  	 (window-width . 0.5)
+  	 (window-height . 0.3)
+  	 (window-parameters . ((no-delete-other-windows . t))))
+  	("\\*Org Agenda\\*"
+  	 (display-buffer-in-side-window)
+  	 (side . bottom)
+  	 (slot . 1)
+  	 (window-width . 0.5)
+  	 (window-height . 0.3)
+  	 (window-parameters . ((no-delete-other-windows . t))))
+  	("\\*Async Shell Command\\*"
+  	 (display-buffer-in-side-window)
+  	 (side . right)
+  	 (slot . -1)
+  	 (window-width . 80)
+  	 (window-height . 0.7)
+  	 (window-parameters . ((no-delete-other-windows . t))))
+  	("\\*compilation\\*"
+  	 (display-buffer-in-side-window)
+  	 (side . right)
+  	 (slot . -1)
+  	 (window-width . 80)
+  	 (window-height . 0.7)
+  	 (window-parameters . ((no-delete-other-windows . t))))
+  	("\\*org-roam\\*"
+  	 (display-buffer-in-side-window)
+  	 (side . right)
+  	 (slot . -1)
+  	 (window-width . 80)
+  	 (window-height . 0.3)
+  	 (window-parameters . ((no-delete-other-windows . t))))))
+#+end_src
+** Org-capture templates.
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq zanv-org-capture-templates-static
+  	`(("t" "Task Lists")
+  	  ,(zanf-gen-org-capture-template "a" "Anytime" zanv-gtd "t")
+  	  ,(zanf-gen-org-capture-template "d" "Daytime" zanv-gtd "t")
+  	  ,(zanf-gen-org-capture-template "e" "Evening" zanv-gtd "t")
+  	  ,(zanf-gen-org-capture-template "w" "Weekend" zanv-gtd "t")
+  	  ,(zanf-gen-org-capture-template "t" "Waiting" zanv-gtd "t" nil t)
+
+  	  ,(zanf-gen-org-capture-template "s" "Someday" zanv-gtd)
+  	  ("k" "Tickler" entry (file+olp zanv-gtd "Tickler")
+  	   "* TODO %? %^g\nSCHEDULED: %^t")
+
+  	  ("p" "Projects")
+
+  	  ("w" "Work Lists")
+  	  ("wv" "Potential Visits")
+  	  ,(zanf-gen-org-capture-template
+  	    "e" "Edmonton" zanv-gtd "wv" '("Static" "Visits"))
+  	  ,(zanf-gen-org-capture-template
+  	    "c" "Calgary" zanv-gtd "wv" '("Static" "Visits"))
+  	  ,(zanf-gen-org-capture-template
+  	    "v" "Vancouver" zanv-gtd "wv" '("Static" "Visits"))
+  	  ,(zanf-gen-org-capture-template
+  	    "V" "Victoria" zanv-gtd "wv" '("Static" "Visits"))
+  	  ,(zanf-gen-org-capture-template
+  	    "i" "Interior" zanv-gtd "wv" '("Static" "Visits"))
+  	  ,(zanf-gen-org-capture-template
+  	    "s" "Saskatoon" zanv-gtd "wv" '("Static" "Visits"))
+  	  ,(zanf-gen-org-capture-template
+  	    "r" "Regina" zanv-gtd "wv" '("Static" "Visits"))
+  	  ,(zanf-gen-org-capture-template
+  	    "w" "Winnipeg" zanv-gtd "wv" '("Static" "Visits"))
+
+  	  ("wp" "Prospects")
+  	  ,(zanf-gen-org-capture-template
+  	    "e" "Edmonton" zanv-gtd "wp" '("Static" "Prospects"))
+  	  ,(zanf-gen-org-capture-template
+  	    "c" "Calgary" zanv-gtd "wp" '("Static" "Prospects"))
+  	  ,(zanf-gen-org-capture-template
+  	    "v" "Vancouver" zanv-gtd "wp" '("Static" "Prospects"))
+  	  ,(zanf-gen-org-capture-template
+  	    "V" "Victoria" zanv-gtd "wp" '("Static" "Prospects"))
+  	  ,(zanf-gen-org-capture-template
+  	    "i" "Interior" zanv-gtd "wp" '("Static" "Prospects"))
+  	  ,(zanf-gen-org-capture-template
+  	    "s" "Saskatoon" zanv-gtd "wp" '("Static" "Prospects"))
+  	  ,(zanf-gen-org-capture-template
+  	    "r" "Regina" zanv-gtd "wp" '("Static" "Prospects"))
+  	  ,(zanf-gen-org-capture-template
+  	    "w" "Winnipeg" zanv-gtd "wp" '("Static" "Prospects"))
+
+  	  ,(zanf-gen-org-capture-template
+  	    "e" "Expense Reminders" zanv-gtd "w" '("Static") t)
+  	  ,(zanf-gen-org-capture-template
+  	    "n" "Name on Accounts" zanv-gtd "w" '("Static"))
+
+  	  ("l" "Other Lists")
+
+  	  ("n" "New Project or List")
+  	  ("np" "Project" entry (file+olp zanv-gtd "Projects")
+  	   "* %^{Project name}^p%^{Capture keys} :%^{tags}:")
+  	  ("nw" "Work List" entry (file+olp zanv-gtd "Dynamic")
+  	   "* %^{List name}^w%^{Capture keys} :%^{tags}:")
+  	  ("nl" "Other List" entry (file+olp zanv-gtd "Dynamic")
+  	   "* %^{List name}^l%^{Capture keys} :%^{tags}:"))))
+#+end_src
 * Built-in Configurations
+** Basic UI configurations.
+#+begin_src emacs-lisp
+  ;; Needed to avoid errors on non-gui compilation.
+  (require 'scroll-bar)
+  (require 'tool-bar)
+
+  (setq inhibit-startup-message t)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (tooltip-mode -1)
+  (setq visible-bell t)
+  (setq initial-scratch-message nil)
+  (setq column-number-mode t)
+  (global-visual-line-mode)
+
+  ;; Make frames maximized by default.
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+  ;; Makes it so horizontal splits are preferred on 2440x1440 res screens.
+  (setq split-height-threshold 90)
+
+  ;; Set display line-numbers-mode for all but certain modes.
+  (global-display-line-numbers-mode t)
+  (dolist (mode '(org-mode-hook
+  		eshell-mode-hook
+  		pdf-view-mode-hook
+  		shell-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode -1))))
+#+end_src
+** Window configurations.
+#+begin_src emacs-lisp
+  (setq display-buffer-alist zanv-user-display-buffer-alist)
+  (setq window-sides-vertical t)
+#+end_src
 ** Autosave and backup file behaviour.
 #+begin_src emacs-lisp
   (setq kill-buffer-delete-auto-save-files t)
@@ -82,4 +645,92 @@ The notion here is that my core computers will have a synchronized drive with fi
 #+begin_src emacs-lisp
   (setq dired-maybe-use-globstar t)
   (setq dired-kill-when-opening-new-dired-buffer t)
+
+  ;; Make no details the default.
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+#+end_src
+** Eshell configurations
+#+begin_src emacs-lisp
+  (use-package eshell
+    :config
+    (add-to-list 'eshell-modules-list 'eshell-elecslash)
+    (when (eq zanc-config-level :full-config)
+      (setq eshell-aliases-file (concat zanv-emacs-dat-dir "eshell/alias"))))
+#+end_src
+** Org-capture configurations (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (use-package org-capture
+      :config
+      (setq org-directory "~/sync/gtd")
+      (setq org-agenda-entry-text-maxlines 20)
+      (setq org-refile-use-outline-path t)
+      (setq zanv-gtd (concat zanv-sync-dir "gtd/gtd.org"))
+      (setq org-agenda-files `(,zanv-gtd))))
+#+end_src
+** Org-mode configurations (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq org-agenda-custom-commands
+  	'(("p" "Project Agenda" tags-todo ""
+  	   ((org-agenda-files
+  	     (setq org-agenda-files
+  		   (list (let ((project (project-current t)))
+  			   (or (zanf-project-agenda--find-agenda project)
+  			       (zanf-project-agenda--create project))))))))
+  	  ("g" "GTD" tags-todo ""
+  	   ((org-agenda-files (setq org-agenda-files (list zanv-gtd)))))))
+    (setq org-refile-targets '((nil . (:maxlevel . 5)))))
+#+end_src
+** Org-roam configurations (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq org-roam-directory "~/sync/dat/org-roam/")
+    (org-roam-db-autosync-mode))
+#+end_src
+** Org-journal configurations (full-config).
+#+begin_src emacs-lisp
+  (when (eq zanc-config-level :full-config)
+    (setq org-journal-dir "~/sync/dat/org-journal/")
+    (setq org-journal-file-type 'monthly))
+#+end_src
+** Python.
+#+begin_src emacs-lisp
+  (use-package pyvenv
+    :if (eq zanc-config-level :full-config)
+    :ensure t
+    :config (setenv "WORKON_HOME" (concat zanv-sync-dir ".venvs/")))
+#+end_src
+** Electric-pair-mode hooks.
+#+begin_src emacs-lisp
+  (defvar zanv-epair-mode-hooks
+    '(python-mode-hook
+      python-ts-mode-hook
+      java-mode-hook
+      java-ts-mode-hook
+      c-mode-hook
+      c-ts-mode-hook
+      shell-mode-hook
+      sh-mode-hook
+      emacs-lisp-mode-hook
+      LaTeX-mode-hook
+      gdscript-mode-hook
+      gdscript-ts-mode-hook))
+
+  (dolist (mode zanv-epair-mode-hooks) (add-hook mode 'electric-pair-local-mode))
+#+end_src
+** Eglot.
+#+begin_src emacs-lisp
+  (use-package eglot
+    :config
+    (add-to-list 'eglot-server-programs
+  	       '((gdscript-mode gdscript-ts-mode) . ("localhost" 6005))))
+#+end_src
+* 3rd Party Package Configurations
+** Themes
+#+begin_src emacs-lisp
+  (use-package ef-themes
+    :ensure t
+    :config
+    (load-theme 'ef-trio-dark :no-confirm))
 #+end_src

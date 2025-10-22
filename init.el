@@ -5,29 +5,29 @@
 
 ;; Load init modules
 
-(require 'zan-start-init)
+(require 'zan-start-init);
 
-(require 'zan-functions)
+(require 'zan-functions);
 
-(require 'zan-misc)
+(require 'zan-misc);
 
-(require 'zan-ui)
+(require 'zan-ui);
 
-(require 'zan-window)
+(require 'zan-window);
 
-(require 'zan-eshell)
+(require 'zan-eshell);
 
 (require 'zan-packages)
 
 ;; (require 'zan-email)
 
-(require 'zan-org-capture)
+(require 'zan-org-capture);
 
-(require 'zan-org-mode)
+(require 'zan-org-mode);
 
-(require 'zan-prog)
+(require 'zan-prog);
 
-(require 'zan-python)
+(require 'zan-python);
 
 (require 'zan-java)
 

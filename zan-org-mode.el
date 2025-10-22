@@ -86,8 +86,7 @@ These must be either absolute paths or relative to the project root.")
 (defun zanf-project-agenda--create-agenda (project)
   "Create a project agenda file in the root directory.
 
-Uses the first name in 'zanv-project-agenda-file-names'."
-  )
+Uses the first name in 'zanv-project-agenda-file-names'.")
 
 (defun zanf-project-agenda--find-agenda (project)
   "Return the agenda file for the project."

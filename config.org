@@ -1,5 +1,6 @@
 #+TITLE: Literate Emacs Configuration
 #+AUTHOR: Zan Owsley
+#+PROPERTY: header-args :tangle yes
 
 * README
 ** Keybinding scheme.
@@ -48,7 +49,8 @@ The notion here is that my core computers will have a synchronized drive with fi
   			 ("melpa-stable" . "https://stable.melpa.org/packages/")
   			 ("org" . "https://orgmode.org/elpa/")))
   (package-initialize)
-  (package-refresh-contents)
+  (unless package-archive-contents
+   (package-refresh-contents))
 #+end_src
 * User Function Definitions
 ** Window Functions
@@ -539,8 +541,6 @@ The notion here is that my core computers will have a synchronized drive with fi
     ;; files.
 
 
-    (setq zanv-snippet-dir (concat zanv-emacs-dat-dir "snippets/"))
-    (setq zanv-snippet-placeholder-delimiter "~")
 
     (defun zanf-snippet--indent-line ()
       (interactive)
@@ -646,9 +646,12 @@ No longer used as use-package fulfills this need. But still interesting.
 #+begin_src emacs-lisp
   (when (eq zanc-config-level :full-config)
     (setq zanv-sync-dir "~/sync/")
+    (setq zanv-gtd (concat zanv-sync-dir "gtd/gtd.org"))
     (setq zanv-emacs-dat-dir (concat zanv-sync-dir "dat/emacs/"))
     (setq zanv-texts-dir (concat zanv-sync-dir "texts/"))
-    (setq zanv-pricelists-dir (concat zanv-sync-dir "dat/price-lists/")))
+    (setq zanv-pricelists-dir (concat zanv-sync-dir "dat/price-lists/"))
+    (setq zanv-snippet-dir (concat zanv-emacs-dat-dir "snippets/"))
+    (setq zanv-snippet-placeholder-delimiter "~"))
 #+end_src
 ** Set the synced bookmarks file (full-config).
 #+begin_src emacs-lisp
@@ -786,6 +789,39 @@ No longer used as use-package fulfills this need. But still interesting.
   	   "* %^{List name}^l%^{Capture keys} :%^{tags}:"))))
 #+end_src
 * Built-in Configurations
+** Keybindings.
+#+begin_src emacs-lisp
+  (use-package emacs
+    :init
+    (define-prefix-command 'zan-global-keymap)
+    :bind-keymap
+    (("C-c k" . zan-global-keymap))
+    :bind
+    (("C-x C-c" . save-buffers-kill-emacs)
+     ("C-x r m" . zanf-bookmark-set)
+     ("C-x p d" . zanf-project-dired)
+     :map
+     zan-global-keymap
+     ("s" . zanf-snippet-insert-at-point)
+     ("m" . magit-list-repos)
+     ("f" . zanf-insert-filename)
+     ("w" . window-toggle-side-windows)
+     ("b" . zanf-toggle-user-display-buffer-alist)
+     :map
+     prog-mode-map
+     ("C-c n" . flymake-goto-next-error)
+     ("C-c c" . comment-region)
+     ("C-c u" . uncomment-region)))
+
+  ;; For full-config only bindings.
+  (when (eq zanc-config-level :full-config)
+    (use-package emacs
+      :bind
+      (:map
+       zan-global-keymap
+       ("t" . zanf-open-text)
+       ("p" . zanf-open-pricelist))))
+#+end_src
 ** Basic UI configurations.
 #+begin_src emacs-lisp
   ;; Needed to avoid errors on non-gui compilation.
@@ -891,7 +927,10 @@ Plain text word lists to be used with the variable below can be generated at htt
     :config
     (add-to-list 'eshell-modules-list 'eshell-elecslash)
     (when (eq zanc-config-level :full-config)
-      (setq eshell-aliases-file (concat zanv-emacs-dat-dir "eshell/alias"))))
+      (setq eshell-aliases-file (concat zanv-emacs-dat-dir "eshell/alias")))
+    :bind
+    (:map zan-global-keymap
+  	("e" . eshell)))
 #+end_src
 ** Org-capture configurations (full-config).
 #+begin_src emacs-lisp
@@ -901,41 +940,79 @@ Plain text word lists to be used with the variable below can be generated at htt
       (setq org-directory "~/sync/gtd")
       (setq org-agenda-entry-text-maxlines 20)
       (setq org-refile-use-outline-path t)
-      (setq zanv-gtd (concat zanv-sync-dir "gtd/gtd.org"))
-      (setq org-agenda-files `(,zanv-gtd))))
+      (setq org-agenda-files `(,zanv-gtd))
+      :bind
+      (:map zan-global-keymap
+       ("k" . zanf-org-capture))))
 #+end_src
-** Org-mode configurations (full-config).
+** Org-agenda configurations (full-config).
 #+begin_src emacs-lisp
   (when (eq zanc-config-level :full-config)
-    (setq org-agenda-custom-commands
-  	'(("p" "Project Agenda" tags-todo ""
-  	   ((org-agenda-files
-  	     (setq org-agenda-files
-  		   (list (let ((project (project-current t)))
-  			   (or (zanf-project-agenda--find-agenda project)
-  			       (zanf-project-agenda--create project))))))))
-  	  ("g" "GTD" tags-todo ""
-  	   ((org-agenda-files (setq org-agenda-files (list zanv-gtd)))))))
-    (setq org-refile-targets '((nil . (:maxlevel . 5)))))
-#+end_src
-** Org-roam configurations (full-config).
-#+begin_src emacs-lisp
-  (when (eq zanc-config-level :full-config)
-    (setq org-roam-directory "~/sync/dat/org-roam/")
-    (org-roam-db-autosync-mode))
-#+end_src
-** Org-journal configurations (full-config).
-#+begin_src emacs-lisp
-  (when (eq zanc-config-level :full-config)
-    (setq org-journal-dir "~/sync/dat/org-journal/")
-    (setq org-journal-file-type 'monthly))
+    (use-package org-agenda
+      :config
+      (setq org-agenda-custom-commands
+  	  '(("p" "Project Agenda" tags-todo ""
+  	     ((org-agenda-files
+  	       (setq org-agenda-files
+  		     (list (let ((project (project-current t)))
+  			     (or (zanf-project-agenda--find-agenda project)
+  				 (zanf-project-agenda--create project))))))))
+  	    ("g" "GTD" tags-todo ""
+  	     ((org-agenda-files (setq org-agenda-files (list zanv-gtd)))))))
+      (setq org-refile-targets '((nil . (:maxlevel . 5))))
+      :bind (:map
+  	   zan-global-keymap
+  	   ("a" . org-agenda)
+  	   :map
+  	   org-agenda-mode-map
+  	   ("k" . zanf-org-capture--from-agenda)
+  	   ("C-k" . zanf-org-agenda-kill)
+  	   ("C-c C-q" . zanf-org-agenda-refile)
+  	   ("z" . zanf-org-agenda-add-note)
+  	   ("q" . zanf-org-agenda-quit))))
 #+end_src
 ** Python.
 #+begin_src emacs-lisp
   (use-package pyvenv
     :if (eq zanc-config-level :full-config)
     :ensure t
-    :config (setenv "WORKON_HOME" (concat zanv-sync-dir ".venvs/")))
+    :config
+    (setenv "WORKON_HOME" (concat zanv-sync-dir ".venvs/"))
+    :bind
+    (:map
+     python-mode-map
+     ("C-c v" . pyvenv-workon)
+     ("C-c p" . zanf-run-python)
+     :map
+     python-ts-mode-map
+     ("C-c v" . pyvenv-workon)
+     ("C-c p" . zanf-run-python)))
+#+end_src
+** Java
+#+begin_src emacs-lisp
+  (use-package java-mode
+    :bind
+    (:map
+     java-mode-map
+     ("C-c c" . zanf-java-compile-all)
+     ("C-c r" . zanf-java-run-project-file)
+     :map
+     java-ts-mode-map
+     ("C-c c" . zanf-java-compile-all)
+     ("C-c r" . zanf-java-run-project-file)))
+#+end_src
+** C
+#+begin_src emacs-lisp
+  (use-package c-mode
+    :bind
+    (:map
+     c-mode-map
+     ("C-c c" . zanf-compile-c)
+     ("C-c r" . zanf-compile-and-run-c)
+     :map
+     c-ts-mode-map
+     ("C-c c" . zanf-compile-c)
+     ("C-c r" . zanf-compile-and-run-c)))
 #+end_src
 ** Electric-pair-mode hooks.
 #+begin_src emacs-lisp
@@ -958,9 +1035,22 @@ Plain text word lists to be used with the variable below can be generated at htt
 ** Eglot.
 #+begin_src emacs-lisp
   (use-package eglot
+    :init
+    (define-prefix-command 'zan-eglot-keymap)
     :config
     (add-to-list 'eglot-server-programs
-  	       '((gdscript-mode gdscript-ts-mode) . ("localhost" 6005))))
+  	       '((gdscript-mode gdscript-ts-mode) . ("localhost" 6005)))
+    :bind-keymap
+    ("C-c e" . zan-eglot-keymap)
+    :bind
+    (:map
+     zan-eglot-keymap
+     ("e" . eglot)
+     ("C-e" . eglot-reconnect)
+     ("r" . eglot-rename)
+     ("f" . eglot-format-buffer)
+     ("c" . eglot-code-actions)
+     ("x" . eglot-code-action-extract)))
 #+end_src
 * 3rd Party Package Configurations
 ** ef-themes
@@ -1042,15 +1132,26 @@ Plain text word lists to be used with the variable below can be generated at htt
 #+end_src
 ** zeal-at-point (full-config)
 #+begin_src emacs-lisp
-  (use-package zeal-at-point
-    :if (eq zanc-config-level :full-config)
-    :ensure t)
+  (when (eq zanc-config-level :full-config)
+    (use-package zeal-at-point
+      :ensure t
+      :bind
+      (:map
+       prog-mode-map
+       ("C-c z" . zeal-at-point))))
 #+end_src
 ** pdf-tools
 #+begin_src emacs-lisp
   (use-package pdf-tools
     :ensure t
     :config (pdf-loader-install))
+
+  (use-package pdf-view-mode
+    :bind
+    (:map
+     pdf-view-mode-map
+     ("q" . zanf-pdf-view-quit)
+     ("C-c x" . doc-toc-extract-pages)))
 #+end_src
 ** doc-toc
 #+begin_src emacs-lisp
@@ -1093,10 +1194,22 @@ Plain text word lists to be used with the variable below can be generated at htt
     :hook ((gdscript-mode . eglot-ensure)
   	 (gdscript-ts-mode . eglot-ensure)))
 #+end_src
-** org-roam
+** org-roam (full-config)
 #+begin_src emacs-lisp
-  (use-package org-roam
-    :ensure t)
+  (when (eq zanc-config-level :full-config)
+    (use-package org-roam
+      :ensure t
+      :init
+      (define-prefix-command 'zan-org-roam-keymap)
+      :config
+      (setq org-roam-directory "~/sync/dat/org-roam/")
+      (org-roam-db-autosync-mode)
+      :bind-keymap
+      ("C-c r" . zan-org-roam-keymap)
+      :bind
+      ("f" . org-roam-node-find)
+      ("i" . org-roam-node-insert)
+      ("b" . org-roam-buffer-toggle)))
 #+end_src
 ** org-pdf-tools
 #+begin_src emacs-lisp
@@ -1104,13 +1217,31 @@ Plain text word lists to be used with the variable below can be generated at htt
     :ensure t
     :hook (org-mode . org-pdftools-setup-link))
 #+end_src
-** org-journal
+** org-journal (full-config)
 #+begin_src emacs-lisp
-  (use-package org-journal
-    :ensure t)
+  (when (eq zanc-config-level :full-config)
+    (use-package org-journal
+      :ensure t
+      :config
+      (setq org-journal-dir "~/sync/dat/org-journal/")
+      (setq org-journal-file-type 'monthly)
+      :bind
+      (:map
+       zan-global-keymap
+       ("j" . org-journal-new-entry))))
 #+end_src
 ** gptel
 #+begin_src emacs-lisp
-  (use-package gptel
-    :ensure t)
+  (when (eq zanc-config-level :full-config)
+    (use-package gptel
+      :ensure t
+      :init
+      (define-prefix-command 'zan-gptel-keymap)
+      :bind-keymap
+      ("C-g" . zan-gptel-keymap)
+      :bind
+      (:map
+       zan-gptel-keymap
+       ("g" . gptel)
+       ("s" . gptel-send))))
 #+end_src

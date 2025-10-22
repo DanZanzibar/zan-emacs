@@ -2,3 +2,4 @@
 ** TODO something
 * To Fix^f :fix:
 ** TODO Reduce complexity of org-capture functions. Maybe use a config file (or single heading?) for each agenda file.
+** TODO Make project dired open files outside of dired buffer intelligently.

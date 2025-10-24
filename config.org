@@ -1247,3 +1247,11 @@ Plain text word lists to be used with the variable below can be generated at htt
        ("g" . gptel)
        ("s" . gptel-send))))
 #+end_src
+** avy
+#+begin_src emacs-lisp
+  (use-package avy
+    :ensure t
+    :demand t
+    :bind
+    ("C-;" . avy-goto-char-2))
+#+end_src

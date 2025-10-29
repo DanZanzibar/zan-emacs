@@ -1240,7 +1240,7 @@ Plain text word lists to be used with the variable below can be generated at htt
       :init
       (define-prefix-command 'zan-gptel-keymap)
       :bind-keymap
-      ("C-g" . zan-gptel-keymap)
+      ("C-c g" . zan-gptel-keymap)
       :bind
       (:map
        zan-gptel-keymap

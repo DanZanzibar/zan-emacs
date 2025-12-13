@@ -979,6 +979,11 @@ Plain text word lists to be used with the variable below can be generated at htt
 #+end_src
 ** Python.
 #+begin_src emacs-lisp
+  (use-package python
+    :if (eq zanc-config-level :full-config)
+    :config
+    (require 'pyvenv))
+
   (use-package pyvenv
     :if (eq zanc-config-level :full-config)
     :ensure t

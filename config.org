@@ -1012,8 +1012,12 @@ Plain text word lists to be used with the variable below can be generated at htt
      ("C-c c" . zanf-java-compile-all)
      ("C-c r" . zanf-java-run-project-file)))
 #+end_src
-** C
+** CC Mode
 #+begin_src emacs-lisp
+  (setq c-default-style '((java-mode . "java")
+  			  (awk-mode . "awk")
+  			  (other . "stroustrup")))
+
   (use-package c-mode
     :bind
     (:map
@@ -1034,6 +1038,7 @@ Plain text word lists to be used with the variable below can be generated at htt
       java-ts-mode-hook
       c-mode-hook
       c-ts-mode-hook
+      c++-mode-hook
       shell-mode-hook
       sh-mode-hook
       emacs-lisp-mode-hook
